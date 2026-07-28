@@ -167,6 +167,23 @@
   .savednote{font-size:12px;color:var(--done);font-weight:800;margin-top:8px;display:none;}
   .savednote.on{display:block;}
 
+  /* ---------- exercise search ---------- */
+  .searchwrap{position:relative;margin-bottom:10px;}
+  .searchwrap input{width:100%;border:2px solid var(--line);border-radius:12px;background:#fff;
+    padding:13px 40px 13px 14px;font-family:'Inter',sans-serif;font-size:15px;font-weight:600;color:var(--ink);}
+  .searchwrap input::placeholder{color:#a7aeb8;font-weight:500;}
+  .searchwrap input:focus{border-color:var(--cobalt);outline:none;}
+  .searchwrap input::-webkit-search-cancel-button{display:none;}
+  .searchwrap button{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:30px;height:30px;
+    border:none;border-radius:50%;background:var(--paper);color:var(--steel);font-size:13px;font-weight:800;
+    cursor:pointer;display:none;}
+  .searchwrap.has button{display:block;}
+  .searchcount{font-size:12px;font-weight:700;color:var(--steel);margin:-4px 0 10px;}
+  .noresults{background:var(--card);border:2px dashed var(--line);border-radius:14px;padding:22px 16px;
+    text-align:center;color:var(--steel);font-size:14px;line-height:1.5;}
+  .noresults b{display:block;color:var(--ink);font-family:'Anton',sans-serif;font-size:17px;
+    text-transform:uppercase;margin-bottom:4px;}
+
   /* ---------- equipment chips ---------- */
   .chips{display:flex;gap:8px;overflow-x:auto;padding:2px 0 12px;-webkit-overflow-scrolling:touch;}
   .chip{flex:0 0 auto;background:#fff;border:2px solid var(--line);border-radius:999px;padding:8px 14px;
@@ -212,6 +229,12 @@
   .rm-stage{flex:1;display:flex;flex-direction:column;min-width:0;}
   .rm-map{position:absolute;top:0;left:0;right:0;bottom:0;background:#1A2A38;}
   .rm-mapwrap{position:relative;flex:1 1 auto;min-height:260px;}
+  .rm-collapse{position:absolute;z-index:600;left:340px;top:56px;width:26px;height:44px;
+    background:var(--d-panel);border:1px solid var(--d-rule);border-left:none;border-radius:0 4px 4px 0;
+    color:var(--d-chalk);font-size:15px;cursor:pointer;transition:left .18s;}
+  .rm-app.is-collapsed .rm-collapse{left:0;}
+  .rm-app.is-collapsed .rm-panel{width:0;flex:0 0 0;overflow:hidden;border-right:none;}
+  @media (max-width:860px){ .rm-collapse{display:none} }
   .rm-panel{width:340px;flex:0 0 340px;background:var(--d-panel);border-right:1px solid var(--d-rule);
     display:flex;flex-direction:column;overflow-y:auto;}
   @media (max-width:860px){
@@ -419,7 +442,7 @@ if (typeof window.storage === "undefined") {
       <span class="go">→</span>
     </button>
   </div>
-  <p class="buildtag">build v7 &middot; map: CARTO / Esri / OSM</p>
+  <p class="buildtag">build v9 &middot; map: CARTO / Esri / OSM</p>
 </div>
 
 <!-- ============ prebuilt ============ -->
@@ -433,7 +456,12 @@ if (typeof window.storage === "undefined") {
 <div class="view wrap" id="view-builder">
   <button class="backbtn" data-nav="home">← Home</button>
   <div class="pagehead"><h1>Build a Workout</h1><p>Tap the exercises you want. 5–8 is a solid session; more than that and you're sightseeing, not training.</p></div>
+  <div class="searchwrap">
+    <input id="exSearch" type="search" placeholder="Search 151 exercises — squat, curl, cable…" aria-label="Search exercises" autocomplete="off">
+    <button id="exSearchX" aria-label="Clear search">✕</button>
+  </div>
   <div class="chips" id="eqChips"></div>
+  <p class="searchcount" id="searchCount"></p>
   <button class="addtoggle" id="addToggle">＋ Add your own exercise</button>
   <div class="addform" id="addForm">
     <p class="addhint">Doing something we don't have written down? Describe it and it becomes a card like the rest.</p>
@@ -467,8 +495,9 @@ if (typeof window.storage === "undefined") {
 
 <!-- ============ run ============ -->
 <div class="view" id="view-run">
-<div class="rm-app">
-  <aside class="rm-panel">
+<div class="rm-app" id="rmApp" style="position:relative">
+  <button class="rm-collapse" id="panelToggle" aria-label="Hide or show the controls panel">‹</button>
+  <aside class="rm-panel" id="rmPanel">
     <div class="rm-head">
       <p class="rm-eyebrow">Route measuring</p>
       <h1 class="rm-title">Route <em>Rail</em></h1>
@@ -493,7 +522,7 @@ if (typeof window.storage === "undefined") {
     </div>
     <div class="rm-sec">
       <p class="rm-legend">How it measures</p>
-      <label class="rm-toggle"><input type="checkbox" id="snapChk"><span class="rm-tl">Follow roads<small id="snapNote">Routes between points along real streets</small></span></label>
+      <label class="rm-toggle"><input type="checkbox" id="snapChk" checked><span class="rm-tl">Follow roads<small id="snapNote">On — legs follow real streets. Turn off to measure straight lines.</small></span></label>
       <label class="rm-toggle"><input type="checkbox" id="obChk"><span class="rm-tl">Out and back<small>Doubles the total — same way home</small></span></label>
       <label class="rm-toggle"><input type="checkbox" id="loopChk"><span class="rm-tl">Close the loop<small>Adds a leg from the last point back to the first</small></span></label>
     </div>
@@ -510,6 +539,7 @@ if (typeof window.storage === "undefined") {
     <div class="rm-sec">
       <p class="rm-legend">Saved routes</p>
       <div class="rm-field"><input type="text" id="saveName" placeholder="Name this route…" aria-label="Route name"><button class="rm-btn" id="saveBtn" style="flex:0 0 62px" disabled>Save</button></div>
+      <button class="rm-btn" id="shareBtn" style="flex:1 1 100%;margin-bottom:8px" disabled>Copy shareable link</button>
       <ul class="rm-saved" id="savedList"></ul>
       <p class="rm-empty" id="savedEmpty">Nothing saved yet.</p>
     </div>
@@ -522,7 +552,7 @@ if (typeof window.storage === "undefined") {
       <div class="rm-map" id="map"></div>
       <div class="rm-hint" id="hint">Tap the map to drop your first point</div>
       <div class="rm-status" id="status"></div>
-      <div class="rm-diag" id="diagLine">v7 · opening…</div>
+      <div class="rm-diag" id="diagLine">v9 · opening…</div>
     </div>
     <div class="rm-rail">
       <div class="rm-railhead"><span id="railLabel">Distance rail</span><span id="railTotal">0.00 mi</span></div>
@@ -819,6 +849,13 @@ $("brandBtn").onclick = function(){ show("home"); };
 /* ============ builder ============ */
 var sel = []; /* selected exercise NAMES (stable across re-renders) */
 var eq = "all"; /* equipment filter */
+var q = "";     /* search text */
+function matchQ(x){
+  if(!q) return true;
+  var hay = (x.n + " " + x.c + " " + (x.e||"") + " " + (x.cue||"")).toLowerCase();
+  /* every typed word must appear somewhere — lets "cable row" and "row cable" both work */
+  return q.split(/\s+/).every(function(w){ return hay.indexOf(w) >= 0; });
+}
 var EQLABEL = { all:"All", home:"Home / Dumbbell", barbell:"Barbell", machine:"Machines", cable:"Cables", gym:"Gym Floor" };
 function renderChips(){
   var host = $("eqChips"); host.innerHTML = "";
@@ -832,7 +869,7 @@ function renderLibrary(){
   var host = $("library");
   host.innerHTML = "";
   CATS.forEach(function(cat){
-    var inCat = LIB.filter(function(x){ return x.c===cat && (x.custom || eq==="all" || x.e===eq); });
+    var inCat = LIB.filter(function(x){ return x.c===cat && (x.custom || eq==="all" || x.e===eq) && matchQ(x); });
     if(!inCat.length) return;
     host.appendChild(el("div","cat",esc(cat)));
     var grid = el("div","lib");
@@ -855,6 +892,15 @@ function renderLibrary(){
     });
     host.appendChild(grid);
   });
+  var shown = host.querySelectorAll(".ex").length;
+  var cEl = $("searchCount");
+  cEl.textContent = (q || eq !== "all") ? (shown + " of " + LIB.length + " exercises") : "";
+  if(!shown){
+    host.appendChild(el("div","noresults",
+      "<b>Nothing matches</b>No exercise here fits &ldquo;" + esc(q) + "&rdquo;" +
+      (eq !== "all" ? " in " + esc(EQLABEL[eq]) : "") +
+      ". Try a shorter word, switch equipment to All, or add it yourself with the button above."));
+  }
 }
 function removeCustom(name){
   CUSTOM = CUSTOM.filter(function(x){ return x.n!==name; });
@@ -868,6 +914,16 @@ function paintBar(){
   $("selCount").textContent = n + " picked";
   $("selWarn").textContent = n>8 ? "That's a marathon, not a session — 5–8 is the sweet spot." : "";
 }
+(function(){
+  var input = $("exSearch"), wrap = input.parentNode, t = null;
+  input.addEventListener("input", function(){
+    wrap.classList.toggle("has", !!input.value);
+    clearTimeout(t);
+    t = setTimeout(function(){ q = input.value.trim().toLowerCase(); renderLibrary(); }, 120);
+  });
+  input.addEventListener("keydown", function(e){ if(e.key === "Escape"){ input.value = ""; q = ""; wrap.classList.remove("has"); renderLibrary(); } });
+  $("exSearchX").onclick = function(){ input.value = ""; q = ""; wrap.classList.remove("has"); renderLibrary(); input.focus(); };
+})();
 $("clearSel").onclick = function(){
   sel = [];
   document.querySelectorAll(".ex.sel").forEach(function(x){ x.classList.remove("sel"); });
@@ -885,7 +941,7 @@ $("addToggle").onclick = function(){
   var open = f.style.display !== "block";
   f.style.display = open ? "block" : "none";
   $("addToggle").textContent = open ? "− Close" : "＋ Add your own exercise";
-  if(open){ $("cxName").focus(); }
+  if(open){ if(q && !$("cxName").value && !$("library").querySelector(".ex")) $("cxName").value = $("exSearch").value.trim(); $("cxName").focus(); refreshDraftFig(); }
 };
 function refreshDraftFig(){
   var basis = $("cxName").value + " " + $("cxCue").value;
@@ -999,7 +1055,7 @@ if("serviceWorker" in navigator && location.protocol.indexOf("http") === 0){
 }
 
 /* ============ boot ============ */
-try{ console.log("Progressive Overload build v7"); }catch(e){}
+try{ console.log("Progressive Overload build v9"); }catch(e){}
 storeGet("ft:custom", function(v){
   try{ CUSTOM = v ? JSON.parse(v) : []; }catch(e){ CUSTOM = []; }
   CUSTOM.forEach(function(x){ x.custom = true; if(idx(x.n)<0) LIB.push(x); });
@@ -1040,7 +1096,7 @@ storeGet("ft:custom", function(v){
   var points = [];          // [{lat,lng}]
   var legs = [];            // [{coords:[[lat,lng]..], meters, snapped}]
   var unit = "mi";
-  var snap = false, outBack = false, closeLoop = false;
+  var snap = true, outBack = false, closeLoop = false;
   var routingUp = null;     // null = untested, true/false = known
   var cache = {};
   var markers = [], mileMarkers = [], line = null;
@@ -1099,7 +1155,7 @@ storeGet("ft:custom", function(v){
       var lib = window.__leafletSrc || (typeof L !== "undefined" ? "ok" : "loading");
       var mEl = document.getElementById("map");
       var size = mEl ? (mEl.clientWidth + "x" + mEl.clientHeight) : "?";
-      d.textContent = "v7 · lib:" + lib + " · " + PROVIDERS[provIdx].name + " " + size + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (diagNote ? " · " + diagNote : "");
+      d.textContent = "v9 · lib:" + lib + " · " + PROVIDERS[provIdx].name + " " + size + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (diagNote ? " · " + diagNote : "");
     }
     function mountTiles(){
       if(tiles) map.removeLayer(tiles);
@@ -1311,6 +1367,7 @@ storeGet("ft:custom", function(v){
     $("undoBtn").disabled = points.length === 0;
     $("clearBtn").disabled = points.length === 0;
     $("saveBtn").disabled = points.length < 2;
+    updateShareLink();
 
     var anySnapped = legs.some(function(l){ return l.snapped; });
     $("snapLegend").textContent = anySnapped ? "· = on roads" : "";
@@ -1474,6 +1531,12 @@ storeGet("ft:custom", function(v){
       if(routingUp === false){ e.target.checked = false; return; }
       snap = e.target.checked; render();
     };
+    $("panelToggle").onclick = function(){
+      var app = document.getElementById("rmApp");
+      var hid = app.classList.toggle("is-collapsed");
+      this.textContent = hid ? "›" : "‹";
+      setTimeout(function(){ if(map){ map.invalidateSize(); if(window.__poDiag) window.__poDiag(); } }, 200);
+    };
     $("obChk").onchange = function(e){ outBack = e.target.checked; paintPanel(); paintRail(); };
     $("loopChk").onchange = function(e){ closeLoop = e.target.checked; render(); };
 
@@ -1483,6 +1546,13 @@ storeGet("ft:custom", function(v){
     $("searchBtn").onclick = doSearch;
     $("searchIn").onkeydown = function(e){ if(e.key === "Enter") doSearch(); };
 
+    $("shareBtn").onclick = function(){
+      var url = location.origin + location.pathname + encodeRoute();
+      var done = function(){ setStatus("Link copied — anyone who opens it sees this exact route."); };
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(url).then(done).catch(function(){ setStatus(url); });
+      } else { setStatus(url); }
+    };
     $("saveBtn").onclick = function(){
       if(points.length < 2) return;
       var name = ($("saveName").value || "").trim() || ("Route " + (saved.length+1));
@@ -1527,16 +1597,52 @@ storeGet("ft:custom", function(v){
     var tries = 0;
     var el = document.getElementById("map");
     (function waitL(){
-      if(typeof L !== "undefined"){ el.innerHTML = ""; initMap(); wire(); loadSaved(); paintPanel(); paintRail(); return; }
+      if(typeof L !== "undefined"){ el.innerHTML = ""; initMap(); wire(); loadSaved(); if(readRouteFromHash()){ render(); if(points.length){ try{ map.fitBounds(points.map(function(p){ return [p.lat,p.lng]; }), {padding:[40,40]}); }catch(e){} } } paintPanel(); paintRail(); return; }
       if(tries === 6) el.innerHTML = '<div style="padding:24px;font-family:monospace;font-size:12px;color:#7E96A8">Loading map library…</div>';
       tries++;
       if(tries > 45){
         el.innerHTML = '<div style="padding:24px;font-family:monospace;font-size:12px;color:#7E96A8;line-height:1.7"><b style="color:#E8F0F5">The map library could not be downloaded from either CDN.</b><br>The rest of the site is unaffected. This is usually a connection issue or a content blocker on this device.<br>Try: a different network, disabling ad/content blockers for this site, then reload.</div>';
-        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v7 · lib:none (both CDNs failed)";
+        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v9 · lib:none (both CDNs failed)";
         return;
       }
       setTimeout(waitL, 150);
     })();
+  }
+  /* ---- shareable route links ---- */
+  function encodeRoute(){
+    if(!points.length) return "";
+    var f = points.map(function(p){ return p.lat.toFixed(5) + "," + p.lng.toFixed(5); }).join(";");
+    var flags = (snap?"s":"") + (outBack?"o":"") + (closeLoop?"l":"");
+    return "#r=" + encodeURIComponent(f) + (flags ? "&f=" + flags : "");
+  }
+  function updateShareLink(){
+    var btn = document.getElementById("shareBtn");
+    if(btn) btn.disabled = points.length < 2;
+    if(points.length >= 2){
+      try{ history.replaceState(null, "", location.pathname + location.search + encodeRoute()); }catch(e){}
+    }
+  }
+  function readRouteFromHash(){
+    var h = location.hash || "";
+    var m = /[#&]r=([^&]+)/.exec(h);
+    if(!m) return false;
+    var flags = (/[#&]f=([a-z]*)/.exec(h) || [,""])[1];
+    var raw = decodeURIComponent(m[1]).split(";");
+    var got = [];
+    for(var i=0;i<raw.length;i++){
+      var pair = raw[i].split(",");
+      var la = parseFloat(pair[0]), ln = parseFloat(pair[1]);
+      if(isFinite(la) && isFinite(ln) && Math.abs(la)<=90 && Math.abs(ln)<=180) got.push({lat:la, lng:ln});
+    }
+    if(got.length < 2) return false;
+    points = got;
+    snap = flags.indexOf("s") >= 0;
+    outBack = flags.indexOf("o") >= 0;
+    closeLoop = flags.indexOf("l") >= 0;
+    var sc = document.getElementById("snapChk"); if(sc) sc.checked = snap;
+    var oc = document.getElementById("obChk"); if(oc) oc.checked = outBack;
+    var lc = document.getElementById("loopChk"); if(lc) lc.checked = closeLoop;
+    return true;
   }
   window.__bootRunMapper = boot;
   window.__rmResize = function(){ if(map){ map.invalidateSize(); if(window.__poDiag) window.__poDiag(); } };
