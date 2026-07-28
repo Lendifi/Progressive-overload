@@ -1,6 +1,6 @@
 /* Workout site service worker — app shell cached for offline use.
    Bump CACHE_V whenever index.html changes so users get the update. */
-var CACHE_V = "po-v2";
+var CACHE_V = "po-v3";
 var SHELL = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./icon-180.png"];
 
 self.addEventListener("install", function(e){
@@ -15,7 +15,7 @@ self.addEventListener("fetch", function(e){
   if(e.request.method !== "GET") return;
   var url = new URL(e.request.url);
   // Never cache map tiles or routing/search calls — always live
-  if(/tile\.openstreetmap\.org|router\.project-osrm\.org|nominatim/.test(url.host)) return;
+  if(/tile\.openstreetmap\.org|cartocdn\.com|arcgisonline\.com|router\.project-osrm\.org|nominatim/.test(url.host)) return;
   if(url.origin === location.origin){
     // App shell: cache-first, network fallback
     e.respondWith(caches.match(e.request).then(function(hit){
