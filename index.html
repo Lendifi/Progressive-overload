@@ -210,7 +210,8 @@
   .rm-app{display:flex;height:calc(100dvh - 48px);width:100%;background:var(--d-ink);color:var(--d-chalk);
     font-family:'Inter',-apple-system,sans-serif;font-size:15px;}
   .rm-stage{flex:1;display:flex;flex-direction:column;min-width:0;}
-  .rm-map{flex:1;min-height:0;background:#1A2A38;}
+  .rm-map{position:absolute;top:0;left:0;right:0;bottom:0;background:#1A2A38;}
+  .rm-mapwrap{position:relative;flex:1 1 auto;min-height:260px;}
   .rm-panel{width:340px;flex:0 0 340px;background:var(--d-panel);border-right:1px solid var(--d-rule);
     display:flex;flex-direction:column;overflow-y:auto;}
   @media (max-width:860px){
@@ -418,7 +419,7 @@ if (typeof window.storage === "undefined") {
       <span class="go">→</span>
     </button>
   </div>
-  <p class="buildtag">build v6 &middot; map: CARTO / Esri / OSM</p>
+  <p class="buildtag">build v7 &middot; map: CARTO / Esri / OSM</p>
 </div>
 
 <!-- ============ prebuilt ============ -->
@@ -517,11 +518,11 @@ if (typeof window.storage === "undefined") {
     </div>
   </aside>
   <main class="rm-stage">
-    <div style="position:relative;flex:1;min-height:0">
+    <div class="rm-mapwrap">
       <div class="rm-map" id="map"></div>
       <div class="rm-hint" id="hint">Tap the map to drop your first point</div>
       <div class="rm-status" id="status"></div>
-      <div class="rm-diag" id="diagLine">v6 · opening…</div>
+      <div class="rm-diag" id="diagLine">v7 · opening…</div>
     </div>
     <div class="rm-rail">
       <div class="rm-railhead"><span id="railLabel">Distance rail</span><span id="railTotal">0.00 mi</span></div>
@@ -998,7 +999,7 @@ if("serviceWorker" in navigator && location.protocol.indexOf("http") === 0){
 }
 
 /* ============ boot ============ */
-try{ console.log("Progressive Overload build v6"); }catch(e){}
+try{ console.log("Progressive Overload build v7"); }catch(e){}
 storeGet("ft:custom", function(v){
   try{ CUSTOM = v ? JSON.parse(v) : []; }catch(e){ CUSTOM = []; }
   CUSTOM.forEach(function(x){ x.custom = true; if(idx(x.n)<0) LIB.push(x); });
@@ -1096,7 +1097,9 @@ storeGet("ft:custom", function(v){
       var d = document.getElementById("diagLine");
       if(!d) return;
       var lib = window.__leafletSrc || (typeof L !== "undefined" ? "ok" : "loading");
-      d.textContent = "v6 · lib:" + lib + " · " + PROVIDERS[provIdx].name + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (diagNote ? " · " + diagNote : "");
+      var mEl = document.getElementById("map");
+      var size = mEl ? (mEl.clientWidth + "x" + mEl.clientHeight) : "?";
+      d.textContent = "v7 · lib:" + lib + " · " + PROVIDERS[provIdx].name + " " + size + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (diagNote ? " · " + diagNote : "");
     }
     function mountTiles(){
       if(tiles) map.removeLayer(tiles);
@@ -1121,13 +1124,14 @@ storeGet("ft:custom", function(v){
     map.on("click", function(e){ addPoint(e.latlng.lat, e.latlng.lng); });
     setTimeout(function(){ map.invalidateSize(); }, 120);
     setTimeout(function(){
-      if(tileReq === 0){
-        diagNote = "no tile requests: forcing size";
-        var m = document.getElementById("map");
-        if(m) m.style.minHeight = "320px";
+      var m = document.getElementById("map");
+      var h = m ? m.clientHeight : 0;
+      if(h < 60){
+        diagNote = "container height " + h + "px: forcing";
+        if(m){ m.style.position = "absolute"; m.style.top = "0"; m.style.left = "0"; m.style.right = "0"; m.style.bottom = "0"; m.style.minHeight = "260px"; }
         map.invalidateSize();
-        diag();
       }
+      diag();
     }, 2500);
     tryLocate(true);
   }
@@ -1528,14 +1532,16 @@ storeGet("ft:custom", function(v){
       tries++;
       if(tries > 45){
         el.innerHTML = '<div style="padding:24px;font-family:monospace;font-size:12px;color:#7E96A8;line-height:1.7"><b style="color:#E8F0F5">The map library could not be downloaded from either CDN.</b><br>The rest of the site is unaffected. This is usually a connection issue or a content blocker on this device.<br>Try: a different network, disabling ad/content blockers for this site, then reload.</div>';
-        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v6 · lib:none (both CDNs failed)";
+        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v7 · lib:none (both CDNs failed)";
         return;
       }
       setTimeout(waitL, 150);
     })();
   }
   window.__bootRunMapper = boot;
-  window.__rmResize = function(){ if(map) map.invalidateSize(); };
+  window.__rmResize = function(){ if(map){ map.invalidateSize(); if(window.__poDiag) window.__poDiag(); } };
+  window.addEventListener("resize", function(){ if(map) map.invalidateSize(); });
+  window.addEventListener("orientationchange", function(){ setTimeout(function(){ if(map) map.invalidateSize(); }, 300); });
 })();
 </script>
 </body>
