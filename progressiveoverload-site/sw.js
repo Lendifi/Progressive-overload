@@ -1,6 +1,7 @@
-/* Workout site service worker — app shell cached for offline use.
-   Bump CACHE_V whenever index.html changes so users get the update. */
-var CACHE_V = "po-v3";
+/* Progressive Overload service worker.
+   The page document is network-first (so new deploys always land);
+   other same-origin assets are cache-first; tiles/routing are never touched. */
+var CACHE_V = "po-v5";
 var SHELL = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./icon-180.png"];
 
 self.addEventListener("install", function(e){
@@ -14,10 +15,21 @@ self.addEventListener("activate", function(e){
 self.addEventListener("fetch", function(e){
   if(e.request.method !== "GET") return;
   var url = new URL(e.request.url);
-  // Never cache map tiles or routing/search calls — always live
+  // Never intercept map tiles, routing, or place search — always live
   if(/tile\.openstreetmap\.org|cartocdn\.com|arcgisonline\.com|router\.project-osrm\.org|nominatim/.test(url.host)) return;
-  if(url.origin === location.origin){
-    // App shell: cache-first, network fallback
+
+  var isDoc = e.request.mode === "navigate" || url.pathname === "/" || url.pathname.slice(-11) === "/index.html";
+
+  if(url.origin === location.origin && isDoc){
+    // NETWORK-FIRST for the page: fresh deploys win, cache is the offline fallback
+    e.respondWith(fetch(e.request).then(function(res){
+      var copy = res.clone();
+      caches.open(CACHE_V).then(function(c){ c.put("./index.html", copy); });
+      return res;
+    }).catch(function(){
+      return caches.match(e.request).then(function(h){ return h || caches.match("./index.html"); });
+    }));
+  } else if(url.origin === location.origin){
     e.respondWith(caches.match(e.request).then(function(hit){
       return hit || fetch(e.request).then(function(res){
         var copy = res.clone();
@@ -26,7 +38,7 @@ self.addEventListener("fetch", function(e){
       });
     }));
   } else {
-    // CDN (fonts, leaflet): network-first, cached fallback for offline
+    // CDN (fonts, map library): network-first with cached fallback for offline
     e.respondWith(fetch(e.request).then(function(res){
       var copy = res.clone();
       caches.open(CACHE_V).then(function(c){ c.put(e.request, copy); });
