@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Progressive Overload — free workout tracking</title>
+<title>Progressive Overload Tracker — free workout tracking</title>
 <meta name="theme-color" content="#14181f">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./icon-180.png">
@@ -1052,15 +1052,31 @@ storeGet("ft:custom", function(v){
     map = L.map("map", { zoomControl:true, doubleClickZoom:false })
            .setView([39.5, -98.35], 4);
 
-    var tiles = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      maxZoom: 19,
-      attribution: '&copy; OpenStreetMap contributors'
-    });
-    tiles.on("tileload", function(){ tileOk = true; });
-    tiles.on("tileerror", function(){
-      if(!tileOk) setStatus("The map imagery didn't load in this sandbox. Measuring still works — but you're drawing blind. Open this file in a browser tab and the streets will appear.");
-    });
-    tiles.addTo(map);
+    var PROVIDERS = [
+      { url:"https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+        opt:{ maxZoom:19, subdomains:"abcd", attribution:'&copy; OpenStreetMap contributors &copy; CARTO' } },
+      { url:"https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+        opt:{ maxZoom:19, attribution:'Tiles &copy; Esri &mdash; Esri, HERE, Garmin, OpenStreetMap contributors' } },
+      { url:"https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+        opt:{ maxZoom:19, attribution:'&copy; OpenStreetMap contributors' } }
+    ];
+    var provIdx = 0, tiles = null, tileErrs = 0;
+    function mountTiles(){
+      if(tiles) map.removeLayer(tiles);
+      tileErrs = 0; tileOk = false;
+      var p = PROVIDERS[provIdx];
+      tiles = L.tileLayer(p.url, p.opt);
+      tiles.on("tileload", function(){ tileOk = true; setStatus(""); });
+      tiles.on("tileerror", function(){
+        tileErrs++;
+        if(!tileOk && tileErrs >= 4){
+          if(provIdx < PROVIDERS.length - 1){ provIdx++; mountTiles(); }
+          else setStatus("The map imagery isn't loading right now. Measuring still works — points and distances stay accurate — but you're drawing blind. Check your connection and try again.");
+        }
+      });
+      tiles.addTo(map);
+    }
+    mountTiles();
 
     map.on("click", function(e){ addPoint(e.latlng.lat, e.latlng.lng); });
     setTimeout(function(){ map.invalidateSize(); }, 120);
@@ -1164,8 +1180,8 @@ storeGet("ft:custom", function(v){
         routingUp = false;
         snap = false;
         $("snapChk").checked = false;
-        $("snapNote").textContent = "Unavailable here — the routing service is blocked in this sandbox.";
-        setStatus("Road routing couldn't be reached, so legs are straight lines again. Drop a point at every corner to stay honest, or open this file in a normal browser tab.");
+        $("snapNote").textContent = "Unavailable right now — the free routing service couldn't be reached.";
+        setStatus("Road routing couldn't be reached, so legs are straight lines again. Drop a point at every corner to stay honest, or try the toggle again in a minute.");
       }
       return res;
     });
@@ -1357,7 +1373,7 @@ storeGet("ft:custom", function(v){
     ul.innerHTML = "";
     $("savedEmpty").hidden = saved.length > 0;
     if(!hasStore()){
-      $("savedEmpty").textContent = "Saving isn't available in this sandbox.";
+      $("savedEmpty").textContent = "Saving isn't available in this browser.";
       return;
     }
     saved.forEach(function(r, i){
@@ -1448,7 +1464,7 @@ storeGet("ft:custom", function(v){
         map.setView([parseFloat(j[0].lat), parseFloat(j[0].lon)], 15);
       })
       .catch(function(){
-        setStatus("Place search is blocked in this sandbox. Pan the map by hand, or open this file in a browser tab.");
+        setStatus("Place search couldn't be reached just now. Pan and zoom the map by hand instead.");
       });
   }
 
@@ -1456,7 +1472,7 @@ storeGet("ft:custom", function(v){
   function boot(){
     if(typeof L === "undefined"){
       document.getElementById("map").innerHTML =
-        '<div style="padding:24px;font-family:var(--mono);font-size:12px;color:#7E96A8">Leaflet failed to load, so there is no map to click. Open this file in a normal browser tab.</div>';
+        '<div style="padding:24px;font-family:var(--mono);font-size:12px;color:#7E96A8">The map library failed to load. Check your connection and reload the page.</div>';
       return;
     }
     initMap(); wire(); loadSaved(); paintPanel(); paintRail();
