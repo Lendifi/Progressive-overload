@@ -40,7 +40,15 @@
     cursor:pointer;background:none;border:none;color:#fff;display:flex;align-items:center;gap:8px;}
   .brand .dot{width:10px;height:10px;background:var(--cobalt-lt);border-radius:2px;flex:0 0 auto;}
   .brand #brandName{font-size:clamp(12px,3.4vw,19px);white-space:nowrap;}
-  @media (max-width:420px){ .nav button{font-size:11px;padding:8px 6px;letter-spacing:.03em;} .topbar{padding:10px 10px;} }
+  .brand{min-width:0;}
+  .brand #brandName{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:42vw;}
+  @media (max-width:520px){
+    .topbar{padding:8px 8px;gap:4px;}
+    .nav{gap:2px;}
+    .nav button{font-size:10.5px;padding:7px 7px;letter-spacing:.02em;}
+    .brand #brandName{font-size:12px;max-width:34vw;}
+    .brand .dot{width:8px;height:8px;}
+  }
   .brand .placeholder{border:2px dashed #4b5563;border-radius:6px;padding:2px 10px;color:#9aa4b2;font-size:15px;}
   .nav{margin-left:auto;display:flex;gap:6px;}
   .nav button{
@@ -287,6 +295,7 @@
     border-radius:2px;padding:8px 11px;font-family:'IBM Plex Mono',monospace;font-size:11px;
     max-width:min(300px,70%);line-height:1.4;display:none;color:var(--d-chalk)}
   .rm-status.is-on{display:block}
+  .rm-diag{position:absolute;z-index:500;right:10px;top:10px;background:rgba(14,22,32,.85);border:1px solid var(--d-rule);border-radius:2px;padding:5px 8px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.06em;color:#7E96A8;max-width:70%;line-height:1.5}
   .rm-node{width:22px;height:22px;border-radius:50%;background:var(--d-signal);border:2px solid var(--d-ink);color:#fff;
     font-family:'Anton',sans-serif;font-size:13px;display:flex;align-items:center;justify-content:center;
     box-shadow:0 1px 6px rgba(0,0,0,.5)}
@@ -409,7 +418,7 @@ if (typeof window.storage === "undefined") {
       <span class="go">→</span>
     </button>
   </div>
-  <p class="buildtag">build v5 &middot; map: CARTO / Esri / OSM</p>
+  <p class="buildtag">build v6 &middot; map: CARTO / Esri / OSM</p>
 </div>
 
 <!-- ============ prebuilt ============ -->
@@ -512,6 +521,7 @@ if (typeof window.storage === "undefined") {
       <div class="rm-map" id="map"></div>
       <div class="rm-hint" id="hint">Tap the map to drop your first point</div>
       <div class="rm-status" id="status"></div>
+      <div class="rm-diag" id="diagLine">v6 · opening…</div>
     </div>
     <div class="rm-rail">
       <div class="rm-railhead"><span id="railLabel">Distance rail</span><span id="railTotal">0.00 mi</span></div>
@@ -988,7 +998,7 @@ if("serviceWorker" in navigator && location.protocol.indexOf("http") === 0){
 }
 
 /* ============ boot ============ */
-try{ console.log("Progressive Overload build v5"); }catch(e){}
+try{ console.log("Progressive Overload build v6"); }catch(e){}
 storeGet("ft:custom", function(v){
   try{ CUSTOM = v ? JSON.parse(v) : []; }catch(e){ CUSTOM = []; }
   CUSTOM.forEach(function(x){ x.custom = true; if(idx(x.n)<0) LIB.push(x); });
@@ -1006,12 +1016,16 @@ storeGet("ft:custom", function(v){
 /* Map library loader: try cdnjs, fall back to unpkg. The Run tab waits for it. */
 (function(){
   function css(h){ var l=document.createElement("link"); l.rel="stylesheet"; l.href=h; document.head.appendChild(l); }
+  window.__leafletSrc="loading";
   var s=document.createElement("script");
   s.src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js";
+  s.onload=function(){ window.__leafletSrc="cdnjs"; };
   s.onerror=function(){
     css("https://unpkg.com/leaflet@1.9.4/dist/leaflet.css");
     var s2=document.createElement("script");
     s2.src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.min.js";
+    s2.onload=function(){ window.__leafletSrc="unpkg"; };
+    s2.onerror=function(){ window.__leafletSrc="none"; };
     document.head.appendChild(s2);
   };
   document.head.appendChild(s);
@@ -1070,33 +1084,51 @@ storeGet("ft:custom", function(v){
            .setView([39.5, -98.35], 4);
 
     var PROVIDERS = [
-      { url:"https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+      { name:"carto", url:"https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
         opt:{ maxZoom:19, subdomains:"abcd", attribution:'&copy; OpenStreetMap contributors &copy; CARTO' } },
-      { url:"https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+      { name:"esri", url:"https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
         opt:{ maxZoom:19, attribution:'Tiles &copy; Esri &mdash; Esri, HERE, Garmin, OpenStreetMap contributors' } },
-      { url:"https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+      { name:"osm", url:"https://tile.openstreetmap.org/{z}/{x}/{y}.png",
         opt:{ maxZoom:19, attribution:'&copy; OpenStreetMap contributors' } }
     ];
-    var provIdx = 0, tiles = null, tileErrs = 0;
+    var provIdx = 0, tiles = null, tileErrs = 0, tileOkN = 0, tileReq = 0, diagNote = "";
+    function diag(){
+      var d = document.getElementById("diagLine");
+      if(!d) return;
+      var lib = window.__leafletSrc || (typeof L !== "undefined" ? "ok" : "loading");
+      d.textContent = "v6 · lib:" + lib + " · " + PROVIDERS[provIdx].name + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (diagNote ? " · " + diagNote : "");
+    }
     function mountTiles(){
       if(tiles) map.removeLayer(tiles);
-      tileErrs = 0; tileOk = false;
+      tileErrs = 0; tileOk = false; tileOkN = 0; tileReq = 0;
       var p = PROVIDERS[provIdx];
       tiles = L.tileLayer(p.url, p.opt);
-      tiles.on("tileload", function(){ tileOk = true; setStatus(""); });
+      tiles.on("tileloadstart", function(){ tileReq++; diag(); });
+      tiles.on("tileload", function(){ tileOk = true; tileOkN++; setStatus(""); diag(); });
       tiles.on("tileerror", function(){
-        tileErrs++;
+        tileErrs++; diag();
         if(!tileOk && tileErrs >= 4){
           if(provIdx < PROVIDERS.length - 1){ provIdx++; mountTiles(); }
           else setStatus("The map imagery isn't loading right now. Measuring still works — points and distances stay accurate — but you're drawing blind. Check your connection and try again.");
         }
       });
       tiles.addTo(map);
+      diag();
     }
     mountTiles();
+    window.__poDiag = diag;
 
     map.on("click", function(e){ addPoint(e.latlng.lat, e.latlng.lng); });
     setTimeout(function(){ map.invalidateSize(); }, 120);
+    setTimeout(function(){
+      if(tileReq === 0){
+        diagNote = "no tile requests: forcing size";
+        var m = document.getElementById("map");
+        if(m) m.style.minHeight = "320px";
+        map.invalidateSize();
+        diag();
+      }
+    }, 2500);
     tryLocate(true);
   }
 
@@ -1474,8 +1506,9 @@ storeGet("ft:custom", function(v){
     if(!q) return;
     setStatus("Searching…");
     fetch("https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" + encodeURIComponent(q))
-      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(r){ return r.ok ? r.json() : "__blocked"; })
       .then(function(j){
+        if(j === "__blocked"){ setStatus("The free place-search service refused this site's request. Pan and zoom the map by hand — everything else still works."); return; }
         if(!j || !j.length){ setStatus("No match for that. Try a fuller address, or pan the map by hand."); return; }
         setStatus("");
         map.setView([parseFloat(j[0].lat), parseFloat(j[0].lon)], 15);
@@ -1495,6 +1528,7 @@ storeGet("ft:custom", function(v){
       tries++;
       if(tries > 45){
         el.innerHTML = '<div style="padding:24px;font-family:monospace;font-size:12px;color:#7E96A8;line-height:1.7"><b style="color:#E8F0F5">The map library could not be downloaded from either CDN.</b><br>The rest of the site is unaffected. This is usually a connection issue or a content blocker on this device.<br>Try: a different network, disabling ad/content blockers for this site, then reload.</div>';
+        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v6 · lib:none (both CDNs failed)";
         return;
       }
       setTimeout(waitL, 150);
