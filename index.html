@@ -29,6 +29,7 @@
   body{font-family:'Inter',system-ui,sans-serif;background:var(--paper);color:var(--ink);}
   button{font-family:inherit;color:inherit;}
   :focus-visible{outline:3px solid var(--cobalt);outline-offset:2px;}
+  .buildtag{text-align:center;color:#a7aeb8;font-size:11px;font-weight:700;margin-top:16px;letter-spacing:.04em;}
 
   /* ---------- top bar ---------- */
   .topbar{
@@ -356,16 +357,16 @@ if (typeof window.storage === "undefined") {
 <symbol id="f-carryoh" viewBox="0 0 120 120"><path class="gnd" d="M14 106 L106 106"/><circle class="hd" cx="58" cy="30" r="9"/><path class="stick" d="M58 40 L58 68 M58 46 L64 16 M58 46 L48 68 M58 68 L46 96 M46 96 L42 104 M58 68 L72 94 M72 94 L78 104"/><rect class="db" x="58" y="8" width="14" height="9" rx="2"/><path class="acc" d="M88 48 L102 48 M96 42 L102 48 L96 54"/></symbol>
 <symbol id="f-burpee" viewBox="0 0 120 120"><path class="gnd" d="M14 104 L106 104"/><circle class="hd" cx="64" cy="44" r="9"/><path class="stick" d="M62 54 L50 72 M50 72 L66 78 M66 78 L62 100 M58 58 L52 78"/><path class="acc" d="M86 90 L86 40 M80 46 L86 40 L92 46 M80 84 L86 90 L92 84"/></symbol>
 <symbol id="f-thruster" viewBox="0 0 120 120"><path class="gnd" d="M18 106 L98 106"/><circle class="hd" cx="60" cy="30" r="9"/><path class="stick" d="M58 40 L50 68 M50 68 L72 78 M72 78 L66 102 M66 102 L82 102 M58 44 L66 38"/><rect class="db" x="62" y="26" width="9" height="14" rx="2"/><path class="acc" d="M92 72 L92 32 M86 38 L92 32 L98 38"/></symbol>
-<symbol id="f-bbsquat" viewBox="0 0 120 120"><path class="gnd" d="M18 106 L102 106"/><circle class="hd" cx="60" cy="30" r="9"/><path class="stick" d="M30 42 L90 42 M60 46 L52 68 M52 68 L74 76 M74 76 L68 100 M68 100 L82 100 M60 48 L44 42 M60 48 L76 42"/><rect class="db" x="22" y="34" width="8" height="16" rx="2"/><rect class="db" x="90" y="34" width="8" height="16" rx="2"/></symbol>
-<symbol id="f-bbbench" viewBox="0 0 120 120"><path class="gnd" d="M12 104 L108 104"/><rect class="prop" x="26" y="78" width="66" height="8" rx="2"/><path d="M34 86 L34 102 M84 86 L84 102" stroke="#d7dade" stroke-width="5" stroke-linecap="round" fill="none"/><circle class="hd" cx="34" cy="70" r="8"/><path class="stick" d="M44 74 L70 74 M70 74 L80 86 M80 86 L84 102 M52 72 L52 50"/><path class="stick" d="M30 46 L86 46"/><rect class="db" x="22" y="38" width="8" height="16" rx="2"/><rect class="db" x="86" y="38" width="8" height="16" rx="2"/><path class="acc" d="M104 60 L104 46 M100 51 L104 46 L108 51"/></symbol>
-<symbol id="f-bbdead" viewBox="0 0 120 120"><path class="gnd" d="M14 106 L106 106"/><circle class="hd" cx="80" cy="34" r="8"/><path class="stick" d="M50 56 L74 42 M50 56 L52 82 L50 102 M50 102 L64 102 M72 44 L74 74"/><path class="stick" d="M48 80 L100 80"/><rect class="db" x="42" y="68" width="10" height="24" rx="2"/><rect class="db" x="92" y="68" width="10" height="24" rx="2"/></symbol>
-<symbol id="f-bbrow" viewBox="0 0 120 120"><path class="gnd" d="M14 106 L106 106"/><circle class="hd" cx="80" cy="36" r="8"/><path class="stick" d="M50 58 L74 44 M50 58 L52 84 L50 104 M50 104 L64 104 M72 46 L74 66"/><path class="stick" d="M48 70 L100 70"/><rect class="db" x="42" y="60" width="9" height="20" rx="2"/><rect class="db" x="92" y="60" width="9" height="20" rx="2"/><path class="acc" d="M58 56 L58 44 M54 49 L58 44 L62 49"/></symbol>
+<symbol id="f-bbsquat" viewBox="0 0 120 120"><path class="gnd" d="M18 106 L102 106"/><path class="stick" d="M68 32 L56 62 M56 62 L78 72 M78 72 L72 100 M72 100 L86 100 M65 38 L56 36"/><circle class="hd" cx="70" cy="22" r="9"/><circle class="db" cx="52" cy="36" r="12"/><circle cx="52" cy="36" r="3.5" fill="#eef0f2"/></symbol>
+<symbol id="f-bbbench" viewBox="0 0 120 120"><path class="gnd" d="M12 104 L108 104"/><rect class="prop" x="26" y="78" width="66" height="8" rx="2"/><path d="M34 86 L34 102 M84 86 L84 102" stroke="#d7dade" stroke-width="5" stroke-linecap="round" fill="none"/><circle class="hd" cx="34" cy="70" r="8"/><path class="stick" d="M44 74 L70 74 M70 74 L80 86 M80 86 L84 102 M52 72 L52 52"/><circle class="db" cx="52" cy="44" r="12"/><circle cx="52" cy="44" r="3.5" fill="#eef0f2"/><path class="acc" d="M104 60 L104 46 M100 51 L104 46 L108 51"/></symbol>
+<symbol id="f-bbdead" viewBox="0 0 120 120"><path class="gnd" d="M14 106 L106 106"/><circle class="hd" cx="80" cy="34" r="8"/><path class="stick" d="M50 56 L74 42 M50 56 L52 82 L50 102 M50 102 L64 102 M72 44 L76 82"/><circle class="db" cx="77" cy="88" r="14"/><circle cx="77" cy="88" r="4" fill="#eef0f2"/></symbol>
+<symbol id="f-bbrow" viewBox="0 0 120 120"><path class="gnd" d="M14 106 L106 106"/><circle class="hd" cx="80" cy="36" r="8"/><path class="stick" d="M50 58 L74 44 M50 58 L52 84 L50 104 M50 104 L64 104 M72 46 L72 62"/><circle class="db" cx="73" cy="70" r="12"/><circle cx="73" cy="70" r="3.5" fill="#eef0f2"/><path class="acc" d="M56 56 L56 44 M52 49 L56 44 L60 49"/></symbol>
 <symbol id="f-bbohp" viewBox="0 0 120 120"><path class="gnd" d="M26 106 L94 106"/><circle class="hd" cx="60" cy="42" r="9"/><path class="stick" d="M60 52 L60 78 M60 78 L50 104 M60 78 L70 104 M60 54 L46 26 M60 54 L74 26"/><path class="stick" d="M32 24 L88 24"/><rect class="db" x="24" y="16" width="8" height="16" rx="2"/><rect class="db" x="88" y="16" width="8" height="16" rx="2"/></symbol>
 <symbol id="f-bbcurl" viewBox="0 0 120 120"><path class="gnd" d="M24 106 L94 106"/><circle class="hd" cx="58" cy="26" r="9"/><path class="stick" d="M58 36 L58 76 M58 76 L48 104 M58 76 L68 104 M58 44 L46 58 M58 44 L70 58"/><path class="stick" d="M38 58 L80 58"/><rect class="db" x="30" y="51" width="8" height="14" rx="2"/><rect class="db" x="80" y="51" width="8" height="14" rx="2"/><path class="acc" d="M98 60 L98 46 M94 51 L98 46 L102 51"/></symbol>
-<symbol id="f-hipthrust" viewBox="0 0 120 120"><path class="gnd" d="M10 104 L110 104"/><rect class="prop" x="12" y="60" width="26" height="8" rx="2"/><path d="M18 68 L18 102 M32 68 L32 102" stroke="#d7dade" stroke-width="5" stroke-linecap="round" fill="none"/><circle class="hd" cx="20" cy="52" r="8"/><path class="stick" d="M32 62 L60 58 M60 58 L78 66 M78 66 L82 100"/><path class="stick" d="M44 52 L84 52"/><rect class="db" x="36" y="45" width="8" height="14" rx="2"/><rect class="db" x="84" y="45" width="8" height="14" rx="2"/><path class="acc" d="M60 42 L60 30 M56 35 L60 30 L64 35"/></symbol>
+<symbol id="f-hipthrust" viewBox="0 0 120 120"><path class="gnd" d="M10 104 L110 104"/><rect class="prop" x="12" y="60" width="26" height="8" rx="2"/><path d="M18 68 L18 102 M32 68 L32 102" stroke="#d7dade" stroke-width="5" stroke-linecap="round" fill="none"/><circle class="hd" cx="20" cy="52" r="8"/><path class="stick" d="M32 62 L60 58 M60 58 L78 66 M78 66 L82 100"/><circle class="db" cx="60" cy="52" r="11"/><circle cx="60" cy="52" r="3.5" fill="#eef0f2"/><path class="acc" d="M60 32 L60 20 M56 25 L60 20 L64 25"/></symbol>
 <symbol id="f-pullup" viewBox="0 0 120 120"><path class="stick" d="M26 18 L94 18"/><circle class="hd" cx="60" cy="36" r="9"/><path class="stick" d="M46 20 L54 42 M74 20 L66 42 M60 46 L60 74 M60 74 L52 92 M52 92 L58 100 M60 74 L68 92"/><path class="acc" d="M100 48 L100 32 M96 37 L100 32 L104 37"/></symbol>
 <symbol id="f-dip" viewBox="0 0 120 120"><path d="M32 54 L32 102 M88 54 L88 102" stroke="#d7dade" stroke-width="6" stroke-linecap="round" fill="none"/><path class="stick" d="M20 54 L44 54 M76 54 L100 54"/><circle class="hd" cx="60" cy="32" r="9"/><path class="stick" d="M60 42 L58 72 M60 46 L40 54 M60 46 L80 54 M58 72 L50 88 M50 88 L58 96"/><path class="acc" d="M108 66 L108 82 M104 77 L108 82 L112 77"/></symbol>
-<symbol id="f-latpull" viewBox="0 0 120 120"><path class="gnd" d="M60 10 L60 24"/><path class="stick" d="M34 26 L86 26"/><circle class="hd" cx="60" cy="46" r="9"/><path class="stick" d="M60 56 L58 80 M60 56 L44 28 M60 56 L76 28 M58 80 L78 84 M78 84 L78 102"/><rect class="prop" x="42" y="86" width="34" height="8" rx="2"/><path class="acc" d="M96 34 L96 50 M92 45 L96 50 L100 45"/></symbol>
+<symbol id="f-latpull" viewBox="0 0 120 120"><path class="gnd" d="M60 10 L60 24"/><path class="stick" d="M34 26 L86 26"/><circle class="hd" cx="60" cy="46" r="9"/><path class="stick" d="M60 56 L60 80 M60 56 L44 28 M60 56 L76 28 M54 82 L52 102 M66 82 L68 102"/><rect class="prop" x="42" y="78" width="36" height="8" rx="2"/><path class="acc" d="M96 34 L96 50 M92 45 L96 50 L100 45"/></symbol>
 <symbol id="f-cablerow" viewBox="0 0 120 120"><path class="gnd" d="M12 100 L108 100"/><rect class="prop" x="90" y="72" width="14" height="24" rx="2"/><path class="gnd" d="M90 80 L66 66"/><circle class="hd" cx="38" cy="36" r="9"/><path class="stick" d="M42 46 L46 76 M46 76 L74 80 M74 80 L88 94 M44 52 L62 62"/><rect class="db" x="58" y="58" width="11" height="9" rx="2"/><path class="acc" d="M54 72 L40 68 M46 62 L40 68 L48 74"/></symbol>
 <symbol id="f-cablecol" viewBox="0 0 120 120"><path class="gnd" d="M12 104 L104 104"/><rect class="prop" x="88" y="14" width="12" height="90" rx="2"/><path class="gnd" d="M88 30 L62 52"/><circle class="hd" cx="46" cy="28" r="9"/><path class="stick" d="M46 38 L46 76 M46 76 L36 102 M46 76 L56 102 M46 44 L62 52"/><rect class="db" x="58" y="48" width="11" height="9" rx="2"/><path class="acc" d="M56 62 L42 66 M48 60 L42 66 L50 72"/></symbol>
 <symbol id="f-legpress" viewBox="0 0 120 120"><path class="gnd" d="M10 102 L110 102"/><path d="M18 98 L50 66" stroke="#d7dade" stroke-width="8" stroke-linecap="round" fill="none"/><circle class="hd" cx="26" cy="82" r="8"/><path class="stick" d="M34 82 L52 68 M52 68 L70 52 M70 52 L82 60"/><path class="stick" d="M80 40 L100 66"/><path class="acc" d="M92 34 L102 24 M92 24 L102 24 L102 34"/></symbol>
@@ -408,6 +409,7 @@ if (typeof window.storage === "undefined") {
       <span class="go">→</span>
     </button>
   </div>
+  <p class="buildtag">build v5 &middot; map: CARTO / Esri / OSM</p>
 </div>
 
 <!-- ============ prebuilt ============ -->
@@ -986,6 +988,7 @@ if("serviceWorker" in navigator && location.protocol.indexOf("http") === 0){
 }
 
 /* ============ boot ============ */
+try{ console.log("Progressive Overload build v5"); }catch(e){}
 storeGet("ft:custom", function(v){
   try{ CUSTOM = v ? JSON.parse(v) : []; }catch(e){ CUSTOM = []; }
   CUSTOM.forEach(function(x){ x.custom = true; if(idx(x.n)<0) LIB.push(x); });
@@ -999,7 +1002,21 @@ storeGet("ft:custom", function(v){
 })();
 
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+/* Map library loader: try cdnjs, fall back to unpkg. The Run tab waits for it. */
+(function(){
+  function css(h){ var l=document.createElement("link"); l.rel="stylesheet"; l.href=h; document.head.appendChild(l); }
+  var s=document.createElement("script");
+  s.src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js";
+  s.onerror=function(){
+    css("https://unpkg.com/leaflet@1.9.4/dist/leaflet.css");
+    var s2=document.createElement("script");
+    s2.src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.min.js";
+    document.head.appendChild(s2);
+  };
+  document.head.appendChild(s);
+})();
+</script>
 <script>
 (function(){
   "use strict";
@@ -1470,12 +1487,18 @@ storeGet("ft:custom", function(v){
 
   /* ============ go ============ */
   function boot(){
-    if(typeof L === "undefined"){
-      document.getElementById("map").innerHTML =
-        '<div style="padding:24px;font-family:var(--mono);font-size:12px;color:#7E96A8">The map library failed to load. Check your connection and reload the page.</div>';
-      return;
-    }
-    initMap(); wire(); loadSaved(); paintPanel(); paintRail();
+    var tries = 0;
+    var el = document.getElementById("map");
+    (function waitL(){
+      if(typeof L !== "undefined"){ el.innerHTML = ""; initMap(); wire(); loadSaved(); paintPanel(); paintRail(); return; }
+      if(tries === 6) el.innerHTML = '<div style="padding:24px;font-family:monospace;font-size:12px;color:#7E96A8">Loading map library…</div>';
+      tries++;
+      if(tries > 45){
+        el.innerHTML = '<div style="padding:24px;font-family:monospace;font-size:12px;color:#7E96A8;line-height:1.7"><b style="color:#E8F0F5">The map library could not be downloaded from either CDN.</b><br>The rest of the site is unaffected. This is usually a connection issue or a content blocker on this device.<br>Try: a different network, disabling ad/content blockers for this site, then reload.</div>';
+        return;
+      }
+      setTimeout(waitL, 150);
+    })();
   }
   window.__bootRunMapper = boot;
   window.__rmResize = function(){ if(map) map.invalidateSize(); };
