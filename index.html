@@ -98,6 +98,10 @@
   }
   .hometag{display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;
     color:var(--done);border:2px solid var(--done);border-radius:999px;padding:3px 10px;vertical-align:middle;}
+  .hometag.tag-gym{color:var(--cobalt-dk);border-color:var(--cobalt);}
+  .hometag.tag-none{color:#9a5b00;border-color:#e0952a;}
+  .hometag.tag-mach{color:#6b3fa0;border-color:#8b5cc7;}
+  .hometag.tag-bar{color:#0b6b7a;border-color:#159aad;}
   .wk-card .tag{
     display:inline-block;font-family:'Anton',sans-serif;font-size:15px;color:#fff;
     background:var(--cobalt);border-radius:6px;padding:3px 10px;text-transform:uppercase;margin-bottom:8px;
@@ -186,9 +190,13 @@
 
   /* ---------- equipment chips ---------- */
   .chips{display:flex;gap:8px;overflow-x:auto;padding:2px 0 12px;-webkit-overflow-scrolling:touch;}
-  .chip{flex:0 0 auto;background:#fff;border:2px solid var(--line);border-radius:999px;padding:8px 14px;
-    font-size:12.5px;font-weight:800;cursor:pointer;white-space:nowrap;}
+  .chip{flex:0 0 auto;background:#fff;border:2px solid var(--line);border-radius:14px;padding:9px 14px;
+    cursor:pointer;white-space:nowrap;text-align:left;line-height:1.2;}
+  .chip b{display:block;font-size:12.5px;font-weight:800;}
+  .chip small{display:block;font-size:10.5px;font-weight:600;color:var(--steel);margin-top:2px;}
   .chip.on{background:var(--ink);border-color:var(--ink);color:#fff;}
+  .chip.on small{color:#9aa4b2;}
+  .eqlabel{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--steel);margin-bottom:8px;}
 
   /* ---------- add-your-own ---------- */
   .addtoggle{width:100%;background:none;border:2px dashed var(--steel);border-radius:14px;color:var(--cobalt-dk);
@@ -407,6 +415,17 @@ if (typeof window.storage === "undefined") {
 <symbol id="f-legcurl" viewBox="0 0 120 120"><path class="gnd" d="M12 102 L108 102"/><rect class="prop" x="26" y="72" width="66" height="8" rx="2"/><path d="M34 80 L34 100 M84 80 L84 100" stroke="#d7dade" stroke-width="5" stroke-linecap="round" fill="none"/><circle class="hd" cx="34" cy="64" r="8"/><path class="stick" d="M44 68 L74 68 M74 68 L88 70 M88 70 L84 48"/><rect class="db" x="77" y="40" width="11" height="10" rx="2"/><path class="acc" d="M98 64 Q102 52 92 44"/></symbol>
 <symbol id="f-machpress" viewBox="0 0 120 120"><path class="gnd" d="M14 102 L106 102"/><rect class="prop" x="36" y="34" width="10" height="40" rx="2"/><rect class="prop" x="36" y="70" width="32" height="10" rx="2"/><circle class="hd" cx="44" cy="24" r="9"/><path class="stick" d="M46 36 L52 72 M50 44 L80 42 M52 72 L66 76 M66 76 L66 98"/><rect class="db" x="78" y="37" width="11" height="10" rx="2"/><path class="acc" d="M94 34 L106 30 M100 24 L106 30 L100 36"/></symbol>
 <symbol id="f-sled" viewBox="0 0 120 120"><path class="gnd" d="M10 104 L110 104"/><rect class="prop" x="76" y="72" width="28" height="30" rx="3"/><path class="stick" d="M80 72 L80 54"/><circle class="hd" cx="34" cy="36" r="9"/><path class="stick" d="M40 44 L30 68 M30 68 L46 86 M46 86 L42 102 M30 68 L18 92 M42 48 L78 58"/><path class="acc" d="M58 26 L74 26 M68 20 L74 26 L68 32"/></symbol>
+<symbol id="f-bwsquat" viewBox="0 0 120 120"><path class="gnd" d="M18 106 L102 106"/><circle class="hd" cx="56" cy="30" r="9"/><path class="stick" d="M56 40 L48 68 M48 68 L70 78 M70 78 L64 102 M64 102 L78 102 M56 46 L86 44"/></symbol>
+<symbol id="f-bwlunge" viewBox="0 0 120 120"><path class="gnd" d="M16 106 L104 106"/><circle class="hd" cx="56" cy="26" r="9"/><path class="stick" d="M56 36 L56 66 M56 66 L76 70 M76 70 L76 100 M76 100 L88 100 M56 66 L40 88 M40 88 L26 100 M56 44 L44 58 M56 44 L68 58"/></symbol>
+<symbol id="f-bwbridge" viewBox="0 0 120 120"><path class="gnd" d="M12 100 L108 100"/><circle class="hd" cx="24" cy="90" r="8"/><path class="stick" d="M34 92 L62 70 M62 70 L80 74 M80 74 L84 98 M36 94 L54 98"/><path class="acc" d="M62 56 L62 42 M58 47 L62 42 L66 47"/></symbol>
+<symbol id="f-bwcalf" viewBox="0 0 120 120"><path class="gnd" d="M24 106 L92 106"/><circle class="hd" cx="58" cy="24" r="9"/><path class="stick" d="M58 34 L58 74 M58 74 L50 94 M50 94 L44 104 M58 74 L66 94 M66 94 L72 104 M58 40 L46 62 M58 40 L70 62"/><path class="acc" d="M86 62 L86 46 M82 51 L86 46 L90 51"/></symbol>
+<symbol id="f-doorrow" viewBox="0 0 120 120"><path class="gnd" d="M14 106 L106 106"/><rect class="prop" x="90" y="12" width="10" height="94" rx="2"/><circle class="hd" cx="34" cy="48" r="9"/><path class="stick" d="M40 58 L60 88 M60 88 L72 104 M42 54 L86 60"/><path class="acc" d="M56 40 L72 34 M66 28 L72 34 L66 40"/></symbol>
+<symbol id="f-pikepu" viewBox="0 0 120 120"><path class="gnd" d="M12 102 L108 102"/><circle class="hd" cx="28" cy="78" r="8"/><path class="stick" d="M36 82 L62 42 M62 42 L88 92 M34 84 L28 98"/><path class="acc" d="M44 44 L44 30 M40 35 L44 30 L48 35"/></symbol>
+<symbol id="f-bearcrawl" viewBox="0 0 120 120"><path class="gnd" d="M12 102 L108 102"/><circle class="hd" cx="88" cy="54" r="8"/><path class="stick" d="M40 62 L80 60 M78 62 L84 84 M84 84 L92 96 M42 64 L34 82 M34 82 L24 94 M58 61 L60 84"/></symbol>
+<symbol id="f-jumpjack" viewBox="0 0 120 120"><path class="gnd" d="M14 106 L106 106"/><circle class="hd" cx="60" cy="32" r="9"/><path class="stick" d="M60 42 L60 70 M60 70 L42 100 M60 70 L78 100 M60 48 L34 26 M60 48 L86 26"/><path class="acc" d="M24 60 L16 52 M24 52 L16 52 L16 60 M96 60 L104 52 M96 52 L104 52 L104 60"/></symbol>
+<symbol id="f-highknee" viewBox="0 0 120 120"><path class="gnd" d="M22 106 L98 106"/><circle class="hd" cx="58" cy="26" r="9"/><path class="stick" d="M58 36 L58 68 M58 68 L42 74 M42 74 L48 94 M58 68 L66 90 M66 90 L70 104 M58 44 L42 58 M58 44 L74 54"/><path class="acc" d="M30 66 L30 50 M26 55 L30 50 L34 55"/></symbol>
+<symbol id="f-bicycle" viewBox="0 0 120 120"><path class="gnd" d="M12 100 L108 100"/><circle class="hd" cx="74" cy="58" r="8"/><path class="stick" d="M66 66 L44 84 M44 84 L24 78 M50 80 L60 60 M60 60 L74 68 M46 86 L64 94"/></symbol>
+<symbol id="f-inchworm" viewBox="0 0 120 120"><path class="gnd" d="M12 102 L108 102"/><circle class="hd" cx="32" cy="72" r="8"/><path class="stick" d="M40 76 L70 58 M70 58 L94 92 M38 78 L34 96"/><path class="acc" d="M22 58 L36 54 M30 48 L36 54 L30 60"/></symbol>
 </defs></svg>
 <!-- ============ shell ============ -->
 <div class="topbar">
@@ -423,17 +442,17 @@ if (typeof window.storage === "undefined") {
   <div class="hero">
     <p class="eyebrow">Free · No account · Works on your phone</p>
     <h1>Train.<br>Track.<br><span>Repeat.</span></h1>
-    <p>Pick a ready-made dumbbell workout, build your own from 150+ exercises for home or the gym, or map out a run. Log your weights, beat them next time. That's the whole program.</p>
+    <p>Pick a ready-made workout for whatever equipment you have, build your own from 170+ exercises, or map out a run. Log your weights, beat them next time. That's the whole program.</p>
   </div>
   <div class="paths">
     <button class="path" data-nav="prebuilt">
       <span class="glyph"><svg width="34" height="34" viewBox="0 0 120 120"><use href="#f-ohp"/></svg></span>
-      <span><h2>Use a prebuilt workout</h2><p>Three 40-minute at-home sessions — just dumbbells, no gym.</p></span>
+      <span><h2>Use a prebuilt workout</h2><p>15 sessions — push, pull and total body, at every equipment level.</p></span>
       <span class="go">→</span>
     </button>
     <button class="path" data-nav="builder">
       <span class="glyph"><svg width="34" height="34" viewBox="0 0 120 120"><use href="#f-squat"/></svg></span>
-      <span><h2>Build your own</h2><p>150+ exercises — dumbbells, barbell, machines, cables.</p></span>
+      <span><h2>Build your own</h2><p>170+ exercises, filtered by the equipment you actually have.</p></span>
       <span class="go">→</span>
     </button>
     <button class="path alt" data-nav="run">
@@ -442,13 +461,16 @@ if (typeof window.storage === "undefined") {
       <span class="go">→</span>
     </button>
   </div>
-  <p class="buildtag">build v9 &middot; map: CARTO / Esri / OSM</p>
+  <p class="buildtag">build v12 &middot; map: CARTO / Esri / OSM</p>
 </div>
 
 <!-- ============ prebuilt ============ -->
 <div class="view wrap" id="view-prebuilt">
   <button class="backbtn" data-nav="home">← Home</button>
-  <div class="pagehead"><h1>Prebuilt Workouts</h1><p><span class="hometag">At home · dumbbells only</span></p><p style="margin-top:8px">These three need nothing but a pair of dumbbells and floor space — no gym required. → B → C and do the same one again and beat your numbers — that's how you grow.</p></div>
+  <div class="pagehead"><h1>Prebuilt Workouts</h1><p>Fifteen ready-made sessions — a push day, a pull day, and a total-body day at every equipment level. Filter to the gear you have, then run the same workout again and beat your numbers. That repetition is the whole method.</p></div>
+  <p class="eqlabel">What equipment do you have?</p>
+  <div class="chips" id="pbChips"></div>
+  <p class="searchcount" id="pbCount"></p>
   <div id="prebuiltCards"></div>
 </div>
 
@@ -457,9 +479,10 @@ if (typeof window.storage === "undefined") {
   <button class="backbtn" data-nav="home">← Home</button>
   <div class="pagehead"><h1>Build a Workout</h1><p>Tap the exercises you want. 5–8 is a solid session; more than that and you're sightseeing, not training.</p></div>
   <div class="searchwrap">
-    <input id="exSearch" type="search" placeholder="Search 151 exercises — squat, curl, cable…" aria-label="Search exercises" autocomplete="off">
+    <input id="exSearch" type="search" placeholder="Search 172 exercises — squat, curl, cable…" aria-label="Search exercises" autocomplete="off">
     <button id="exSearchX" aria-label="Clear search">✕</button>
   </div>
+  <p class="eqlabel">What equipment do you have?</p>
   <div class="chips" id="eqChips"></div>
   <p class="searchcount" id="searchCount"></p>
   <button class="addtoggle" id="addToggle">＋ Add your own exercise</button>
@@ -552,7 +575,7 @@ if (typeof window.storage === "undefined") {
       <div class="rm-map" id="map"></div>
       <div class="rm-hint" id="hint">Tap the map to drop your first point</div>
       <div class="rm-status" id="status"></div>
-      <div class="rm-diag" id="diagLine">v9 · opening…</div>
+      <div class="rm-diag" id="diagLine">v12 · opening…</div>
     </div>
     <div class="rm-rail">
       <div class="rm-railhead"><span id="railLabel">Distance rail</span><span id="railTotal">0.00 mi</span></div>
@@ -736,14 +759,96 @@ var GYM = [
 ];
 LIB.forEach(function(x){ if(!x.e) x.e = "home"; });
 LIB = LIB.concat(GYM);
+/* ============ bodyweight additions (21) ============ */
+var BW = [
+ {n:"Air Squat",c:"Legs",e:"home",f:"f-bwsquat",s:"3 × 15–25",u:"reps",cue:"Feet shoulder-width, arms out for balance. Sit back and down until thighs are parallel, drive up through your heels."},
+ {n:"Bodyweight Lunge",c:"Legs",e:"home",f:"f-bwlunge",s:"3 × 10–15 / leg",u:"reps",cue:"Hands on hips, step back, drop the back knee toward the floor, push up through the front leg."},
+ {n:"Bodyweight Split Squat",c:"Legs",e:"home",f:"f-bwlunge",s:"3 × 10–15 / leg",u:"reps",cue:"Feet staggered and planted, drop straight down, push straight up. No stepping — the feet stay put."},
+ {n:"Bodyweight Glute Bridge",c:"Legs",e:"home",f:"f-bwbridge",s:"3 × 15–25",u:"reps",cue:"On your back, feet flat, drive hips up until your body is a straight line, squeeze hard, lower slow."},
+ {n:"Single-Leg Glute Bridge",c:"Legs",e:"home",f:"f-bwbridge",s:"3 × 8–15 / leg",u:"reps",cue:"Same bridge, one foot off the floor. Keep your hips level — don't let one side dip."},
+ {n:"Bodyweight Calf Raise",c:"Legs",e:"home",f:"f-bwcalf",s:"3 × 20–30",u:"reps",cue:"Rise onto your toes, pause at the top, lower slowly. Do them off a stair edge for more range."},
+ {n:"Wall Push-Up",c:"Push",e:"home",f:"f-inclpu",s:"3 × 12–20",u:"reps",cue:"Hands on a wall, body straight, lean in and press back. The easiest push-up — start here if floor ones aren't happening yet."},
+ {n:"Diamond Push-Up",c:"Push",e:"home",f:"f-pushup",s:"3 × max",u:"reps",cue:"Hands together under your chest forming a triangle. Same strict body line — this one hammers triceps."},
+ {n:"Pike Push-Up",c:"Push",e:"home",f:"f-pikepu",s:"3 × 6–12",u:"reps",cue:"Hips high in an upside-down V, lower the top of your head toward the floor, press up. Bodyweight shoulder press."},
+ {n:"Chair Dip",c:"Push",e:"home",f:"f-dip",s:"3 × 8–15",u:"reps",cue:"Hands on a sturdy chair or couch edge behind you, bend the elbows straight back, press up. Keep your shoulders down."},
+ {n:"Doorway Row",c:"Pull & Arms",e:"home",f:"f-doorrow",s:"3 × 10–15",u:"reps",cue:"Grip both sides of a doorframe, walk your feet forward and lean back, then pull your chest to the frame. The only real pull with zero gear."},
+ {n:"Prone Y-T-W Raise",c:"Pull & Arms",e:"home",f:"f-superman",s:"3 × 8–10 each",u:"reps",cue:"Face down, lift your arms off the floor in a Y, then a T, then a W. Slow and small — this is upper-back endurance, not strength."},
+ {n:"Bicycle Crunch",c:"Core & Carries",e:"home",f:"f-bicycle",s:"3 × 12–20 / side",u:"reps",cue:"Opposite elbow toward opposite knee, other leg extended. Rotate through your ribs, not your neck."},
+ {n:"Flutter Kick",c:"Core & Carries",e:"home",f:"f-legraise",s:"3 × 20–40s",u:"sec",cue:"On your back, legs straight and a few inches up, alternate small quick kicks. Lower back stays pressed down."},
+ {n:"Plank Shoulder Tap",c:"Core & Carries",e:"home",f:"f-plank",s:"3 × 10–16 / side",u:"reps",cue:"High plank, tap one hand to the opposite shoulder. The goal is hips that don't rock at all."},
+ {n:"Bear Crawl",c:"Conditioning",e:"home",f:"f-bearcrawl",s:"3 × 20–30 steps",u:"reps",cue:"On hands and toes with knees hovering an inch off the floor, crawl forward. Keep the hips low and quiet."},
+ {n:"High Knees",c:"Conditioning",e:"home",f:"f-highknee",s:"3 × 20–40s",u:"sec",cue:"Run in place driving knees to hip height, quick feet, arms pumping."},
+ {n:"Jumping Jack",c:"Conditioning",e:"home",f:"f-jumpjack",s:"3 × 30–50",u:"reps",cue:"Arms and legs out and in together. Simple, effective, and it never stops working as a warm-up."},
+ {n:"Inchworm",c:"Conditioning",e:"home",f:"f-inchworm",s:"3 × 6–10",u:"reps",cue:"From standing, hinge down, walk your hands out to a plank, walk them back, stand. Great full-body warm-up."},
+ {n:"Broad Jump",c:"Conditioning",e:"home",f:"f-bwsquat",s:"3 × 5–8",u:"reps",cue:"Swing the arms and jump forward as far as you can, land soft with bent knees. Reset each rep."},
+ {n:"Squat Hold",c:"Legs",e:"home",f:"f-bwsquat",s:"3 × 30–60s",u:"sec",cue:"Hold the bottom of a squat, chest up, heels down. Builds the position everything else depends on."}
+];
+LIB = LIB.concat(BW);
+
+/* ============ equipment level tagging ============ */
+var BODYWEIGHT = ["Wall Sit","Push-Up","Incline Push-Up","Plank","Side Plank","Dead Bug","Bird Dog",
+ "Hollow Hold","Sit-Up","Leg Raise","Superman","Mountain Climber","Burpee","Jump Squat",
+ "Air Squat","Bodyweight Lunge","Bodyweight Split Squat","Bodyweight Glute Bridge","Single-Leg Glute Bridge",
+ "Bodyweight Calf Raise","Wall Push-Up","Diamond Push-Up","Pike Push-Up","Chair Dip","Doorway Row",
+ "Prone Y-T-W Raise","Bicycle Crunch","Flutter Kick","Plank Shoulder Tap","Bear Crawl","High Knees",
+ "Jumping Jack","Inchworm","Broad Jump","Squat Hold"];
+LIB.forEach(function(x){
+  if(BODYWEIGHT.indexOf(x.n) >= 0) x.lvl = "none";
+  else if(x.e === "home") x.lvl = "dumbbell";
+  else x.lvl = x.e;   // barbell | machine | cable | gym
+});
+
 
 
 function idx(name){ for(var i=0;i<LIB.length;i++) if(LIB[i].n===name) return i; return -1; }
 var PREBUILT = [
- {id:"a",tag:"Workout A",title:"Push Focus",list:["Goblet Squat","Floor / Bench Press","Overhead Press","Romanian Deadlift","Lateral Raise","Plank"]},
- {id:"b",tag:"Workout B",title:"Pull + Legs",list:["Reverse Lunge","One-Arm Row","Incline Press","Biceps Curl","Overhead Triceps Ext.","Farmer's Carry"]},
- {id:"c",tag:"Workout C",title:"Full Body",list:["Step-Up","Bent-Over Row","Push-Up","Glute Bridge","Hammer Curl","Side Plank"]}
+ /* ---------- No equipment ---------- */
+ {id:"bw-push",lvl:"none",tag:"Push",title:"Chest, Shoulders & Triceps",
+  list:["Push-Up","Pike Push-Up","Chair Dip","Diamond Push-Up","Air Squat","Plank Shoulder Tap"]},
+ {id:"bw-pull",lvl:"none",tag:"Pull",title:"Back & Posterior Chain",
+  list:["Doorway Row","Prone Y-T-W Raise","Superman","Single-Leg Glute Bridge","Bird Dog","Hollow Hold"]},
+ {id:"bw-total",lvl:"none",tag:"Total Body",title:"Full Body",
+  list:["Air Squat","Push-Up","Doorway Row","Bodyweight Lunge","Single-Leg Glute Bridge","Plank"]},
+ /* ---------- Dumbbells (your original A / B / C) ---------- */
+ {id:"a",lvl:"dumbbell",tag:"Push",title:"Push Focus (A)",
+  list:["Goblet Squat","Floor / Bench Press","Overhead Press","Romanian Deadlift","Lateral Raise","Plank"]},
+ {id:"b",lvl:"dumbbell",tag:"Pull",title:"Pull + Legs (B)",
+  list:["Reverse Lunge","One-Arm Row","Incline Press","Biceps Curl","Overhead Triceps Ext.","Farmer's Carry"]},
+ {id:"c",lvl:"dumbbell",tag:"Total Body",title:"Full Body (C)",
+  list:["Step-Up","Bent-Over Row","Push-Up","Glute Bridge","Hammer Curl","Side Plank"]},
+ /* ---------- Cables & machines ---------- */
+ {id:"m-push",lvl:"machine",tag:"Push",title:"Chest, Shoulders & Triceps",
+  list:["Chest Press Machine","Shoulder Press Machine","Incline Press Machine","Pec Deck","Cable Lateral Raise","Triceps Pushdown"]},
+ {id:"m-pull",lvl:"machine",tag:"Pull",title:"Back & Biceps",
+  list:["Lat Pulldown","Seated Cable Row","Chest-Supported Row","Rear Delt Fly Machine","Face Pull","Cable Curl"]},
+ {id:"m-total",lvl:"machine",tag:"Total Body",title:"Full Body",
+  list:["Leg Press","Chest Press Machine","Lat Pulldown","Lying Leg Curl","Shoulder Press Machine","Cable Crunch"]},
+ /* ---------- Barbell & rack ---------- */
+ {id:"bb-push",lvl:"barbell",tag:"Push",title:"Squat, Bench & Press",
+  list:["Back Squat","Bench Press","Barbell Overhead Press","Incline Bench Press","Close-Grip Bench","Plank"]},
+ {id:"bb-pull",lvl:"barbell",tag:"Pull",title:"Deadlift, Rows & Arms",
+  list:["Conventional Deadlift","Barbell Row","Barbell Shrug","Barbell Curl","Reverse Curl","Superman"]},
+ {id:"bb-total",lvl:"barbell",tag:"Total Body",title:"Full Body",
+  list:["Back Squat","Bench Press","Barbell Row","Barbell Overhead Press","Barbell RDL","Plank"]},
+ /* ---------- Full gym ---------- */
+ {id:"g-push",lvl:"full",tag:"Push",title:"Chest, Shoulders & Triceps",
+  list:["Bench Press","Barbell Overhead Press","Incline Bench Press","Pec Deck","Cable Lateral Raise","Triceps Pushdown"]},
+ {id:"g-pull",lvl:"full",tag:"Pull",title:"Back & Biceps",
+  list:["Conventional Deadlift","Pull-Up","Barbell Row","Lat Pulldown","Face Pull","Barbell Curl"]},
+ {id:"g-total",lvl:"full",tag:"Total Body",title:"Full Body Strength",
+  list:["Back Squat","Bench Press","Barbell Row","Barbell Overhead Press","Barbell RDL","Face Pull"]}
 ];
+var WLEVEL = {
+  none:     { label:"No equipment",      badge:"No equipment · anywhere",     bcls:"tag-none", note:"Nothing but you and a doorframe." },
+  dumbbell: { label:"Dumbbells",         badge:"At home · dumbbells",         bcls:"tag-home", note:"A pair of dumbbells and floor space." },
+  machine:  { label:"Cables & machines", badge:"Machines + cables",           bcls:"tag-mach", note:"The typical commercial gym floor." },
+  barbell:  { label:"Barbell & rack",    badge:"Barbell · rack · bench",      bcls:"tag-bar",  note:"Garage gym or a lifting-focused gym." },
+  full:     { label:"Full gym",          badge:"Full gym · everything",       bcls:"tag-gym",  note:"Barbells, machines, cables, pull-up bar." }
+};
+var WORDER = ["none","dumbbell","machine","barbell","full"];
+var WSHOW = { all:["none","dumbbell","machine","barbell","full"],
+              none:["none"], dumbbell:["dumbbell"], machine:["machine"],
+              barbell:["barbell"], full:["full"] };
 
 /* ============ helpers ============ */
 var $ = function(id){ return document.getElementById(id); };
@@ -833,22 +938,49 @@ $("brandBtn").onclick = function(){ show("home"); };
 
 /* ============ prebuilt cards ============ */
 (function(){
-  var host = $("prebuiltCards");
-  PREBUILT.forEach(function(w){
-    var names = w.list.join(", ");
-    var card = el("button","wk-card",
-      '<span class="tag">'+esc(w.tag)+'</span> <span class="hometag">At home · dumbbells only</span>'+
-      '<h2>'+esc(w.title)+'</h2>'+
-      '<div class="list">('+esc(names)+')</div>'+
-      '<div class="meta">6 exercises · ~40 min · Tap to start →</div>');
-    card.onclick = function(){ openWorkout(w.tag+" — "+w.title, w.list, false); };
-    host.appendChild(card);
-  });
+  var pbLevel = "all";
+  function renderPrebuilt(scroll){
+    var host = $("prebuiltCards");
+    host.innerHTML = "";
+    var chips = $("pbChips");
+    chips.innerHTML = "";
+    var opts = [{k:"all", label:"All levels", note:"Show every workout"}];
+    WORDER.forEach(function(k){ opts.push({ k:k, label:WLEVEL[k].label, note:WLEVEL[k].note }); });
+    opts.forEach(function(o){
+      var b = el("button","chip"+(pbLevel===o.k?" on":""), '<b>'+esc(o.label)+'</b><small>'+esc(o.note)+'</small>');
+      b.onclick = function(){ pbLevel = o.k; renderPrebuilt(true); };
+      chips.appendChild(b);
+    });
+    var allowed = WSHOW[pbLevel];
+    WORDER.forEach(function(k){
+      if(allowed.indexOf(k) < 0) return;
+      var inLvl = PREBUILT.filter(function(w){ return w.lvl === k; });
+      if(!inLvl.length) return;
+      var L = WLEVEL[k];
+      host.appendChild(el("div","cat",esc(L.label)));
+      inLvl.forEach(function(w){
+        var card = el("button","wk-card",
+          '<span class="tag">'+esc(w.tag)+'</span> <span class="hometag '+L.bcls+'">'+esc(L.badge)+'</span>'+
+          '<h2>'+esc(w.title)+'</h2>'+
+          '<div class="list">('+esc(w.list.join(", "))+')</div>'+
+          '<div class="meta">'+w.list.length+' exercises · ~40 min · Tap to start →</div>');
+        card.onclick = function(){ openWorkout(L.label+" "+w.tag+" — "+w.title, w.list, false); };
+        host.appendChild(card);
+      });
+    });
+    var shown = host.querySelectorAll(".wk-card").length;
+    var cnt = $("pbCount");
+    cnt.textContent = pbLevel === "all"
+      ? shown + " workouts · every equipment level"
+      : shown + " workout" + (shown === 1 ? "" : "s") + " for " + WLEVEL[pbLevel].label;
+    if(scroll && host.scrollIntoView) host.scrollIntoView({behavior:"smooth", block:"start"});
+  }
+  renderPrebuilt(false);
 })();
 
 /* ============ builder ============ */
 var sel = []; /* selected exercise NAMES (stable across re-renders) */
-var eq = "all"; /* equipment filter */
+var eq = "full"; /* equipment LEVEL filter */
 var q = "";     /* search text */
 function matchQ(x){
   if(!q) return true;
@@ -856,12 +988,26 @@ function matchQ(x){
   /* every typed word must appear somewhere — lets "cable row" and "row cable" both work */
   return q.split(/\s+/).every(function(w){ return hay.indexOf(w) >= 0; });
 }
-var EQLABEL = { all:"All", home:"Home / Dumbbell", barbell:"Barbell", machine:"Machines", cable:"Cables", gym:"Gym Floor" };
+var LEVELS = [
+  { k:"none",     label:"No equipment",      sub:"Bodyweight only",        allows:["none"] },
+  { k:"dumbbell", label:"Dumbbells",         sub:"+ a pair of dumbbells",  allows:["none","dumbbell"] },
+  { k:"machine",  label:"Cables & machines", sub:"Typical commercial gym", allows:["none","dumbbell","machine","cable"] },
+  { k:"barbell",  label:"Barbell & rack",    sub:"Garage / lifting gym",   allows:["none","dumbbell","barbell"] },
+  { k:"full",     label:"Full gym",          sub:"Everything",             allows:["none","dumbbell","barbell","machine","cable","gym"] }
+];
+function levelAllows(x){
+  for(var i=0;i<LEVELS.length;i++) if(LEVELS[i].k === eq) return LEVELS[i].allows.indexOf(x.lvl) >= 0;
+  return true;
+}
+function levelLabel(){
+  for(var i=0;i<LEVELS.length;i++) if(LEVELS[i].k === eq) return LEVELS[i].label;
+  return "";
+}
 function renderChips(){
   var host = $("eqChips"); host.innerHTML = "";
-  Object.keys(EQLABEL).forEach(function(k){
-    var b = el("button","chip"+(eq===k?" on":""), esc(EQLABEL[k]));
-    b.onclick = function(){ eq = k; renderChips(); renderLibrary(); };
+  LEVELS.forEach(function(L){
+    var b = el("button","chip"+(eq===L.k?" on":""), '<b>'+esc(L.label)+'</b><small>'+esc(L.sub)+'</small>');
+    b.onclick = function(){ eq = L.k; renderChips(); renderLibrary(); };
     host.appendChild(b);
   });
 }
@@ -869,7 +1015,7 @@ function renderLibrary(){
   var host = $("library");
   host.innerHTML = "";
   CATS.forEach(function(cat){
-    var inCat = LIB.filter(function(x){ return x.c===cat && (x.custom || eq==="all" || x.e===eq) && matchQ(x); });
+    var inCat = LIB.filter(function(x){ return x.c===cat && (x.custom || levelAllows(x)) && matchQ(x); });
     if(!inCat.length) return;
     host.appendChild(el("div","cat",esc(cat)));
     var grid = el("div","lib");
@@ -894,12 +1040,12 @@ function renderLibrary(){
   });
   var shown = host.querySelectorAll(".ex").length;
   var cEl = $("searchCount");
-  cEl.textContent = (q || eq !== "all") ? (shown + " of " + LIB.length + " exercises") : "";
+  cEl.textContent = (q || eq !== "full") ? (shown + " of " + LIB.length + " exercises") : "";
   if(!shown){
     host.appendChild(el("div","noresults",
       "<b>Nothing matches</b>No exercise here fits &ldquo;" + esc(q) + "&rdquo;" +
-      (eq !== "all" ? " in " + esc(EQLABEL[eq]) : "") +
-      ". Try a shorter word, switch equipment to All, or add it yourself with the button above."));
+      (eq !== "full" ? " at " + esc(levelLabel()) : "") +
+      ". Try a shorter word, raise the equipment level, or add it yourself with the button above."));
   }
 }
 function removeCustom(name){
@@ -1055,7 +1201,7 @@ if("serviceWorker" in navigator && location.protocol.indexOf("http") === 0){
 }
 
 /* ============ boot ============ */
-try{ console.log("Progressive Overload build v9"); }catch(e){}
+try{ console.log("Progressive Overload build v12"); }catch(e){}
 storeGet("ft:custom", function(v){
   try{ CUSTOM = v ? JSON.parse(v) : []; }catch(e){ CUSTOM = []; }
   CUSTOM.forEach(function(x){ x.custom = true; if(idx(x.n)<0) LIB.push(x); });
@@ -1155,7 +1301,7 @@ storeGet("ft:custom", function(v){
       var lib = window.__leafletSrc || (typeof L !== "undefined" ? "ok" : "loading");
       var mEl = document.getElementById("map");
       var size = mEl ? (mEl.clientWidth + "x" + mEl.clientHeight) : "?";
-      d.textContent = "v9 · lib:" + lib + " · " + PROVIDERS[provIdx].name + " " + size + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (diagNote ? " · " + diagNote : "");
+      d.textContent = "v12 · lib:" + lib + " · " + PROVIDERS[provIdx].name + " " + size + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (diagNote ? " · " + diagNote : "");
     }
     function mountTiles(){
       if(tiles) map.removeLayer(tiles);
@@ -1602,7 +1748,7 @@ storeGet("ft:custom", function(v){
       tries++;
       if(tries > 45){
         el.innerHTML = '<div style="padding:24px;font-family:monospace;font-size:12px;color:#7E96A8;line-height:1.7"><b style="color:#E8F0F5">The map library could not be downloaded from either CDN.</b><br>The rest of the site is unaffected. This is usually a connection issue or a content blocker on this device.<br>Try: a different network, disabling ad/content blockers for this site, then reload.</div>';
-        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v9 · lib:none (both CDNs failed)";
+        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v12 · lib:none (both CDNs failed)";
         return;
       }
       setTimeout(waitL, 150);
