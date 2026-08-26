@@ -281,6 +281,10 @@
   .rm-toggle input:checked::after{transform:translateX(15px);background:var(--d-signal)}
   .rm-toggle .rm-tl{font-size:13px;line-height:1.25}
   .rm-toggle .rm-tl small{display:block;color:var(--d-muted);font-size:11px}
+  .rm-seg{display:flex;margin-top:10px;border:1px solid var(--d-rule);border-radius:2px;overflow:hidden}
+  .rm-seg button{flex:1;background:var(--d-panel2);border:none;border-right:1px solid var(--d-rule);color:var(--d-muted);font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;padding:9px 4px;cursor:pointer}
+  .rm-seg button:last-child{border-right:none}
+  .rm-seg button.on{background:var(--d-signal);color:#fff}
   .rm-field{display:flex;align-items:center;gap:8px;margin-bottom:8px}
   .rm-field label{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--d-muted);width:86px;flex:0 0 auto}
   .rm-field input[type=text],.rm-field input[type=number]{flex:1;min-width:0;background:var(--d-ink);border:1px solid var(--d-rule);border-radius:2px;
@@ -461,7 +465,7 @@ if (typeof window.storage === "undefined") {
       <span class="go">→</span>
     </button>
   </div>
-  <p class="buildtag">build v12 &middot; map: CARTO / Esri / OSM</p>
+  <p class="buildtag">build v13 &middot; map: CARTO / Esri / OSM</p>
 </div>
 
 <!-- ============ prebuilt ============ -->
@@ -538,6 +542,12 @@ if (typeof window.storage === "undefined") {
       <div class="rm-row" style="margin-top:8px">
         <button class="rm-btn is-wide" id="locBtn" style="flex:1 1 100%">Center on my location</button>
       </div>
+      <p class="rm-legend" style="margin-top:14px">Map style</p>
+      <div class="rm-seg" id="styleSeg" role="group" aria-label="Map style">
+        <button data-style="streets" class="on">Streets</button>
+        <button data-style="trails">Trails</button>
+        <button data-style="satellite">Satellite</button>
+      </div>
       <div class="rm-field" style="margin-top:10px;margin-bottom:0">
         <input type="text" id="searchIn" placeholder="Search a place or address…" aria-label="Search a place">
         <button class="rm-btn" id="searchBtn" style="flex:0 0 62px">Go</button>
@@ -545,7 +555,11 @@ if (typeof window.storage === "undefined") {
     </div>
     <div class="rm-sec">
       <p class="rm-legend">How it measures</p>
-      <label class="rm-toggle"><input type="checkbox" id="snapChk" checked><span class="rm-tl">Follow roads<small id="snapNote">On — legs follow real streets. Turn off to measure straight lines.</small></span></label>
+      <label class="rm-toggle"><input type="checkbox" id="snapChk" checked><span class="rm-tl">Snap to routes<small id="snapNote">On — legs follow footpaths, trails and tracks.</small></span></label>
+      <div class="rm-seg" id="modeSeg" role="group" aria-label="Route surface">
+        <button data-mode="trail" class="on">Trails &amp; paths</button>
+        <button data-mode="road">Roads only</button>
+      </div>
       <label class="rm-toggle"><input type="checkbox" id="obChk"><span class="rm-tl">Out and back<small>Doubles the total — same way home</small></span></label>
       <label class="rm-toggle"><input type="checkbox" id="loopChk"><span class="rm-tl">Close the loop<small>Adds a leg from the last point back to the first</small></span></label>
     </div>
@@ -575,7 +589,7 @@ if (typeof window.storage === "undefined") {
       <div class="rm-map" id="map"></div>
       <div class="rm-hint" id="hint">Tap the map to drop your first point</div>
       <div class="rm-status" id="status"></div>
-      <div class="rm-diag" id="diagLine">v12 · opening…</div>
+      <div class="rm-diag" id="diagLine">v13 · opening…</div>
     </div>
     <div class="rm-rail">
       <div class="rm-railhead"><span id="railLabel">Distance rail</span><span id="railTotal">0.00 mi</span></div>
@@ -1201,7 +1215,7 @@ if("serviceWorker" in navigator && location.protocol.indexOf("http") === 0){
 }
 
 /* ============ boot ============ */
-try{ console.log("Progressive Overload build v12"); }catch(e){}
+try{ console.log("Progressive Overload build v13"); }catch(e){}
 storeGet("ft:custom", function(v){
   try{ CUSTOM = v ? JSON.parse(v) : []; }catch(e){ CUSTOM = []; }
   CUSTOM.forEach(function(x){ x.custom = true; if(idx(x.n)<0) LIB.push(x); });
@@ -1286,14 +1300,32 @@ storeGet("ft:custom", function(v){
     map = L.map("map", { zoomControl:true, doubleClickZoom:false })
            .setView([39.5, -98.35], 4);
 
-    var PROVIDERS = [
-      { name:"carto", url:"https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
-        opt:{ maxZoom:19, subdomains:"abcd", attribution:'&copy; OpenStreetMap contributors &copy; CARTO' } },
-      { name:"esri", url:"https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
-        opt:{ maxZoom:19, attribution:'Tiles &copy; Esri &mdash; Esri, HERE, Garmin, OpenStreetMap contributors' } },
-      { name:"osm", url:"https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-        opt:{ maxZoom:19, attribution:'&copy; OpenStreetMap contributors' } }
-    ];
+    var STYLES = {
+      streets: { label:"Streets", chain:[
+        { name:"carto", url:"https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+          opt:{ maxZoom:19, subdomains:"abcd", attribution:'&copy; OpenStreetMap contributors &copy; CARTO' } },
+        { name:"esri", url:"https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+          opt:{ maxZoom:19, attribution:'Tiles &copy; Esri' } },
+        { name:"osm", url:"https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+          opt:{ maxZoom:19, attribution:'&copy; OpenStreetMap contributors' } }
+      ]},
+      trails: { label:"Trails", chain:[
+        { name:"cyclosm", url:"https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png",
+          opt:{ maxZoom:18, subdomains:"abc", attribution:'&copy; OpenStreetMap contributors &mdash; CyclOSM | OSM France' } },
+        { name:"opentopo", url:"https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+          opt:{ maxZoom:17, subdomains:"abc", attribution:'Map data &copy; OpenStreetMap contributors, SRTM | Style &copy; OpenTopoMap (CC-BY-SA)' } },
+        { name:"osm", url:"https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+          opt:{ maxZoom:19, attribution:'&copy; OpenStreetMap contributors' } }
+      ]},
+      satellite: { label:"Satellite", chain:[
+        { name:"esrisat", url:"https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+          opt:{ maxZoom:19, attribution:'Tiles &copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics' } },
+        { name:"osm", url:"https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+          opt:{ maxZoom:19, attribution:'&copy; OpenStreetMap contributors' } }
+      ]}
+    };
+    var mapStyle = "streets";
+    function PROV(){ return STYLES[mapStyle].chain; }
     var provIdx = 0, tiles = null, tileErrs = 0, tileOkN = 0, tileReq = 0, diagNote = "";
     function diag(){
       var d = document.getElementById("diagLine");
@@ -1301,19 +1333,19 @@ storeGet("ft:custom", function(v){
       var lib = window.__leafletSrc || (typeof L !== "undefined" ? "ok" : "loading");
       var mEl = document.getElementById("map");
       var size = mEl ? (mEl.clientWidth + "x" + mEl.clientHeight) : "?";
-      d.textContent = "v12 · lib:" + lib + " · " + PROVIDERS[provIdx].name + " " + size + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (diagNote ? " · " + diagNote : "");
+      d.textContent = "v13 · lib:" + lib + " · " + PROV()[provIdx].name + "/" + (lastRouter||"—") + " " + size + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (diagNote ? " · " + diagNote : "");
     }
     function mountTiles(){
       if(tiles) map.removeLayer(tiles);
       tileErrs = 0; tileOk = false; tileOkN = 0; tileReq = 0;
-      var p = PROVIDERS[provIdx];
+      var p = PROV()[provIdx];
       tiles = L.tileLayer(p.url, p.opt);
       tiles.on("tileloadstart", function(){ tileReq++; diag(); });
       tiles.on("tileload", function(){ tileOk = true; tileOkN++; setStatus(""); diag(); });
       tiles.on("tileerror", function(){
         tileErrs++; diag();
         if(!tileOk && tileErrs >= 4){
-          if(provIdx < PROVIDERS.length - 1){ provIdx++; mountTiles(); }
+          if(provIdx < PROV().length - 1){ provIdx++; mountTiles(); }
           else setStatus("The map imagery isn't loading right now. Measuring still works — points and distances stay accurate — but you're drawing blind. Check your connection and try again.");
         }
       });
@@ -1322,6 +1354,7 @@ storeGet("ft:custom", function(v){
     }
     mountTiles();
     window.__poDiag = diag;
+    window.__poMount = function(){ provIdx = 0; mountTiles(); };
 
     map.on("click", function(e){ addPoint(e.latlng.lat, e.latlng.lng); });
     setTimeout(function(){ map.invalidateSize(); }, 120);
@@ -1381,25 +1414,46 @@ storeGet("ft:custom", function(v){
   /* ============ routing ============ */
   function key(a, b){
     var r = function(v){ return v.toFixed(5); };
-    return r(a.lat)+","+r(a.lng)+"|"+r(b.lat)+","+r(b.lng);
+    return routeMode+":"+r(a.lat)+","+r(a.lng)+"|"+r(b.lat)+","+r(b.lng);
   }
 
+  /* Route providers.
+     FOSSGIS runs SEPARATE OSRM instances per profile — routed-foot understands
+     footways, paths and tracks, which is what trail running needs. The profile
+     word in the path is ignored by those instances; the endpoint decides. */
+  var ROUTERS = {
+    trail: [
+      { name:"foot",  url:"https://routing.openstreetmap.de/routed-foot/route/v1/driving/" },
+      { name:"bike",  url:"https://routing.openstreetmap.de/routed-bike/route/v1/driving/" },
+      { name:"car",   url:"https://router.project-osrm.org/route/v1/driving/" }
+    ],
+    road: [
+      { name:"car",   url:"https://router.project-osrm.org/route/v1/driving/" },
+      { name:"carfg", url:"https://routing.openstreetmap.de/routed-car/route/v1/driving/" },
+      { name:"foot",  url:"https://routing.openstreetmap.de/routed-foot/route/v1/driving/" }
+    ]
+  };
+  var routeMode = "trail";
+  var lastRouter = "";
+
   function osrm(a, b){
-    var profiles = ["foot","driving"];
+    var chain = ROUTERS[routeMode] || ROUTERS.trail;
     var i = 0;
     function attempt(){
-      if(i >= profiles.length) return Promise.resolve(null);
-      var url = "https://router.project-osrm.org/route/v1/"+profiles[i++]+"/"+
-                a.lng+","+a.lat+";"+b.lng+","+b.lat+"?overview=full&geometries=geojson";
+      if(i >= chain.length) return Promise.resolve(null);
+      var p = chain[i++];
+      var url = p.url + a.lng+","+a.lat+";"+b.lng+","+b.lat+"?overview=full&geometries=geojson";
       return fetch(url)
         .then(function(r){ return r.ok ? r.json() : null; })
         .then(function(j){
           if(!j || j.code !== "Ok" || !j.routes || !j.routes.length) return attempt();
           var rt = j.routes[0];
+          lastRouter = p.name;
           return {
             coords: rt.geometry.coordinates.map(function(c){ return [c[1], c[0]]; }),
             meters: rt.distance,
-            snapped: true
+            snapped: true,
+            via: p.name
           };
         })
         .catch(function(){ return attempt(); });
@@ -1436,7 +1490,7 @@ storeGet("ft:custom", function(v){
         snap = false;
         $("snapChk").checked = false;
         $("snapNote").textContent = "Unavailable right now — the free routing service couldn't be reached.";
-        setStatus("Road routing couldn't be reached, so legs are straight lines again. Drop a point at every corner to stay honest, or try the toggle again in a minute.");
+        setStatus("Routing couldn't be reached, so legs are straight lines again. Drop a point at every corner to stay honest, or try the toggle again in a minute.");
       }
       return res;
     });
@@ -1748,7 +1802,7 @@ storeGet("ft:custom", function(v){
       tries++;
       if(tries > 45){
         el.innerHTML = '<div style="padding:24px;font-family:monospace;font-size:12px;color:#7E96A8;line-height:1.7"><b style="color:#E8F0F5">The map library could not be downloaded from either CDN.</b><br>The rest of the site is unaffected. This is usually a connection issue or a content blocker on this device.<br>Try: a different network, disabling ad/content blockers for this site, then reload.</div>';
-        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v12 · lib:none (both CDNs failed)";
+        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v13 · lib:none (both CDNs failed)";
         return;
       }
       setTimeout(waitL, 150);
@@ -1790,6 +1844,35 @@ storeGet("ft:custom", function(v){
     var lc = document.getElementById("loopChk"); if(lc) lc.checked = closeLoop;
     return true;
   }
+  function wireSegments(){
+    var modeBtns = document.querySelectorAll("#modeSeg button");
+    Array.prototype.forEach.call(modeBtns, function(b){
+      b.onclick = function(){
+        routeMode = b.getAttribute("data-mode");
+        Array.prototype.forEach.call(modeBtns, function(x){ x.classList.toggle("on", x === b); });
+        cache = {};                                  /* mode changes the answer */
+        var note = document.getElementById("snapNote");
+        if(note) note.textContent = routeMode === "trail"
+          ? "On \u2014 legs follow footpaths, trails and tracks."
+          : "On \u2014 legs follow roads and sidewalks only.";
+        if(typeof render === "function" && snap && points.length > 1){
+          setStatus("Recalculating on " + (routeMode === "trail" ? "trails and paths" : "roads") + "\u2026");
+          render();
+        }
+      };
+    });
+    var styleBtns = document.querySelectorAll("#styleSeg button");
+    Array.prototype.forEach.call(styleBtns, function(b){
+      b.onclick = function(){
+        mapStyle = b.getAttribute("data-style");
+        Array.prototype.forEach.call(styleBtns, function(x){ x.classList.toggle("on", x === b); });
+        if(window.__poMount) window.__poMount();      /* no-op until the map exists */
+      };
+    });
+  }
+  if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", wireSegments);
+  else wireSegments();
+
   window.__bootRunMapper = boot;
   window.__rmResize = function(){ if(map){ map.invalidateSize(); if(window.__poDiag) window.__poDiag(); } };
   window.addEventListener("resize", function(){ if(map) map.invalidateSize(); });
