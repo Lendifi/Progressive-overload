@@ -3,13 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Progressive Overload Tracker — free workout tracking</title>
+<title>Progressive Overload Tracker | Free Workout Log and Run Mapper</title>
+<meta name="description" content="Free workout tracker that works on your phone. Pick a prebuilt workout or build your own from 172 exercises, log your weights, beat them next time, and map your runs. No account needed.">
+<link rel="canonical" href="https://progressiveoverloadtracker.app/">
+<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Progressive Overload">
+<meta property="og:title" content="Progressive Overload Tracker | Free Workout Log and Run Mapper">
+<meta property="og:description" content="Pick a prebuilt workout or build your own from 172 exercises, log your weights, and beat them next time. Free, no account, works on your phone.">
+<meta property="og:url" content="https://progressiveoverloadtracker.app/">
+<meta property="og:image" content="https://progressiveoverloadtracker.app/icon-512.png">
+<meta property="og:image:width" content="512">
+<meta property="og:image:height" content="512">
+<meta property="og:image:alt" content="Progressive Overload app icon">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Progressive Overload Tracker | Free Workout Log and Run Mapper">
+<meta name="twitter:description" content="Pick a prebuilt workout or build your own from 172 exercises, log your weights, and beat them next time. Free, no account.">
+<meta name="twitter:image" content="https://progressiveoverloadtracker.app/icon-512.png">
 <meta name="theme-color" content="#14181f">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./icon-180.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="Overload">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -164,7 +180,7 @@
     font-size:14px;font-weight:800;color:var(--ink);cursor:pointer;}
   .set.done{background:var(--done);border-color:var(--done);color:#fff;}
   .weight{width:88px;height:44px;border:2px dashed var(--steel);border-radius:10px;text-align:center;
-    font-family:'Inter',sans-serif;font-size:15px;font-weight:800;color:var(--ink);background:transparent;}
+    font-family:'Inter',sans-serif;font-size:16px;font-weight:800;color:var(--ink);background:transparent;}
   .weight::placeholder{color:#a7aeb8;font-weight:600;}
   .sheetfoot{margin-top:22px;border-top:3px solid var(--ink);padding-top:14px;font-size:13px;color:var(--steel);line-height:1.55;}
   .sheetfoot strong{color:var(--ink);}
@@ -174,7 +190,7 @@
   /* ---------- exercise search ---------- */
   .searchwrap{position:relative;margin-bottom:10px;}
   .searchwrap input{width:100%;border:2px solid var(--line);border-radius:12px;background:#fff;
-    padding:13px 40px 13px 14px;font-family:'Inter',sans-serif;font-size:15px;font-weight:600;color:var(--ink);}
+    padding:13px 40px 13px 14px;font-family:'Inter',sans-serif;font-size:16px;font-weight:600;color:var(--ink);}
   .searchwrap input::placeholder{color:#a7aeb8;font-weight:500;}
   .searchwrap input:focus{border-color:var(--cobalt);outline:none;}
   .searchwrap input::-webkit-search-cancel-button{display:none;}
@@ -206,7 +222,7 @@
   .addrow{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;}
   .addrow label{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--steel);width:82px;flex:0 0 auto;}
   .addrow input,.addrow select,.addrow textarea{flex:1;min-width:140px;border:2px solid var(--line);border-radius:10px;
-    padding:10px;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;background:#fff;color:var(--ink);}
+    padding:10px;font-family:'Inter',sans-serif;font-size:16px;font-weight:600;background:#fff;color:var(--ink);}
   .addrow textarea{resize:vertical;}
   .addsub{flex-basis:100%;margin-left:92px;font-size:11px;color:var(--steel);}
   .figrow{margin-top:4px;}
@@ -218,7 +234,7 @@
   .ex .delx{position:absolute;top:7px;left:7px;width:22px;height:22px;border-radius:50%;background:var(--paper);
     color:var(--steel);font-size:12px;font-weight:800;line-height:22px;}
   .schemeIn{border:none;border-bottom:2px dashed var(--cobalt);background:none;font-family:'Inter',sans-serif;
-    font-size:13px;font-weight:800;color:var(--cobalt-dk);padding:1px 0 2px;width:150px;max-width:100%;}
+    font-size:16px;font-weight:800;color:var(--cobalt-dk);padding:1px 0 2px;width:170px;max-width:100%;}
 
   /* ---------- figures ---------- */
   .stick{fill:none;stroke:#14181f;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;}
@@ -288,7 +304,7 @@
   .rm-field{display:flex;align-items:center;gap:8px;margin-bottom:8px}
   .rm-field label{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--d-muted);width:86px;flex:0 0 auto}
   .rm-field input[type=text],.rm-field input[type=number]{flex:1;min-width:0;background:var(--d-ink);border:1px solid var(--d-rule);border-radius:2px;
-    padding:8px 9px;font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--d-chalk)}
+    padding:8px 9px;font-family:'IBM Plex Mono',monospace;font-size:16px;color:var(--d-chalk)}
   .rm-field input::placeholder{color:#4C6376}
   .rm-out{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--d-mark);white-space:nowrap}
   .rm-splits{width:100%;border-collapse:collapse;font-family:'IBM Plex Mono',monospace;font-size:12px}
@@ -342,6 +358,82 @@
   .leaflet-control-attribution a{color:var(--d-muted)!important}
   .leaflet-bar a{background:var(--d-panel)!important;color:var(--d-chalk)!important;border-color:var(--d-rule)!important}
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+  /* ---------- v14: iPhone zoom guard (Safari zooms into any field under 16px) ---------- */
+  :where(input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file])),:where(select),:where(textarea){font-size:16px;}
+  /* ---------- v14: your data (backup / restore) ---------- */
+  .datacard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-top:16px;}
+  .datacard h2{font-family:'Anton',sans-serif;font-size:20px;text-transform:uppercase;}
+  .datacard > p{font-size:13.5px;color:var(--steel);line-height:1.45;margin-top:4px;}
+  .databtns{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;}
+  .databtn{flex:1 1 180px;min-height:46px;border-radius:999px;cursor:pointer;font-family:'Anton',sans-serif;
+    font-size:16px;text-transform:uppercase;letter-spacing:.02em;padding:11px 18px;border:2px solid var(--cobalt);
+    background:var(--cobalt);color:#fff;touch-action:manipulation;}
+  .databtn.ghost{background:#fff;color:var(--cobalt-dk);border-color:var(--ink);}
+  .databtn.danger{background:#b42318;border-color:#b42318;color:#fff;}
+  .databtn:disabled{opacity:.55;cursor:default;}
+  .datalast{font-size:12px;font-weight:700;color:var(--steel);margin-top:10px;}
+  .datamsg{font-size:13.5px;font-weight:700;line-height:1.45;border-radius:12px;padding:0;margin-top:0;}
+  .datamsg.ok{background:#e7f6ee;color:#0a6b3e;padding:10px 12px;margin-top:12px;}
+  .datamsg.err{background:#fdecea;color:#9b1c13;padding:10px 12px;margin-top:12px;}
+  .dataconfirm{margin-top:12px;border:2px solid var(--ink);border-radius:12px;padding:14px;background:var(--paper);}
+  .dataconfirm p{font-size:13.5px;line-height:1.45;color:var(--ink);}
+  .dataconfirm p + p{margin-top:6px;}
+  .dataconfirm .databtns{margin-top:12px;}
+  .vh{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+
+  /* ---------- v15: saved workouts ---------- */
+  [hidden]{display:none!important;}
+  .clearsel{min-height:44px;padding:0 6px;}
+  #view-builder{padding-bottom:170px;}
+  .buildbar .inner{flex-wrap:wrap;}
+  .buildbar .savebtn{margin-left:auto;min-height:44px;background:none;border:2px solid #c4ccd6;color:#fff;border-radius:999px;
+    font-family:'Anton',sans-serif;font-size:16px;text-transform:uppercase;letter-spacing:.03em;padding:8px 16px;cursor:pointer;}
+  .buildbar .savebtn + .startbtn{margin-left:0;}
+  .editbanner{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#eef3ff;border:2px solid var(--cobalt);
+    border-radius:12px;padding:8px 8px 8px 14px;margin-bottom:12px;}
+  .editbanner p{flex:1 1 160px;font-size:13.5px;font-weight:700;color:var(--cobalt-dk);line-height:1.35;}
+  .editbanner p small{display:block;font-weight:600;color:var(--steel);font-size:12px;}
+  .minibtn{min-height:44px;min-width:44px;border-radius:999px;border:2px solid var(--ink);background:#fff;color:var(--ink);
+    font-family:'Inter',sans-serif;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;padding:8px 14px;cursor:pointer;touch-action:manipulation;}
+  .minibtn.primary{background:var(--cobalt);border-color:var(--cobalt);color:#fff;}
+  .minibtn.danger{border-color:#b42318;color:#b42318;}
+  .minibtn.dangerfill{background:#b42318;border-color:#b42318;color:#fff;}
+  .mysaved{margin-bottom:10px;}
+  .mysaved .cat{margin-top:6px;}
+  .mysaved .hint{font-size:13.5px;color:var(--steel);line-height:1.45;background:var(--card);border:1px dashed var(--line);border-radius:14px;padding:14px;}
+  .svcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px;}
+  .svcard h2{font-family:'Anton',sans-serif;font-size:21px;text-transform:uppercase;line-height:1.1;overflow-wrap:anywhere;}
+  .svcard .list{font-size:13.5px;color:var(--steel);line-height:1.5;margin-top:6px;}
+  .svcard .meta{margin-top:8px;font-size:12px;font-weight:800;color:var(--cobalt-dk);text-transform:uppercase;letter-spacing:.05em;}
+  .svcard .gone{margin-top:6px;font-size:12.5px;font-weight:700;color:#8a5a00;background:#fff4dc;border-radius:8px;padding:6px 9px;}
+  .svactions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px;}
+  .svactions .minibtn{padding:8px 6px;}
+  .svactions .minibtn.primary{grid-column:1/-1;font-size:14px;}
+  .sheetsave{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+  .sheetsave .minibtn{background:transparent;color:#fff;border-color:#c4ccd6;}
+  .sheetsave .minibtn.primary{background:var(--cobalt);border-color:var(--cobalt);}
+  .sheetsave .svnote{flex-basis:100%;font-size:12.5px;color:#c4ccd6;font-weight:600;}
+  .exercise.missing{border-style:dashed;}
+  .missnote{font-size:12.5px;font-weight:700;color:#8a5a00;background:#fff4dc;border-radius:8px;padding:6px 9px;margin:8px 0 0;}
+  .pomodal{position:fixed;inset:0;z-index:2000;background:rgba(14,22,32,.55);display:flex;align-items:flex-start;justify-content:center;
+    padding:max(60px,10vh) 14px 14px;overflow-y:auto;}
+  .pomodal .box{background:var(--card);border-radius:16px;padding:18px;width:100%;max-width:420px;box-shadow:0 18px 50px rgba(0,0,0,.3);}
+  .pomodal h2{font-family:'Anton',sans-serif;font-size:22px;text-transform:uppercase;}
+  .pomodal p{font-size:14px;color:var(--steel);line-height:1.45;margin-top:6px;}
+  .pomodal label{display:block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--steel);margin-top:12px;}
+  .pomodal input{width:100%;margin-top:6px;border:2px solid var(--line);border-radius:10px;padding:11px;font-family:'Inter',sans-serif;
+    font-size:16px;font-weight:600;color:var(--ink);background:#fff;}
+  .pomodal input:focus{border-color:var(--cobalt);outline:none;}
+  .pomodal .err{font-size:13px;font-weight:700;color:#9b1c13;margin-top:8px;min-height:1em;}
+  .pomodal .row{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+  .pomodal .row .minibtn{flex:1 1 120px;}
+  .potoast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom));z-index:1900;
+    width:calc(100% - 28px);max-width:520px;background:var(--ink);color:#fff;border-radius:14px;padding:8px 8px 8px 16px;
+    display:flex;align-items:center;gap:10px;box-shadow:0 10px 30px rgba(0,0,0,.3);}
+  .potoast.lift{bottom:calc(86px + env(safe-area-inset-bottom));}
+  .potoast span{flex:1;font-size:14px;font-weight:600;line-height:1.35;}
+  .potoast .minibtn{background:transparent;color:#fff;border-color:#c4ccd6;}
 </style>
 </head>
 <body>
@@ -449,9 +541,14 @@ if (typeof window.storage === "undefined") {
     <p>Pick a ready-made workout for whatever equipment you have, build your own from 170+ exercises, or map out a run. Log your weights, beat them next time. That's the whole program.</p>
   </div>
   <div class="paths">
+    <button class="path" data-nav="prebuilt" id="homeSaved" hidden>
+      <span class="glyph"><svg width="34" height="34" viewBox="0 0 120 120"><use href="#f-curl"/></svg></span>
+      <span><h2>My workouts</h2><p id="homeSavedSub">Your saved workouts.</p></span>
+      <span class="go">→</span>
+    </button>
     <button class="path" data-nav="prebuilt">
       <span class="glyph"><svg width="34" height="34" viewBox="0 0 120 120"><use href="#f-ohp"/></svg></span>
-      <span><h2>Use a prebuilt workout</h2><p>15 sessions — push, pull and total body, at every equipment level.</p></span>
+      <span><h2>Use a prebuilt workout</h2><p>15 sessions - push, pull and total body, at every equipment level.</p></span>
       <span class="go">→</span>
     </button>
     <button class="path" data-nav="builder">
@@ -465,13 +562,37 @@ if (typeof window.storage === "undefined") {
       <span class="go">→</span>
     </button>
   </div>
-  <p class="buildtag">build v13 &middot; map: CARTO / Esri / OSM</p>
+  <section class="datacard" id="dataCard" aria-labelledby="dataHead">
+    <h2 id="dataHead">Your data</h2>
+    <p>Your weights, custom exercises and saved routes live only on this device. Save a backup file every so often so you can restore it on a new phone or after clearing Safari.</p>
+    <div class="databtns">
+      <button type="button" class="databtn" id="backupBtn">Back up my data</button>
+      <button type="button" class="databtn ghost" id="restoreBtn">Restore from backup</button>
+    </div>
+    <input type="file" id="restoreFile" class="vh" accept=".json,application/json,text/plain" tabindex="-1" aria-hidden="true">
+    <p class="datalast" id="lastBackup">Not backed up on this device yet.</p>
+    <div class="dataconfirm" id="restoreConfirm" hidden>
+      <p><strong>Replace your current data?</strong></p>
+      <p id="restoreSummary"></p>
+      <p>Restoring will replace everything saved on this device with what is in the backup. This cannot be undone.</p>
+      <div class="databtns">
+        <button type="button" class="databtn danger" id="restoreYes">Replace my data</button>
+        <button type="button" class="databtn ghost" id="restoreNo">Cancel</button>
+      </div>
+    </div>
+    <div class="datamsg" id="dataMsg" role="status" aria-live="polite"></div>
+  </section>
+  <p class="buildtag">build v15 &middot; map: CARTO / Esri / OSM</p>
 </div>
 
 <!-- ============ prebuilt ============ -->
 <div class="view wrap" id="view-prebuilt">
   <button class="backbtn" data-nav="home">← Home</button>
-  <div class="pagehead"><h1>Prebuilt Workouts</h1><p>Fifteen ready-made sessions — a push day, a pull day, and a total-body day at every equipment level. Filter to the gear you have, then run the same workout again and beat your numbers. That repetition is the whole method.</p></div>
+  <section class="mysaved" id="mySaved" aria-labelledby="mySavedHead">
+    <div class="cat" id="mySavedHead">My workouts</div>
+    <div id="mySavedList"></div>
+  </section>
+  <div class="pagehead"><h1>Prebuilt Workouts</h1><p>Fifteen ready-made sessions - a push day, a pull day, and a total-body day at every equipment level. Filter to the gear you have, then run the same workout again and beat your numbers. That repetition is the whole method.</p></div>
   <p class="eqlabel">What equipment do you have?</p>
   <div class="chips" id="pbChips"></div>
   <p class="searchcount" id="pbCount"></p>
@@ -481,9 +602,13 @@ if (typeof window.storage === "undefined") {
 <!-- ============ builder ============ -->
 <div class="view wrap" id="view-builder">
   <button class="backbtn" data-nav="home">← Home</button>
+  <div class="editbanner" id="editBanner" hidden>
+    <p><span id="editBannerText">Editing</span><small id="editBannerSub">Change the exercises, then tap Save.</small></p>
+    <button type="button" class="minibtn" id="stopEdit">Stop editing</button>
+  </div>
   <div class="pagehead"><h1>Build a Workout</h1><p>Tap the exercises you want. 5–8 is a solid session; more than that and you're sightseeing, not training.</p></div>
   <div class="searchwrap">
-    <input id="exSearch" type="search" placeholder="Search 172 exercises — squat, curl, cable…" aria-label="Search exercises" autocomplete="off">
+    <input id="exSearch" type="search" placeholder="Search 172 exercises - squat, curl, cable…" aria-label="Search exercises" autocomplete="off">
     <button id="exSearchX" aria-label="Clear search">✕</button>
   </div>
   <p class="eqlabel">What equipment do you have?</p>
@@ -493,7 +618,7 @@ if (typeof window.storage === "undefined") {
   <div class="addform" id="addForm">
     <p class="addhint">Doing something we don't have written down? Describe it and it becomes a card like the rest.</p>
     <div class="addrow"><label for="cxName">Name it</label><input id="cxName" type="text" placeholder="e.g. Kettlebell swing" maxlength="40"></div>
-    <div class="addrow"><label for="cxScheme">Sets × reps</label><input id="cxScheme" type="text" value="3 × 8–12" maxlength="24"><span class="addsub">suggestion — change it to whatever you're doing</span></div>
+    <div class="addrow"><label for="cxScheme">Sets × reps</label><input id="cxScheme" type="text" value="3 × 8–12" maxlength="24"><span class="addsub">suggestion - change it to whatever you're doing</span></div>
     <div class="addrow"><label for="cxUnit">You'll log</label><select id="cxUnit"><option value="lbs">weight (lbs)</option><option value="reps">reps</option><option value="sec">seconds</option></select></div>
     <div class="addrow"><label for="cxCue">How it's done</label><textarea id="cxCue" rows="2" placeholder="One line on form, so future-you remembers (optional)"></textarea></div>
     <div class="addrow figrow">
@@ -510,6 +635,7 @@ if (typeof window.storage === "undefined") {
     <span class="count" id="selCount">0 picked</span>
     <span class="warn" id="selWarn"></span>
     <button class="clearsel" id="clearSel">Clear</button>
+    <button type="button" class="savebtn" id="saveCustom">Save</button>
     <button class="startbtn" id="startCustom">Start →</button>
   </div>
 </div>
@@ -555,18 +681,18 @@ if (typeof window.storage === "undefined") {
     </div>
     <div class="rm-sec">
       <p class="rm-legend">How it measures</p>
-      <label class="rm-toggle"><input type="checkbox" id="snapChk" checked><span class="rm-tl">Snap to routes<small id="snapNote">On — legs follow footpaths, trails and tracks.</small></span></label>
+      <label class="rm-toggle"><input type="checkbox" id="snapChk" checked><span class="rm-tl">Snap to routes<small id="snapNote">On - legs follow footpaths, trails and tracks.</small></span></label>
       <div class="rm-seg" id="modeSeg" role="group" aria-label="Route surface">
         <button data-mode="trail" class="on">Trails &amp; paths</button>
         <button data-mode="road">Roads only</button>
       </div>
-      <label class="rm-toggle"><input type="checkbox" id="obChk"><span class="rm-tl">Out and back<small>Doubles the total — same way home</small></span></label>
+      <label class="rm-toggle"><input type="checkbox" id="obChk"><span class="rm-tl">Out and back<small>Doubles the total - same way home</small></span></label>
       <label class="rm-toggle"><input type="checkbox" id="loopChk"><span class="rm-tl">Close the loop<small>Adds a leg from the last point back to the first</small></span></label>
     </div>
     <div class="rm-sec">
       <p class="rm-legend">Target &amp; pace</p>
-      <div class="rm-field"><label for="targetIn">Target</label><input type="number" id="targetIn" min="0" step="0.1" placeholder="e.g. 3"><span class="rm-out" id="targetOut">—</span></div>
-      <div class="rm-field" style="margin-bottom:0"><label for="paceIn">Pace /<span id="paceUnit">mi</span></label><input type="text" id="paceIn" placeholder="9:30" inputmode="numeric"><span class="rm-out" id="timeOut">—</span></div>
+      <div class="rm-field"><label for="targetIn">Target</label><input type="number" id="targetIn" min="0" step="0.1" placeholder="e.g. 3"><span class="rm-out" id="targetOut">-</span></div>
+      <div class="rm-field" style="margin-bottom:0"><label for="paceIn">Pace /<span id="paceUnit">mi</span></label><input type="text" id="paceIn" placeholder="9:30" inputmode="numeric"><span class="rm-out" id="timeOut">-</span></div>
     </div>
     <div class="rm-sec">
       <p class="rm-legend"><span>Leg splits</span><span id="snapLegend"></span></p>
@@ -589,7 +715,7 @@ if (typeof window.storage === "undefined") {
       <div class="rm-map" id="map"></div>
       <div class="rm-hint" id="hint">Tap the map to drop your first point</div>
       <div class="rm-status" id="status"></div>
-      <div class="rm-diag" id="diagLine">v13 · opening…</div>
+      <div class="rm-diag" id="diagLine">v15 · opening…</div>
     </div>
     <div class="rm-rail">
       <div class="rm-railhead"><span id="railLabel">Distance rail</span><span id="railTotal">0.00 mi</span></div>
@@ -601,7 +727,7 @@ if (typeof window.storage === "undefined") {
 <script>
 (function(){
 "use strict";
-/* ============ CONFIG — put the site name here when you have it ============ */
+/* ============ CONFIG - put the site name here when you have it ============ */
 var SITE_NAME = "PROGRESSIVE OVERLOAD";
 
 /* ============ exercise library (50 built-in) ============ */
@@ -609,21 +735,21 @@ var LIB = [
  {n:"Goblet Squat",c:"Legs",f:"f-squat",s:"3 × 8–12",u:"lbs",cue:"Dumbbell held at your chest. Squat down, chest up, heels planted, stand back up."},
  {n:"Sumo Squat",c:"Legs",f:"f-squat",s:"3 × 8–12",u:"lbs",cue:"Wide stance, toes out, one dumbbell hanging between your legs. Squat and drive up."},
  {n:"Reverse Lunge",c:"Legs",f:"f-lunge",s:"3 × 8–12 / leg",u:"lbs",cue:"Step backward, both knees to 90°, push through the front heel to stand."},
- {n:"Forward Lunge",c:"Legs",f:"f-lunge",s:"3 × 8–12 / leg",u:"lbs",cue:"Step forward, drop the back knee, push back to standing. Harder on the knees than reverse — go lighter."},
+ {n:"Forward Lunge",c:"Legs",f:"f-lunge",s:"3 × 8–12 / leg",u:"lbs",cue:"Step forward, drop the back knee, push back to standing. Harder on the knees than reverse - go lighter."},
  {n:"Lateral Lunge",c:"Legs",f:"f-lunge",s:"3 × 8–10 / leg",u:"lbs",cue:"Big step sideways, sit into that hip, other leg straight. Push back to center."},
- {n:"Step-Up",c:"Legs",f:"f-stepup",s:"3 × 8–10 / leg",u:"lbs",cue:"Drive through the TOP foot on a sturdy bench or stair — don't push off the floor leg."},
- {n:"Bulgarian Split Squat",c:"Legs",f:"f-lunge",s:"3 × 6–10 / leg",u:"lbs",cue:"Rear foot up on a bench behind you, lunge down on the front leg. Brutal — start with no weight."},
+ {n:"Step-Up",c:"Legs",f:"f-stepup",s:"3 × 8–10 / leg",u:"lbs",cue:"Drive through the TOP foot on a sturdy bench or stair - don't push off the floor leg."},
+ {n:"Bulgarian Split Squat",c:"Legs",f:"f-lunge",s:"3 × 6–10 / leg",u:"lbs",cue:"Rear foot up on a bench behind you, lunge down on the front leg. Brutal - start with no weight."},
  {n:"Romanian Deadlift",c:"Legs",f:"f-hinge",s:"3 × 8–12",u:"lbs",cue:"Push hips BACK with a flat back until the hamstrings stretch, then stand. Hinge, don't squat."},
  {n:"Single-Leg RDL",c:"Legs",f:"f-hinge",s:"3 × 6–10 / leg",u:"lbs",cue:"Same hinge on one leg, other leg trailing back. Slow and balanced beats heavy."},
  {n:"Glute Bridge",c:"Legs",f:"f-bridge",s:"3 × 10–15",u:"lbs",cue:"On your back, feet flat, dumbbell on hips. Squeeze glutes to lift until body is a straight line."},
  {n:"Calf Raise",c:"Legs",f:"f-calf",s:"3 × 12–20",u:"lbs",cue:"Dumbbells at sides, rise onto your toes, pause at the top, lower slow."},
- {n:"Wall Sit",c:"Legs",f:"f-wallsit",s:"3 × 30–60s",u:"sec",cue:"Back flat on a wall, thighs parallel to the floor, hold. Quads will scream — that's the point."},
+ {n:"Wall Sit",c:"Legs",f:"f-wallsit",s:"3 × 30–60s",u:"sec",cue:"Back flat on a wall, thighs parallel to the floor, hold. Quads will scream - that's the point."},
  {n:"Floor / Bench Press",c:"Push",f:"f-floorpress",s:"3 × 8–12",u:"lbs",cue:"Press dumbbells from chest level straight up, lower with control."},
  {n:"Incline Press",c:"Push",f:"f-inclpress",s:"3 × 8–12",u:"lbs",cue:"On an incline, press up and slightly back over your upper chest."},
  {n:"Close-Grip Press",c:"Push",f:"f-floorpress",s:"3 × 8–12",u:"lbs",cue:"Dumbbells touching, palms facing each other, press. Shifts the work to your triceps."},
  {n:"Chest Fly (floor)",c:"Push",f:"f-fly",s:"3 × 10–15",u:"lbs",cue:"Arms wide with a soft elbow bend, bring the dumbbells together in an arc over your chest. Light weight."},
  {n:"Push-Up",c:"Push",f:"f-pushup",s:"3 × max",u:"reps",cue:"Body straight like a plank, chest to an inch off the floor. Too hard? Hands on a bench."},
- {n:"Incline Push-Up",c:"Push",f:"f-inclpu",s:"3 × max",u:"reps",cue:"Hands on a bench or counter — same strict body line, easier angle."},
+ {n:"Incline Push-Up",c:"Push",f:"f-inclpu",s:"3 × max",u:"reps",cue:"Hands on a bench or counter - same strict body line, easier angle."},
  {n:"Overhead Press",c:"Push",f:"f-ohp",s:"3 × 8–12",u:"lbs",cue:"Press from shoulders straight overhead. Squeeze glutes so your lower back doesn't arch."},
  {n:"Push Press",c:"Push",f:"f-ohp",s:"3 × 6–10",u:"lbs",cue:"Small knee dip, then drive the dumbbells overhead with leg power. Lets you go heavier."},
  {n:"Arnold Press",c:"Push",f:"f-ohp",s:"3 × 8–12",u:"lbs",cue:"Start palms facing you, rotate out as you press overhead. Full shoulder coverage."},
@@ -650,7 +776,7 @@ var LIB = [
  {n:"Russian Twist",c:"Core & Carries",f:"f-twist",s:"3 × 10–16 / side",u:"reps",cue:"Seated, lean back, rotate the dumbbell side to side. Slower is harder and better."},
  {n:"Superman",c:"Core & Carries",f:"f-superman",s:"3 × 10–12",u:"reps",cue:"Face down, lift arms and legs off the floor together, pause, lower."},
  {n:"Farmer's Carry",c:"Core & Carries",f:"f-carry",s:"3 × 30–40 steps",u:"lbs",cue:"Heaviest pair you can hold, stand tall, walk. Grip, core, traps, posture."},
- {n:"Suitcase Carry",c:"Conditioning",f:"f-carry1",s:"3 × 30 steps / side",u:"lbs",cue:"One heavy dumbbell, one side only. Fight the lean — that fight is the exercise."},
+ {n:"Suitcase Carry",c:"Conditioning",f:"f-carry1",s:"3 × 30 steps / side",u:"lbs",cue:"One heavy dumbbell, one side only. Fight the lean - that fight is the exercise."},
  {n:"Overhead Carry",c:"Conditioning",f:"f-carryoh",s:"3 × 20 steps / side",u:"lbs",cue:"One dumbbell locked out overhead, walk tall. Light weight, ribcage down."},
  {n:"Mountain Climber",c:"Conditioning",f:"f-pushup",s:"3 × 30–45s",u:"sec",cue:"Push-up position, drive knees to chest fast, alternating. Hips stay low."},
  {n:"Burpee",c:"Conditioning",f:"f-burpee",s:"3 × 8–15",u:"reps",cue:"Squat, hands down, kick back, push-up, jump up. The whole gym in one move."},
@@ -659,10 +785,10 @@ var LIB = [
 ];
 var CATS = ["Your Exercises","Legs","Push","Pull & Arms","Core & Carries","Conditioning"];
 var CUSTOM = [];
-/* ============ gym library (101) — e: equipment tag ============ */
+/* ============ gym library (101) - e: equipment tag ============ */
 var GYM = [
  /* --- Barbell: Legs & hinge (14) --- */
- {n:"Back Squat",c:"Legs",e:"barbell",f:"f-bbsquat",s:"3 × 5–8",u:"lbs",cue:"Bar on your upper back, brace, sit down between your heels, drive up. Set the rack safeties — always."},
+ {n:"Back Squat",c:"Legs",e:"barbell",f:"f-bbsquat",s:"3 × 5–8",u:"lbs",cue:"Bar on your upper back, brace, sit down between your heels, drive up. Set the rack safeties - always."},
  {n:"Front Squat",c:"Legs",e:"barbell",f:"f-bbsquat",s:"3 × 5–8",u:"lbs",cue:"Bar racked on the front of your shoulders, elbows high. Keeps the torso more upright than back squats."},
  {n:"Box Squat",c:"Legs",e:"barbell",f:"f-bbsquat",s:"3 × 5–8",u:"lbs",cue:"Squat back to a box, touch it under control, drive up. No plopping down."},
  {n:"Pause Squat",c:"Legs",e:"barbell",f:"f-bbsquat",s:"3 × 4–6",u:"lbs",cue:"Full squat, hold the bottom for 2 seconds dead still, then stand. Kills the bounce, builds the hole."},
@@ -672,16 +798,16 @@ var GYM = [
  {n:"Stiff-Leg Deadlift",c:"Legs",e:"barbell",f:"f-bbdead",s:"3 × 6–10",u:"lbs",cue:"Like the RDL with straighter knees and more stretch. Lighter weight, perfect back position."},
  {n:"Rack Pull",c:"Legs",e:"barbell",f:"f-bbdead",s:"3 × 4–8",u:"lbs",cue:"Deadlift from knee-height pins in the rack. Lets you overload the top half."},
  {n:"Barbell Hip Thrust",c:"Legs",e:"barbell",f:"f-hipthrust",s:"3 × 8–12",u:"lbs",cue:"Upper back on a bench, bar padded on your hips, drive up until your body is level. Squeeze hard at the top."},
- {n:"Good Morning",c:"Legs",e:"barbell",f:"f-bbsquat",s:"3 × 8–10",u:"lbs",cue:"Bar on your back, hinge forward with a flat back, stand up. Go light — this one punishes ego."},
+ {n:"Good Morning",c:"Legs",e:"barbell",f:"f-bbsquat",s:"3 × 8–10",u:"lbs",cue:"Bar on your back, hinge forward with a flat back, stand up. Go light - this one punishes ego."},
  {n:"Barbell Lunge",c:"Legs",e:"barbell",f:"f-lunge",s:"3 × 6–10 / leg",u:"lbs",cue:"Bar on your back, lunge in place. Do these in the rack or near it."},
  {n:"Barbell Walking Lunge",c:"Legs",e:"barbell",f:"f-lunge",s:"3 × 10–16 steps",u:"lbs",cue:"Lunge forward step after step down open floor. Brutal for quads and balance."},
  {n:"Barbell Calf Raise",c:"Legs",e:"barbell",f:"f-calf",s:"3 × 10–15",u:"lbs",cue:"Bar on back, balls of feet on a plate, full stretch at the bottom, pause at the top."},
  /* --- Barbell: Push (9) --- */
- {n:"Bench Press",c:"Push",e:"barbell",f:"f-bbbench",s:"3 × 5–8",u:"lbs",cue:"Feet planted, shoulder blades pinched, bar to mid-chest, press. Use safeties or a spotter — no exceptions."},
- {n:"Incline Bench Press",c:"Push",e:"barbell",f:"f-bbbench",s:"3 × 6–10",u:"lbs",cue:"30–45° bench, bar to upper chest. Expect to lift less than flat — that's normal."},
+ {n:"Bench Press",c:"Push",e:"barbell",f:"f-bbbench",s:"3 × 5–8",u:"lbs",cue:"Feet planted, shoulder blades pinched, bar to mid-chest, press. Use safeties or a spotter - no exceptions."},
+ {n:"Incline Bench Press",c:"Push",e:"barbell",f:"f-bbbench",s:"3 × 6–10",u:"lbs",cue:"30–45° bench, bar to upper chest. Expect to lift less than flat - that's normal."},
  {n:"Decline Bench Press",c:"Push",e:"barbell",f:"f-bbbench",s:"3 × 6–10",u:"lbs",cue:"Slight decline, bar to lower chest. Shorter range, stronger line."},
  {n:"Close-Grip Bench",c:"Push",e:"barbell",f:"f-bbbench",s:"3 × 6–10",u:"lbs",cue:"Hands shoulder-width, elbows tucked, bar low on the chest. The triceps builder."},
- {n:"Barbell Floor Press",c:"Push",e:"barbell",f:"f-bbbench",s:"3 × 6–10",u:"lbs",cue:"Bench press lying on the floor — elbows touch down each rep. Shoulder-friendly pressing."},
+ {n:"Barbell Floor Press",c:"Push",e:"barbell",f:"f-bbbench",s:"3 × 6–10",u:"lbs",cue:"Bench press lying on the floor - elbows touch down each rep. Shoulder-friendly pressing."},
  {n:"Barbell Overhead Press",c:"Push",e:"barbell",f:"f-bbohp",s:"3 × 5–8",u:"lbs",cue:"Bar at your collarbone, squeeze glutes, press straight up past your face to lockout."},
  {n:"Barbell Push Press",c:"Push",e:"barbell",f:"f-bbohp",s:"3 × 4–6",u:"lbs",cue:"Small knee dip, drive the bar overhead with legs and shoulders together."},
  {n:"Landmine Press",c:"Push",e:"barbell",f:"f-bbohp",s:"3 × 8–12 / arm",u:"lbs",cue:"Bar wedged in a corner or landmine, press the free end up and away. Great if overhead bothers your shoulder."},
@@ -693,13 +819,13 @@ var GYM = [
  {n:"Landmine Row",c:"Pull & Arms",e:"barbell",f:"f-bbrow",s:"3 × 8–12 / arm",u:"lbs",cue:"One arm, bar anchored in a corner, row the sleeve to your hip."},
  {n:"Barbell Curl",c:"Pull & Arms",e:"barbell",f:"f-bbcurl",s:"3 × 8–12",u:"lbs",cue:"Elbows pinned, curl the bar without leaning back. If your back arches, strip plates."},
  {n:"EZ-Bar Curl",c:"Pull & Arms",e:"barbell",f:"f-bbcurl",s:"3 × 8–12",u:"lbs",cue:"Angled grip saves the wrists. Same strict rules as the straight bar."},
- {n:"Reverse Curl",c:"Pull & Arms",e:"barbell",f:"f-bbcurl",s:"3 × 10–12",u:"lbs",cue:"Palms-down grip, curl. Forearms and brachialis — go noticeably lighter."},
+ {n:"Reverse Curl",c:"Pull & Arms",e:"barbell",f:"f-bbcurl",s:"3 × 10–12",u:"lbs",cue:"Palms-down grip, curl. Forearms and brachialis - go noticeably lighter."},
  {n:"Barbell Shrug",c:"Pull & Arms",e:"barbell",f:"f-shrug",s:"3 × 8–12",u:"lbs",cue:"Heavy bar at your thighs, shrug straight up to your ears, pause. No rolling."},
  {n:"Upright Row",c:"Pull & Arms",e:"barbell",f:"f-bbcurl",s:"3 × 10–12",u:"lbs",cue:"Pull the bar up your body to chest height, elbows leading. Stop lower if your shoulders complain."},
  /* --- Machines: Legs (12) --- */
  {n:"Leg Press",c:"Legs",e:"machine",f:"f-legpress",s:"3 × 8–12",u:"lbs",cue:"Feet mid-platform, lower until your knees near your chest, press without locking out hard."},
  {n:"Hack Squat",c:"Legs",e:"machine",f:"f-legpress",s:"3 × 8–12",u:"lbs",cue:"Back flat on the pad, squat deep on the sled. All quads, no balance tax."},
- {n:"Smith Machine Squat",c:"Legs",e:"machine",f:"f-bbsquat",s:"3 × 6–10",u:"lbs",cue:"Fixed bar path — set your feet slightly forward of the bar and squat."},
+ {n:"Smith Machine Squat",c:"Legs",e:"machine",f:"f-bbsquat",s:"3 × 6–10",u:"lbs",cue:"Fixed bar path - set your feet slightly forward of the bar and squat."},
  {n:"Smith Machine RDL",c:"Legs",e:"machine",f:"f-bbdead",s:"3 × 8–10",u:"lbs",cue:"Hips back, bar sliding down the rails along your thighs. Great hamstring isolation."},
  {n:"Leg Extension",c:"Legs",e:"machine",f:"f-legext",s:"3 × 10–15",u:"lbs",cue:"Extend to straight, squeeze the quad one second at the top, lower slow."},
  {n:"Lying Leg Curl",c:"Legs",e:"machine",f:"f-legcurl",s:"3 × 10–15",u:"lbs",cue:"Curl the pad to your glutes, hips pinned down, lower in 2–3 seconds."},
@@ -715,59 +841,59 @@ var GYM = [
  {n:"Pec Deck",c:"Push",e:"machine",f:"f-fly",s:"3 × 10–15",u:"lbs",cue:"Slight elbow bend, sweep the handles together, feel the stretch on the way open."},
  {n:"Shoulder Press Machine",c:"Push",e:"machine",f:"f-machpress",s:"3 × 8–12",u:"lbs",cue:"Seat set so handles start at ear height, press to lockout without shrugging."},
  {n:"Machine Lateral Raise",c:"Push",e:"machine",f:"f-latraise",s:"3 × 10–15",u:"lbs",cue:"Pads at your elbows, raise to shoulder height, lower in 2–3 seconds."},
- {n:"Smith Machine Bench",c:"Push",e:"machine",f:"f-bbbench",s:"3 × 6–10",u:"lbs",cue:"Fixed path bench — line the bar up with mid-chest and set the safety stops."},
- {n:"Assisted Dip Machine",c:"Push",e:"machine",f:"f-dip",s:"3 × 8–12",u:"lbs",cue:"Kneel on the pad — the weight you select HELPS you. Lower until upper arms are parallel."},
+ {n:"Smith Machine Bench",c:"Push",e:"machine",f:"f-bbbench",s:"3 × 6–10",u:"lbs",cue:"Fixed path bench - line the bar up with mid-chest and set the safety stops."},
+ {n:"Assisted Dip Machine",c:"Push",e:"machine",f:"f-dip",s:"3 × 8–12",u:"lbs",cue:"Kneel on the pad - the weight you select HELPS you. Lower until upper arms are parallel."},
  {n:"Triceps Dip Machine",c:"Push",e:"machine",f:"f-dip",s:"3 × 10–15",u:"lbs",cue:"Seated, press the handles down to lockout, elbows tracking back not out."},
  /* --- Machines: Pull & Arms (10) --- */
  {n:"Lat Pulldown",c:"Pull & Arms",e:"machine",f:"f-latpull",s:"3 × 8–12",u:"lbs",cue:"Slight lean back, pull the bar to your collarbone, elbows down and back. No swinging."},
- {n:"Close-Grip Pulldown",c:"Pull & Arms",e:"machine",f:"f-latpull",s:"3 × 8–12",u:"lbs",cue:"Narrow neutral handle to your upper chest — bigger stretch, more lat."},
+ {n:"Close-Grip Pulldown",c:"Pull & Arms",e:"machine",f:"f-latpull",s:"3 × 8–12",u:"lbs",cue:"Narrow neutral handle to your upper chest - bigger stretch, more lat."},
  {n:"Machine Row",c:"Pull & Arms",e:"machine",f:"f-cablerow",s:"3 × 8–12",u:"lbs",cue:"Chest on the pad if there is one, row to your ribs, squeeze the blades together."},
  {n:"Chest-Supported Row",c:"Pull & Arms",e:"machine",f:"f-cablerow",s:"3 × 8–12",u:"lbs",cue:"Chest pinned to the incline pad kills all cheating. Honest back work."},
  {n:"Assisted Pull-Up Machine",c:"Pull & Arms",e:"machine",f:"f-pullup",s:"3 × 6–10",u:"lbs",cue:"Kneel on the pad, full hang to chin over. Reduce the assistance week by week."},
  {n:"Rear Delt Fly Machine",c:"Pull & Arms",e:"machine",f:"f-revfly",s:"3 × 12–15",u:"lbs",cue:"Reverse pec deck: sweep the handles back, pause, resist forward."},
- {n:"Preacher Curl",c:"Pull & Arms",e:"machine",f:"f-curl",s:"3 × 8–12",u:"lbs",cue:"Arms on the angled pad — no body english possible. Don't fully relax at the bottom."},
+ {n:"Preacher Curl",c:"Pull & Arms",e:"machine",f:"f-curl",s:"3 × 8–12",u:"lbs",cue:"Arms on the angled pad - no body english possible. Don't fully relax at the bottom."},
  {n:"Machine Curl",c:"Pull & Arms",e:"machine",f:"f-curl",s:"3 × 10–12",u:"lbs",cue:"Elbows on the pads, curl and squeeze. Constant tension the whole rep."},
- {n:"Back Extension (45°)",c:"Core & Carries",e:"machine",f:"f-superman",s:"3 × 10–15",u:"reps",cue:"Hips on the pad, hinge down, come up to a straight line — not hyperextended. Hold a plate to progress."},
+ {n:"Back Extension (45°)",c:"Core & Carries",e:"machine",f:"f-superman",s:"3 × 10–15",u:"reps",cue:"Hips on the pad, hinge down, come up to a straight line - not hyperextended. Hold a plate to progress."},
  {n:"Reverse Hyperextension",c:"Core & Carries",e:"machine",f:"f-superman",s:"3 × 10–15",u:"lbs",cue:"Torso on the pad, swing the legs up behind you under control. Lower back friendly."},
  /* --- Cables (17) --- */
  {n:"Seated Cable Row",c:"Pull & Arms",e:"cable",f:"f-cablerow",s:"3 × 8–12",u:"lbs",cue:"Sit tall, pull the handle to your stomach, shoulder blades together, slow return."},
  {n:"Single-Arm Cable Row",c:"Pull & Arms",e:"cable",f:"f-cablerow",s:"3 × 8–12 / arm",u:"lbs",cue:"One arm, rotate slightly into the pull, resist the twist on the way back."},
  {n:"Straight-Arm Pulldown",c:"Pull & Arms",e:"cable",f:"f-latpull",s:"3 × 10–15",u:"lbs",cue:"Arms nearly straight, sweep the bar from eye level to your thighs. Pure lats."},
  {n:"Face Pull",c:"Pull & Arms",e:"cable",f:"f-cablecol",s:"3 × 12–15",u:"lbs",cue:"Rope at face height, pull toward your eyes, elbows high, thumbs back. The shoulder-health exercise."},
- {n:"Cable Curl",c:"Pull & Arms",e:"cable",f:"f-curl",s:"3 × 10–12",u:"lbs",cue:"Low pulley, curl with constant tension — no resting at the bottom."},
+ {n:"Cable Curl",c:"Pull & Arms",e:"cable",f:"f-curl",s:"3 × 10–12",u:"lbs",cue:"Low pulley, curl with constant tension - no resting at the bottom."},
  {n:"Rope Hammer Curl",c:"Pull & Arms",e:"cable",f:"f-hammer",s:"3 × 10–12",u:"lbs",cue:"Neutral grip on the rope, curl and split the ends slightly at the top."},
  {n:"Cable Fly",c:"Push",e:"cable",f:"f-cablecol",s:"3 × 10–15",u:"lbs",cue:"Handles from both columns, slight forward lean, sweep together like hugging a tree."},
  {n:"Low-to-High Cable Fly",c:"Push",e:"cable",f:"f-cablecol",s:"3 × 10–15",u:"lbs",cue:"Pulleys low, sweep up and together to eye level. Upper chest emphasis."},
- {n:"Cable Lateral Raise",c:"Push",e:"cable",f:"f-latraise",s:"3 × 10–15",u:"lbs",cue:"Cable behind your body, raise out to the side. Tension from the very bottom — harder than dumbbells."},
+ {n:"Cable Lateral Raise",c:"Push",e:"cable",f:"f-latraise",s:"3 × 10–15",u:"lbs",cue:"Cable behind your body, raise out to the side. Tension from the very bottom - harder than dumbbells."},
  {n:"Cable Front Raise",c:"Push",e:"cable",f:"f-frontraise",s:"3 × 10–15",u:"lbs",cue:"Cable between your legs, raise to eye level with a straight arm."},
  {n:"Triceps Pushdown",c:"Push",e:"cable",f:"f-cablecol",s:"3 × 10–15",u:"lbs",cue:"Elbows pinned to your sides, push the bar or rope to lockout, control up."},
  {n:"Rope Overhead Extension",c:"Push",e:"cable",f:"f-triext",s:"3 × 10–15",u:"lbs",cue:"Facing away, rope behind your head, extend overhead. Deep triceps stretch."},
- {n:"Cable Crunch",c:"Core & Carries",e:"cable",f:"f-situp",s:"3 × 12–15",u:"lbs",cue:"Kneel below the rope, crunch your ribs toward your hips — spine flexes, hips stay put."},
+ {n:"Cable Crunch",c:"Core & Carries",e:"cable",f:"f-situp",s:"3 × 12–15",u:"lbs",cue:"Kneel below the rope, crunch your ribs toward your hips - spine flexes, hips stay put."},
  {n:"Cable Woodchopper",c:"Core & Carries",e:"cable",f:"f-twist",s:"3 × 10–12 / side",u:"lbs",cue:"Pull the handle diagonally across your body, hips and shoulders turning together."},
  {n:"Pallof Press",c:"Core & Carries",e:"cable",f:"f-cablecol",s:"3 × 10–12 / side",u:"lbs",cue:"Stand sideways to the cable, press it straight out and refuse to let it twist you. Anti-rotation gold."},
  {n:"Cable Pull-Through",c:"Legs",e:"cable",f:"f-hinge",s:"3 × 10–15",u:"lbs",cue:"Rope between your legs from a low pulley, hinge and snap the hips forward."},
  {n:"Cable Glute Kickback",c:"Legs",e:"cable",f:"f-kickback",s:"3 × 10–15 / leg",u:"lbs",cue:"Ankle cuff, kick straight back and squeeze. Torso stays still."},
  /* --- Gym floor: racks, bars, implements (22) --- */
  {n:"Pull-Up",c:"Pull & Arms",e:"gym",f:"f-pullup",s:"3 × max",u:"reps",cue:"Overhand grip, dead hang to chin over the bar. Can't do one yet? Use the assisted machine or bands."},
- {n:"Chin-Up",c:"Pull & Arms",e:"gym",f:"f-pullup",s:"3 × max",u:"reps",cue:"Underhand grip — more biceps, usually a rep or two easier than pull-ups."},
+ {n:"Chin-Up",c:"Pull & Arms",e:"gym",f:"f-pullup",s:"3 × max",u:"reps",cue:"Underhand grip - more biceps, usually a rep or two easier than pull-ups."},
  {n:"Neutral-Grip Pull-Up",c:"Pull & Arms",e:"gym",f:"f-pullup",s:"3 × max",u:"reps",cue:"Palms facing each other on the parallel handles. Easiest on the shoulders."},
  {n:"Inverted Row",c:"Pull & Arms",e:"gym",f:"f-cablerow",s:"3 × 8–15",u:"reps",cue:"Bar racked at hip height, hang underneath, body straight, row your chest to it."},
  {n:"Dip",c:"Push",e:"gym",f:"f-dip",s:"3 × max",u:"reps",cue:"On parallel bars, lower until upper arms are parallel, press up. Lean forward for chest, upright for triceps."},
  {n:"Hanging Knee Raise",c:"Core & Carries",e:"gym",f:"f-pullup",s:"3 × 8–15",u:"reps",cue:"Hang from the bar, curl knees to your chest without swinging."},
- {n:"Hanging Leg Raise",c:"Core & Carries",e:"gym",f:"f-pullup",s:"3 × 6–12",u:"reps",cue:"Straight legs to horizontal or higher. The hard version — earn it with knee raises first."},
+ {n:"Hanging Leg Raise",c:"Core & Carries",e:"gym",f:"f-pullup",s:"3 × 6–12",u:"reps",cue:"Straight legs to horizontal or higher. The hard version - earn it with knee raises first."},
  {n:"Ab Wheel Rollout",c:"Core & Carries",e:"gym",f:"f-plank",s:"3 × 6–12",u:"reps",cue:"From your knees, roll out only as far as you can keep your back flat, pull back."},
- {n:"Nordic Curl",c:"Legs",e:"gym",f:"f-legcurl",s:"3 × 3–6",u:"reps",cue:"Ankles anchored, lower your body forward with your hamstrings, push back up. Savage — use your hands to assist."},
+ {n:"Nordic Curl",c:"Legs",e:"gym",f:"f-legcurl",s:"3 × 3–6",u:"reps",cue:"Ankles anchored, lower your body forward with your hamstrings, push back up. Savage - use your hands to assist."},
  {n:"Box Jump",c:"Conditioning",e:"gym",f:"f-stepup",s:"3 × 5–8",u:"reps",cue:"Jump onto the box, land soft and quiet, STEP down. Jumping down is how ankles get hurt."},
- {n:"GHD Sit-Up",c:"Core & Carries",e:"gym",f:"f-situp",s:"3 × 8–12",u:"reps",cue:"On the GHD, controlled range only — this one bites beginners who go too deep too soon."},
+ {n:"GHD Sit-Up",c:"Core & Carries",e:"gym",f:"f-situp",s:"3 × 8–12",u:"reps",cue:"On the GHD, controlled range only - this one bites beginners who go too deep too soon."},
  {n:"Landmine Rotation",c:"Core & Carries",e:"gym",f:"f-twist",s:"3 × 8–10 / side",u:"lbs",cue:"Hold the bar end at arm's length, sweep it side to side in an arc, hips driving."},
  {n:"Med Ball Slam",c:"Conditioning",e:"gym",f:"f-thruster",s:"3 × 10–15",u:"reps",cue:"Ball overhead, slam it through the floor with your whole body. Great angry-day exercise."},
  {n:"Battle Ropes",c:"Conditioning",e:"gym",f:"f-cablecol",s:"3 × 20–30s",u:"sec",cue:"Alternating waves, athletic stance, hips low. All-out for the interval, rest, repeat."},
  {n:"Sled Push",c:"Conditioning",e:"gym",f:"f-sled",s:"3 × 20–30 yd",u:"lbs",cue:"Low lean, arms locked on the posts, drive with your legs. No eccentric = little soreness, big work."},
  {n:"Sled Drag",c:"Conditioning",e:"gym",f:"f-sled",s:"3 × 20–30 yd",u:"lbs",cue:"Strap over your shoulders or in hand, walk backward or forward dragging the load."},
- {n:"Rowing Machine Intervals",c:"Conditioning",e:"gym",f:"f-cablerow",s:"4 × 250–500 m",u:"time",cue:"Legs, then back, then arms — reverse it on the return. Hard interval, easy minute, repeat."},
+ {n:"Rowing Machine Intervals",c:"Conditioning",e:"gym",f:"f-cablerow",s:"4 × 250–500 m",u:"time",cue:"Legs, then back, then arms - reverse it on the return. Hard interval, easy minute, repeat."},
  {n:"Ski Erg",c:"Conditioning",e:"gym",f:"f-latpull",s:"4 × 30–45s",u:"time",cue:"Pull the handles down like a double-pole ski stride, hinging at the hips. Sneaky lat work."},
  {n:"Assault Bike Sprints",c:"Conditioning",e:"gym",f:"f-legpress",s:"5 × 15–30s",u:"time",cue:"Arms and legs together, sprint the interval, spin easy between. Prepare to hate it."},
- {n:"Kettlebell Swing",c:"Legs",e:"gym",f:"f-hinge",s:"3 × 12–20",u:"lbs",cue:"Hinge, not squat — snap the hips forward and let the bell float to chest height."},
+ {n:"Kettlebell Swing",c:"Legs",e:"gym",f:"f-hinge",s:"3 × 12–20",u:"lbs",cue:"Hinge, not squat - snap the hips forward and let the bell float to chest height."},
  {n:"KB Clean & Press",c:"Conditioning",e:"gym",f:"f-thruster",s:"3 × 6–10 / arm",u:"lbs",cue:"Clean the bell to the rack position, press overhead, lower, repeat. Whole-body rhythm."},
  {n:"Trap Bar Deadlift",c:"Legs",e:"barbell",f:"f-bbdead",s:"3 × 5–8",u:"lbs",cue:"Stand inside the hex bar, neutral grips at your sides. The friendliest way to deadlift heavy."}
 ];
@@ -777,16 +903,16 @@ LIB = LIB.concat(GYM);
 var BW = [
  {n:"Air Squat",c:"Legs",e:"home",f:"f-bwsquat",s:"3 × 15–25",u:"reps",cue:"Feet shoulder-width, arms out for balance. Sit back and down until thighs are parallel, drive up through your heels."},
  {n:"Bodyweight Lunge",c:"Legs",e:"home",f:"f-bwlunge",s:"3 × 10–15 / leg",u:"reps",cue:"Hands on hips, step back, drop the back knee toward the floor, push up through the front leg."},
- {n:"Bodyweight Split Squat",c:"Legs",e:"home",f:"f-bwlunge",s:"3 × 10–15 / leg",u:"reps",cue:"Feet staggered and planted, drop straight down, push straight up. No stepping — the feet stay put."},
+ {n:"Bodyweight Split Squat",c:"Legs",e:"home",f:"f-bwlunge",s:"3 × 10–15 / leg",u:"reps",cue:"Feet staggered and planted, drop straight down, push straight up. No stepping - the feet stay put."},
  {n:"Bodyweight Glute Bridge",c:"Legs",e:"home",f:"f-bwbridge",s:"3 × 15–25",u:"reps",cue:"On your back, feet flat, drive hips up until your body is a straight line, squeeze hard, lower slow."},
- {n:"Single-Leg Glute Bridge",c:"Legs",e:"home",f:"f-bwbridge",s:"3 × 8–15 / leg",u:"reps",cue:"Same bridge, one foot off the floor. Keep your hips level — don't let one side dip."},
+ {n:"Single-Leg Glute Bridge",c:"Legs",e:"home",f:"f-bwbridge",s:"3 × 8–15 / leg",u:"reps",cue:"Same bridge, one foot off the floor. Keep your hips level - don't let one side dip."},
  {n:"Bodyweight Calf Raise",c:"Legs",e:"home",f:"f-bwcalf",s:"3 × 20–30",u:"reps",cue:"Rise onto your toes, pause at the top, lower slowly. Do them off a stair edge for more range."},
- {n:"Wall Push-Up",c:"Push",e:"home",f:"f-inclpu",s:"3 × 12–20",u:"reps",cue:"Hands on a wall, body straight, lean in and press back. The easiest push-up — start here if floor ones aren't happening yet."},
- {n:"Diamond Push-Up",c:"Push",e:"home",f:"f-pushup",s:"3 × max",u:"reps",cue:"Hands together under your chest forming a triangle. Same strict body line — this one hammers triceps."},
+ {n:"Wall Push-Up",c:"Push",e:"home",f:"f-inclpu",s:"3 × 12–20",u:"reps",cue:"Hands on a wall, body straight, lean in and press back. The easiest push-up - start here if floor ones aren't happening yet."},
+ {n:"Diamond Push-Up",c:"Push",e:"home",f:"f-pushup",s:"3 × max",u:"reps",cue:"Hands together under your chest forming a triangle. Same strict body line - this one hammers triceps."},
  {n:"Pike Push-Up",c:"Push",e:"home",f:"f-pikepu",s:"3 × 6–12",u:"reps",cue:"Hips high in an upside-down V, lower the top of your head toward the floor, press up. Bodyweight shoulder press."},
  {n:"Chair Dip",c:"Push",e:"home",f:"f-dip",s:"3 × 8–15",u:"reps",cue:"Hands on a sturdy chair or couch edge behind you, bend the elbows straight back, press up. Keep your shoulders down."},
  {n:"Doorway Row",c:"Pull & Arms",e:"home",f:"f-doorrow",s:"3 × 10–15",u:"reps",cue:"Grip both sides of a doorframe, walk your feet forward and lean back, then pull your chest to the frame. The only real pull with zero gear."},
- {n:"Prone Y-T-W Raise",c:"Pull & Arms",e:"home",f:"f-superman",s:"3 × 8–10 each",u:"reps",cue:"Face down, lift your arms off the floor in a Y, then a T, then a W. Slow and small — this is upper-back endurance, not strength."},
+ {n:"Prone Y-T-W Raise",c:"Pull & Arms",e:"home",f:"f-superman",s:"3 × 8–10 each",u:"reps",cue:"Face down, lift your arms off the floor in a Y, then a T, then a W. Slow and small - this is upper-back endurance, not strength."},
  {n:"Bicycle Crunch",c:"Core & Carries",e:"home",f:"f-bicycle",s:"3 × 12–20 / side",u:"reps",cue:"Opposite elbow toward opposite knee, other leg extended. Rotate through your ribs, not your neck."},
  {n:"Flutter Kick",c:"Core & Carries",e:"home",f:"f-legraise",s:"3 × 20–40s",u:"sec",cue:"On your back, legs straight and a few inches up, alternate small quick kicks. Lower back stays pressed down."},
  {n:"Plank Shoulder Tap",c:"Core & Carries",e:"home",f:"f-plank",s:"3 × 10–16 / side",u:"reps",cue:"High plank, tap one hand to the opposite shoulder. The goal is hips that don't rock at all."},
@@ -978,7 +1104,7 @@ $("brandBtn").onclick = function(){ show("home"); };
           '<h2>'+esc(w.title)+'</h2>'+
           '<div class="list">('+esc(w.list.join(", "))+')</div>'+
           '<div class="meta">'+w.list.length+' exercises · ~40 min · Tap to start →</div>');
-        card.onclick = function(){ openWorkout(L.label+" "+w.tag+" — "+w.title, w.list, false); };
+        card.onclick = function(){ openWorkout(L.label+" "+w.tag+"|"+w.title, w.list, false); };
         host.appendChild(card);
       });
     });
@@ -999,7 +1125,7 @@ var q = "";     /* search text */
 function matchQ(x){
   if(!q) return true;
   var hay = (x.n + " " + x.c + " " + (x.e||"") + " " + (x.cue||"")).toLowerCase();
-  /* every typed word must appear somewhere — lets "cable row" and "row cable" both work */
+  /* every typed word must appear somewhere - lets "cable row" and "row cable" both work */
   return q.split(/\s+/).every(function(w){ return hay.indexOf(w) >= 0; });
 }
 var LEVELS = [
@@ -1067,12 +1193,13 @@ function removeCustom(name){
   LIB = LIB.filter(function(x){ return !(x.custom && x.n===name); });
   var at = sel.indexOf(name); if(at>=0) sel.splice(at,1);
   saveCustom(); renderLibrary(); paintBar();
+  if(typeof svRender === "function") svRender(); /* v15: refresh My workouts notes */
 }
 function paintBar(){
   var n = sel.length;
   $("buildbar").classList.toggle("on", n>0 && $("view-builder").classList.contains("on"));
   $("selCount").textContent = n + " picked";
-  $("selWarn").textContent = n>8 ? "That's a marathon, not a session — 5–8 is the sweet spot." : "";
+  $("selWarn").textContent = n>8 ? "That's a marathon, not a session - 5–8 is the sweet spot." : "";
 }
 (function(){
   var input = $("exSearch"), wrap = input.parentNode, t = null;
@@ -1091,7 +1218,8 @@ $("clearSel").onclick = function(){
 };
 $("startCustom").onclick = function(){
   if(!sel.length) return;
-  openWorkout("Your Workout", sel.slice(), true);
+  var ed = svEditing ? svFind(svEditing) : null;
+  openWorkout("Your Workout", sel.slice(), true, ed ? { saved: ed, fromBuilder: true } : { fromBuilder: true });
 };
 
 /* ============ describe-your-own exercise ============ */
@@ -1119,12 +1247,12 @@ $("cxSave").onclick = function(){
   var name = $("cxName").value.trim();
   var msg = $("cxMsg");
   if(!name){ msg.textContent = "Give it a name first."; return; }
-  if(idx(name)>=0){ msg.textContent = "That one's already in the library — scroll down and tap it."; return; }
+  if(idx(name)>=0){ msg.textContent = "That one's already in the library - scroll down and tap it."; return; }
   var scheme = $("cxScheme").value.trim() || "3 × 8–12";
   var ex = {
     n: name, c: "Your Exercises", f: draftFig, s: scheme,
     u: $("cxUnit").value,
-    cue: $("cxCue").value.trim() || "Your exercise, your rules — keep the form strict and log what you use.",
+    cue: $("cxCue").value.trim() || "Your exercise, your rules - keep the form strict and log what you use.",
     custom: true
   };
   CUSTOM.push(ex); LIB.push(ex); saveCustom();
@@ -1139,37 +1267,71 @@ $("cxSave").onclick = function(){
 
 /* ============ workout tracker ============ */
 var lastView = "home";
-function openWorkout(title, names, editable){
+var activeSheet = null; /* v15: what the tracker is showing, for Save */
+function openWorkout(title, names, editable, opts){
+  opts = opts || {};
+  activeSheet = editable ? { names: names.slice(), saved: opts.saved || null } : null;
   lastView = $("view-prebuilt").classList.contains("on") ? "prebuilt" :
              ($("view-builder").classList.contains("on") ? "builder" : "home");
   var host = $("sheet");
   host.innerHTML = "";
-  var parts = title.split(" — ");
+  var parts = opts.saved ? [(opts.fromBuilder ? "Editing" : "My workout"), opts.saved.name] : title.split("|");
   var h = el("div","sheethead");
   h.innerHTML = '<p class="eyebrow" style="color:#9aa4b2;margin-bottom:6px">'+esc(parts[0])+' · '+names.length+' exercises · Rest 60–90s</p>'+
     '<h1><span>'+esc(parts[1]||parts[0])+'</span></h1>'+
-    '<div class="sheetmeta"><span>'+(editable ? "Reps are suggestions — tap them to change. " : "")+'Log a weight, tap sets as you finish.</span></div>';
+    '<div class="sheetmeta"><span>'+(editable ? "Reps are suggestions - tap them to change. " : "")+'Log a weight, tap sets as you finish.</span></div>';
+  if(editable){
+    var sv = el("div","sheetsave");
+    if(opts.saved){
+      sv.innerHTML = '<button type="button" class="minibtn primary" data-sv="update">Save changes</button>'+
+        '<button type="button" class="minibtn" data-sv="asnew">Save as new</button>'+
+        '<span class="svnote">Saves the exercises and the sets and reps shown below.</span>';
+    } else {
+      sv.innerHTML = '<button type="button" class="minibtn primary" data-sv="new">Save workout</button>'+
+        '<span class="svnote">Keep this workout in My workouts so you can run it again.</span>';
+    }
+    sv.addEventListener("click", function(e){
+      var b = e.target.closest("[data-sv]"); if(!b) return;
+      svSaveFromSheet(b.getAttribute("data-sv"));
+    });
+    h.appendChild(sv);
+  }
   host.appendChild(h);
   host.appendChild(el("div","rulebox",
     "<strong>The overload rule:</strong> start where the low end of the rep range is hard. Add 1 rep per set each session. Hit the top → raise the weight, drop back down."));
 
+  var svS = {}, svFall = {};
+  if(opts.saved){
+    opts.saved.exercises.forEach(function(x){ if(x.s) svS[x.n] = x.s; });
+    (opts.saved.custom || []).forEach(function(c){ svFall[c.n] = c; });
+  }
   names.forEach(function(nm, k){
-    var ex = LIB[idx(nm)];
-    if(!ex) return;
+    var ex = LIB[idx(nm)], missing = false;
+    if(!ex && svFall[nm]){ ex = svFall[nm]; missing = true; }
+    if(!ex){
+      var gone = el("section","exercise missing");
+      gone.innerHTML = '<div class="card-head"><div class="num">'+(k<9?"0":"")+(k+1)+'</div><div class="head-text"><div class="name">'+esc(nm)+'</div></div></div>'+
+        '<p class="missnote">This exercise is no longer in the library, so there is nothing to track here. Edit the workout to swap it out.</p>';
+      gone.setAttribute("data-n", nm);
+      host.appendChild(gone);
+      return;
+    }
     var isHold = ex.u==="sec";
     var labels = isHold ? ["Hold 1","Hold 2","Hold 3"] : ["Set 1","Set 2","Set 3"];
     var savedW = logs[ex.n] && logs[ex.n].w ? esc(logs[ex.n].w) : "";
-    var savedS = logs[ex.n] && logs[ex.n].s ? esc(logs[ex.n].s) : esc(ex.s);
+    var savedS = svS[ex.n] ? esc(svS[ex.n]) : (logs[ex.n] && logs[ex.n].s ? esc(logs[ex.n].s) : esc(ex.s));
     var schemeHtml = editable
-      ? '<input class="schemeIn" value="'+savedS+'" placeholder="'+esc(ex.s)+'" aria-label="Sets and reps for '+esc(ex.n)+'">'
+      ? '<input class="schemeIn" data-n="'+esc(ex.n)+'" value="'+savedS+'" placeholder="'+esc(ex.s)+'" aria-label="Sets and reps for '+esc(ex.n)+'">'
       : '<div class="scheme">'+esc(ex.s)+'</div>';
-    var card = el("section","exercise");
+    var card = el("section","exercise"+(missing?" missing":""));
+    card.setAttribute("data-n", ex.n);
     card.innerHTML =
       '<div class="card-head">'+
         '<div class="num">'+(k<9?"0":"")+(k+1)+'</div>'+
         '<div class="head-text"><div class="name">'+esc(ex.n)+'</div>'+schemeHtml+'</div>'+
         '<svg class="cardfig" viewBox="0 0 120 120" role="img" aria-label="'+esc(ex.n)+' diagram"><use href="#'+ex.f+'"/></svg>'+
       '</div>'+
+      (missing ? '<p class="missnote">You removed this exercise from your library. It still works in this workout.</p>' : '')+
       '<div class="cue">'+esc(ex.cue)+'</div>'+
       '<div class="track">'+
         '<input class="weight" type="text" inputmode="decimal" placeholder="'+esc(ex.u)+'" value="'+savedW+'" aria-label="'+esc(ex.n)+' log">'+
@@ -1190,7 +1352,7 @@ function openWorkout(title, names, editable){
   });
 
   host.appendChild(el("div","sheetfoot",
-    "<strong>Before you leave:</strong> make sure every box has a number — next time, your only job is to beat one of them. Warm up first: 5 min easy movement + one light set of your first two exercises."+
+    "<strong>Before you leave:</strong> make sure every box has a number - next time, your only job is to beat one of them. Warm up first: 5 min easy movement + one light set of your first two exercises."+
     '<div class="savednote" id="saveNote">✓ Saved on this device</div>'));
 
   host.querySelectorAll(".set").forEach(function(btn){
@@ -1207,6 +1369,459 @@ function openWorkout(title, names, editable){
 }
 $("wkBack").onclick = function(){ show(lastView); };
 
+/* ============ v15: saved workouts (ft:saved) ============ */
+var SV_KEY = "ft:saved", SV_VERSION = 1, SV_MAXNAME = 40;
+var SAVED = [];          /* [{id,name,createdAt,updatedAt,level,exercises:[{n,s}],custom:[...]}] */
+var svEditing = null;    /* id of the saved workout open in the builder */
+function svParse(raw){
+  try{
+    var v = raw ? JSON.parse(raw) : null;
+    var list = Array.isArray(v) ? v : (v && Array.isArray(v.workouts) ? v.workouts : []);
+    return list.filter(function(w){ return w && typeof w.id === "string" && typeof w.name === "string" && Array.isArray(w.exercises); })
+      .map(function(w){
+        w.exercises = w.exercises.map(function(x){ return typeof x === "string" ? { n:x, s:null } : { n:String(x.n), s:x.s ? String(x.s) : null }; })
+          .filter(function(x){ return x.n; });
+        w.custom = Array.isArray(w.custom) ? w.custom : [];
+        return w;
+      });
+  }catch(e){ return []; }
+}
+function svPersist(){
+  var raw = JSON.stringify({ version: SV_VERSION, workouts: SAVED });
+  if(hasStore()) window.storage.set(SV_KEY, raw).catch(function(){ svToast("Could not save on this device. Your phone may be out of space."); });
+}
+function svFind(id){ for(var i=0;i<SAVED.length;i++) if(SAVED[i].id === id) return SAVED[i]; return null; }
+function svNewId(){ return "w" + Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+function svNorm(s){ return String(s).trim().replace(/\s+/g," ").toLowerCase(); }
+function svNameTaken(name, exceptId){
+  var n = svNorm(name);
+  return SAVED.some(function(w){ return w.id !== exceptId && svNorm(w.name) === n; });
+}
+function svNextName(base){
+  base = base || "My workout";
+  for(var i=1;i<1000;i++){ var c = base + " " + i; if(!svNameTaken(c)) return c; }
+  return base + " " + Date.now();
+}
+function svSuggest(name){
+  var m = String(name).trim().match(/^(.*?)(?:\s+(\d+))?$/), base = m[1] || "My workout", n = m[2] ? parseInt(m[2],10) + 1 : 2;
+  for(var i=n;i<n+1000;i++){ var c = base + " " + i; if(!svNameTaken(c)) return c; }
+  return svNextName(base);
+}
+function svLevelLabel(k){ for(var i=0;i<LEVELS.length;i++) if(LEVELS[i].k === k) return LEVELS[i].label; return ""; }
+function svSnapshot(names, schemes, prev){
+  var exercises = names.map(function(n){
+    var s = schemes && schemes[n] ? String(schemes[n]).trim().slice(0,24) : null;
+    if(!s && prev){ prev.exercises.forEach(function(x){ if(x.n === n && x.s) s = x.s; }); }
+    return { n:n, s:s || null };
+  });
+  var custom = [];
+  names.forEach(function(n){
+    var ex = LIB[idx(n)];
+    if(ex && ex.custom){ custom.push({ n:ex.n, c:ex.c, f:ex.f, s:ex.s, u:ex.u, cue:ex.cue }); return; }
+    if(!ex && prev){ (prev.custom || []).forEach(function(c){ if(c.n === n) custom.push(c); }); }
+  });
+  return { exercises: exercises, custom: custom };
+}
+function svMissing(w){
+  return w.exercises.filter(function(x){ return idx(x.n) < 0; }).map(function(x){ return x.n; });
+}
+function svFmtDate(iso){
+  var d = new Date(iso); if(isNaN(d)) return "";
+  try{ return d.toLocaleDateString(undefined, { month:"short", day:"numeric", year:"numeric" }); }catch(e){ return d.toDateString(); }
+}
+
+/* ----- save (create / update / save as new) ----- */
+function svCommit(mode, name, names, schemes, level, existing){
+  var now = new Date().toISOString(), snap, w;
+  if(mode === "update" && existing){
+    snap = svSnapshot(names, schemes, existing);
+    existing.name = name; existing.updatedAt = now; existing.level = level || existing.level;
+    existing.exercises = snap.exercises; existing.custom = snap.custom;
+    w = existing;
+  } else {
+    snap = svSnapshot(names, schemes, existing || null);
+    w = { id: svNewId(), name: name, createdAt: now, updatedAt: now, level: level || eq, exercises: snap.exercises, custom: snap.custom };
+    SAVED.unshift(w);
+  }
+  svPersist(); svRender();
+  return w;
+}
+/* opens the name dialog; mode "new" or "edit" (edit offers Save changes + Save as new) */
+function svAskAndSave(names, schemes, level, existing, after){
+  names = (names || []).filter(Boolean);
+  if(!names.length){ svToast("Pick at least one exercise before saving."); return; }
+  var isEdit = !!existing;
+  svDialog({
+    title: isEdit ? "Save workout" : "Save this workout",
+    text: names.length + " exercise" + (names.length===1?"":"s") + ". Give it a name you will recognize later.",
+    input: isEdit ? existing.name : svNextName(),
+    buttons: isEdit
+      ? [{ id:"update", label:"Save changes", cls:"primary" }, { id:"asnew", label:"Save as new" }, { id:"cancel", label:"Cancel" }]
+      : [{ id:"new", label:"Save", cls:"primary" }, { id:"cancel", label:"Cancel" }],
+    onButton: function(id, value, fail){
+      if(id === "cancel") return true;
+      var name = String(value || "").trim().replace(/\s+/g," ");
+      if(!name){ fail("Give it a name first."); return false; }
+      if(name.length > SV_MAXNAME){ fail("Keep the name to " + SV_MAXNAME + " characters or fewer."); return false; }
+      var except = (id === "update" && existing) ? existing.id : null;
+      if(svNameTaken(name, except)){
+        fail("You already have a workout called \u201c" + name + "\u201d. Try \u201c" + svSuggest(name) + "\u201d instead.");
+        return false;
+      }
+      var w = svCommit(id === "update" ? "update" : "new", name, names, schemes, level, existing);
+      svToast(id === "update" ? "Saved changes to \u201c" + w.name + "\u201d." : "Saved \u201c" + w.name + "\u201d to My workouts.");
+      if(after) after(w);
+      return true;
+    }
+  });
+}
+function svSaveFromBuilder(){
+  var ex = svEditing ? svFind(svEditing) : null;
+  svAskAndSave(sel.slice(), null, eq, ex, function(w){ svEditing = w.id; svPaintBanner(); });
+}
+function svSaveFromSheet(kind){
+  if(!activeSheet) return;
+  var schemes = {};
+  document.querySelectorAll("#sheet .schemeIn").forEach(function(i){ schemes[i.getAttribute("data-n")] = i.value; });
+  var existing = activeSheet.saved ? svFind(activeSheet.saved.id) : null;
+  if(kind === "asnew"){
+    svAskAndSave(activeSheet.names, schemes, existing ? existing.level : eq, null, svAfterSheetSave);
+    return;
+  }
+  svAskAndSave(activeSheet.names, schemes, existing ? existing.level : eq, existing, svAfterSheetSave);
+}
+function svAfterSheetSave(w){
+  /* swap the tracker header to the saved state without losing typed weights */
+  activeSheet.saved = w;
+  var bar = document.querySelector("#sheet .sheetsave");
+  if(bar && !bar.querySelector('[data-sv="update"]')){
+    bar.innerHTML = '<button type="button" class="minibtn primary" data-sv="update">Save changes</button>'+
+      '<button type="button" class="minibtn" data-sv="asnew">Save as new</button>'+
+      '<span class="svnote">Saved as \u201c'+esc(w.name)+'\u201d. Find it under Workouts, My workouts.</span>';
+  } else if(bar){ var nt = bar.querySelector(".svnote"); if(nt) nt.textContent = "Saved as \u201c" + w.name + "\u201d."; }
+  var h1 = document.querySelector("#sheet .sheethead h1 span"); if(h1) h1.textContent = w.name;
+  if(svEditing && svEditing !== w.id && lastView === "builder"){ svEditing = w.id; svPaintBanner(); }
+}
+
+/* ----- list actions ----- */
+function svStart(w){
+  var names = w.exercises.map(function(x){ return x.n; });
+  openWorkout("My workout|" + w.name, names, true, { saved: w });
+}
+function svEdit(w){
+  var missing = svMissing(w);
+  svEditing = w.id;
+  eq = w.level && svLevelLabel(w.level) ? w.level : "full";
+  sel = w.exercises.map(function(x){ return x.n; }).filter(function(n){ return idx(n) >= 0; });
+  q = ""; $("exSearch").value = ""; $("exSearch").parentNode.classList.remove("has");
+  renderChips(); renderLibrary();
+  show("builder"); paintBar(); svPaintBanner(missing);
+}
+function svPaintBanner(missing){
+  var w = svEditing ? svFind(svEditing) : null;
+  $("editBanner").hidden = !w;
+  $("saveCustom").textContent = w ? "Save" : "Save";
+  if(!w) return;
+  $("editBannerText").textContent = "Editing \u201c" + w.name + "\u201d";
+  $("editBannerSub").textContent = (missing && missing.length)
+    ? "Left out " + missing.length + " exercise" + (missing.length===1?"":"s") + " you removed from your library: " + missing.join(", ") + "."
+    : "Change the exercises, then tap Save to update it or save it as a new workout.";
+}
+function svRename(w){
+  svDialog({
+    title: "Rename workout", text: "", input: w.name,
+    buttons: [{ id:"ok", label:"Rename", cls:"primary" }, { id:"cancel", label:"Cancel" }],
+    onButton: function(id, value, fail){
+      if(id === "cancel") return true;
+      var name = String(value || "").trim().replace(/\s+/g," ");
+      if(!name){ fail("Give it a name first."); return false; }
+      if(name.length > SV_MAXNAME){ fail("Keep the name to " + SV_MAXNAME + " characters or fewer."); return false; }
+      if(svNameTaken(name, w.id)){ fail("You already have a workout called \u201c" + name + "\u201d. Try \u201c" + svSuggest(name) + "\u201d instead."); return false; }
+      w.name = name; w.updatedAt = new Date().toISOString();
+      svPersist(); svRender(); if(svEditing === w.id) svPaintBanner();
+      svToast("Renamed to \u201c" + name + "\u201d.");
+      return true;
+    }
+  });
+}
+function svDelete(w){
+  svDialog({
+    title: "Delete workout?", text: "\u201c" + w.name + "\u201d will be removed from My workouts. Your logged weights are kept.",
+    buttons: [{ id:"del", label:"Delete", cls:"dangerfill" }, { id:"cancel", label:"Cancel" }],
+    onButton: function(id){
+      if(id !== "del") return true;
+      var at = SAVED.indexOf(w); if(at < 0) return true;
+      SAVED.splice(at, 1);
+      if(svEditing === w.id){ svEditing = null; svPaintBanner(); }
+      svPersist(); svRender();
+      svToast("Deleted \u201c" + w.name + "\u201d.", "Undo", function(){
+        if(svFind(w.id)) return;
+        SAVED.splice(Math.min(at, SAVED.length), 0, w);
+        svPersist(); svRender(); svToast("\u201c" + w.name + "\u201d is back.");
+      });
+      return true;
+    }
+  });
+}
+
+/* ----- rendering ----- */
+function svRender(){
+  var host = $("mySavedList"); if(!host) return;
+  host.innerHTML = "";
+  if(!SAVED.length){
+    host.appendChild(el("p","hint","Nothing saved yet. Build a workout in the Builder, then tap <b>Save</b> to keep it here."));
+  }
+  SAVED.forEach(function(w){
+    var missing = svMissing(w), fallbackNames = (w.custom || []).map(function(c){ return c.n; });
+    var gone = missing.filter(function(n){ return fallbackNames.indexOf(n) >= 0; });
+    var unknown = missing.filter(function(n){ return fallbackNames.indexOf(n) < 0; });
+    var c = el("article","svcard");
+    c.setAttribute("data-id", w.id);
+    var lvl = svLevelLabel(w.level);
+    c.innerHTML = '<h2>'+esc(w.name)+'</h2>'+
+      '<div class="list">'+esc(w.exercises.map(function(x){ return x.n; }).join(", "))+'</div>'+
+      (gone.length ? '<p class="gone">'+esc(gone.join(", "))+(gone.length===1?" was":" were")+' removed from your library but '+(gone.length===1?"is":"are")+' still in this workout.</p>' : '')+
+      (unknown.length ? '<p class="gone">'+esc(unknown.join(", "))+(unknown.length===1?" is":" are")+' no longer available and will be skipped.</p>' : '')+
+      '<div class="meta">'+w.exercises.length+' exercise'+(w.exercises.length===1?'':'s')+(lvl ? ' · '+esc(lvl) : '')+' · Saved '+esc(svFmtDate(w.updatedAt))+'</div>'+
+      '<div class="svactions">'+
+        '<button type="button" class="minibtn primary" data-act="start" aria-label="Start '+esc(w.name)+'">Start →</button>'+
+        '<button type="button" class="minibtn" data-act="edit" aria-label="Edit '+esc(w.name)+'">Edit</button>'+
+        '<button type="button" class="minibtn" data-act="rename" aria-label="Rename '+esc(w.name)+'">Rename</button>'+
+        '<button type="button" class="minibtn danger" data-act="delete" aria-label="Delete '+esc(w.name)+'">Delete</button>'+
+      '</div>';
+    c.querySelector(".svactions").addEventListener("click", function(e){
+      var b = e.target.closest("[data-act]"); if(!b) return;
+      var a = b.getAttribute("data-act"), cur = svFind(w.id); if(!cur) return;
+      if(a === "start") svStart(cur); else if(a === "edit") svEdit(cur);
+      else if(a === "rename") svRename(cur); else if(a === "delete") svDelete(cur);
+    });
+    host.appendChild(c);
+  });
+  var hs = $("homeSaved");
+  if(hs){
+    hs.hidden = !SAVED.length;
+    $("homeSavedSub").textContent = SAVED.length === 1 ? "1 saved workout. Tap to start it again." : SAVED.length + " saved workouts. Tap to pick one.";
+  }
+}
+
+/* ----- small dialog + toast (touch, keyboard and trackpad friendly) ----- */
+function svDialog(o){
+  var prevFocus = document.activeElement;
+  var wrap = el("div","pomodal");
+  wrap.setAttribute("role","dialog"); wrap.setAttribute("aria-modal","true"); wrap.setAttribute("aria-labelledby","svDlgTitle");
+  var box = el("div","box");
+  box.innerHTML = '<h2 id="svDlgTitle">'+esc(o.title)+'</h2>'+(o.text ? '<p>'+esc(o.text)+'</p>' : '')+
+    (o.input !== undefined ? '<label for="svDlgInput">Workout name</label><input id="svDlgInput" type="text" maxlength="'+SV_MAXNAME+'" autocomplete="off" enterkeyhint="done">' : '')+
+    '<p class="err" id="svDlgErr" role="alert"></p><div class="row"></div>';
+  var row = box.querySelector(".row");
+  o.buttons.forEach(function(b){
+    var btn = el("button","minibtn"+(b.cls ? " "+b.cls : ""), esc(b.label));
+    btn.type = "button"; btn.setAttribute("data-id", b.id);
+    row.appendChild(btn);
+  });
+  wrap.appendChild(box); document.body.appendChild(wrap);
+  var input = box.querySelector("#svDlgInput");
+  if(input) input.value = o.input;
+  function close(){ document.removeEventListener("keydown", onKey, true); wrap.remove(); try{ if(prevFocus) prevFocus.focus(); }catch(e){} }
+  function fail(m){ box.querySelector("#svDlgErr").textContent = m; if(input){ input.focus(); } }
+  function fire(id){ if(o.onButton(id, input ? input.value : null, fail) !== false) close(); }
+  row.addEventListener("click", function(e){ var b = e.target.closest("button"); if(b) fire(b.getAttribute("data-id")); });
+  wrap.addEventListener("click", function(e){ if(e.target === wrap) fire("cancel"); });
+  function onKey(e){
+    if(e.key === "Escape"){ e.preventDefault(); fire("cancel"); }
+    else if(e.key === "Enter" && e.target.tagName !== "BUTTON"){ e.preventDefault(); fire(o.buttons[0].id); }
+    else if(e.key === "Tab"){
+      var f = [].slice.call(box.querySelectorAll("input,button")), i = f.indexOf(document.activeElement);
+      if(e.shiftKey && i <= 0){ e.preventDefault(); f[f.length-1].focus(); }
+      else if(!e.shiftKey && i === f.length-1){ e.preventDefault(); f[0].focus(); }
+    }
+  }
+  document.addEventListener("keydown", onKey, true);
+  /* focus right away (inside the tap) so iPhone opens the keyboard */
+  if(input){ input.focus(); try{ input.setSelectionRange(0, input.value.length); }catch(e){} } else row.querySelector("button").focus();
+}
+var svToastTimer = null;
+function svToast(text, actionLabel, action){
+  var old = document.querySelector(".potoast"); if(old) old.remove();
+  clearTimeout(svToastTimer);
+  var t = el("div","potoast"+($("buildbar").classList.contains("on") ? " lift" : ""));
+  t.setAttribute("role","status"); t.setAttribute("aria-live","polite");
+  t.appendChild(el("span","",esc(text)));
+  if(actionLabel){
+    var b = el("button","minibtn",esc(actionLabel)); b.type = "button";
+    b.onclick = function(){ t.remove(); clearTimeout(svToastTimer); action(); };
+    t.appendChild(b);
+  }
+  document.body.appendChild(t);
+  svToastTimer = setTimeout(function(){ t.remove(); }, actionLabel ? 8000 : 4000);
+}
+
+$("saveCustom").onclick = svSaveFromBuilder;
+$("stopEdit").onclick = function(){
+  svEditing = null; svPaintBanner();
+  sel = []; document.querySelectorAll(".ex.sel").forEach(function(x){ x.classList.remove("sel"); }); paintBar();
+};
+
+/* ============ v14: backup and restore ============ */
+(function(){
+  var APP_ID = "progressive-overload";
+  var BACKUP_VERSION = 1;
+  var KNOWN_KEYS = ["ft:logs", "ft:custom", "runmap:routes"];
+  var LAST_KEY = "po:lastBackup";          /* device-only note, not part of the backup */
+  var RESTORED_FLAG = "po:justRestored";
+  var MAX_BYTES = 20 * 1024 * 1024;
+  var pending = null;
+
+  function isAppKey(k){ return KNOWN_KEYS.indexOf(k) >= 0 || /^(ft|runmap):/.test(k); }
+  function lsGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+  function allKeys(){
+    var ks = KNOWN_KEYS.slice();
+    try{ for(var i=0;i<localStorage.length;i++){ var k = localStorage.key(i); if(isAppKey(k) && ks.indexOf(k) < 0) ks.push(k); } }catch(e){}
+    return ks;
+  }
+  function pad(n){ return (n<10?"0":"")+n; }
+  function ymd(d){ return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate()); }
+  function nice(d){
+    try{ return d.toLocaleDateString(undefined, { year:"numeric", month:"short", day:"numeric" }) + " at " +
+                d.toLocaleTimeString(undefined, { hour:"numeric", minute:"2-digit" }); }
+    catch(e){ return d.toString(); }
+  }
+  function msg(text, kind){
+    var m = $("dataMsg"); if(!m) return;
+    m.textContent = text || ""; m.className = "datamsg" + (text ? " " + (kind || "ok") : "");
+  }
+  function showLast(){
+    var el = $("lastBackup"); if(!el) return;
+    var v = lsGet(LAST_KEY), d = v ? new Date(v) : null;
+    el.textContent = (d && !isNaN(d)) ? "Last backed up: " + nice(d) : "Not backed up on this device yet.";
+  }
+  function markBackedUp(){ try{ localStorage.setItem(LAST_KEY, new Date().toISOString()); }catch(e){} showLast(); }
+  function countOf(raw, kind){
+    try{ var v = JSON.parse(raw); if(kind === "obj") return v && typeof v === "object" ? Object.keys(v).length : 0;
+         return Array.isArray(v) ? v.length : 0; }catch(e){ return 0; }
+  }
+  function plural(n, one, many){ return n + " " + (n === 1 ? one : many); }
+
+  function buildBackup(){
+    var data = {};
+    allKeys().forEach(function(k){ data[k] = lsGet(k); });
+    return { app: APP_ID, version: BACKUP_VERSION, build: "v15", exportedAt: new Date().toISOString(), data: data };
+  }
+  function downloadBlob(blob, name){
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url; a.download = name; a.rel = "noopener"; a.style.display = "none";
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(url); }, 4000);
+  }
+  function isStandalone(){
+    try{ return window.navigator.standalone === true || window.matchMedia("(display-mode: standalone)").matches; }catch(e){ return false; }
+  }
+
+  function doBackup(){
+    msg("");
+    /* flush a weight that is still waiting on the 0.6s save timer */
+    try{ if(saveTimer){ clearTimeout(saveTimer); saveTimer = null; localStorage.setItem("ft:logs", JSON.stringify(logs)); } }catch(e){}
+    var payload, text;
+    try{ payload = buildBackup(); text = JSON.stringify(payload, null, 2); }
+    catch(e){ msg("Sorry, the backup could not be created. Please try again.", "err"); return; }
+    var name = "progressive-overload-backup-" + ymd(new Date()) + ".json";
+    var blob = new Blob([text], { type: "application/json" });
+    var file = null;
+    try{ file = new File([blob], name, { type: "application/json" }); }catch(e){ file = null; }
+    var okText = "Backup saved as " + name + ". Keep it somewhere safe, like iCloud Drive or email it to yourself.";
+
+    if(isStandalone() && file && navigator.share && navigator.canShare && navigator.canShare({ files: [file] })){
+      navigator.share({ files: [file], title: "Progressive Overload backup" }).then(function(){
+        markBackedUp(); msg("Backup ready. Choose Save to Files (or send it to yourself) to keep it safe.", "ok");
+      }).catch(function(err){
+        if(err && err.name === "AbortError"){ msg("Backup cancelled. Nothing was saved.", "err"); return; }
+        try{ downloadBlob(blob, name); markBackedUp(); msg(okText, "ok"); }
+        catch(e2){ msg("Sorry, the backup could not be saved on this device.", "err"); }
+      });
+      return;
+    }
+    try{ downloadBlob(blob, name); markBackedUp(); msg(okText, "ok"); }
+    catch(e){ msg("Sorry, the backup could not be saved on this device.", "err"); }
+  }
+
+  function validate(text){
+    var obj;
+    try{ obj = JSON.parse(text); }catch(e){ throw new Error("That file is not a Progressive Overload backup (it could not be read)."); }
+    if(!obj || typeof obj !== "object" || obj.app !== APP_ID || !obj.data || typeof obj.data !== "object")
+      throw new Error("That file is not a Progressive Overload backup.");
+    if(typeof obj.version !== "number" || obj.version > BACKUP_VERSION)
+      throw new Error("This backup was made by a newer version of the app. Reload the page to update, then try again.");
+    var clean = {}, any = false;
+    Object.keys(obj.data).forEach(function(k){
+      if(!isAppKey(k)) return;
+      var v = obj.data[k];
+      if(v === null){ clean[k] = null; any = true; return; }
+      if(typeof v !== "string") throw new Error("This backup looks damaged, so nothing was changed.");
+      try{ JSON.parse(v); }catch(e){ throw new Error("This backup looks damaged, so nothing was changed."); }
+      clean[k] = v; any = true;
+    });
+    if(!any) throw new Error("That backup file is empty, so nothing was changed.");
+    return { data: clean, exportedAt: obj.exportedAt, version: obj.version };
+  }
+
+  function onFile(e){
+    var input = e.target, f = input.files && input.files[0];
+    msg(""); $("restoreConfirm").hidden = true; pending = null;
+    if(!f) return;
+    if(f.size > MAX_BYTES){ input.value = ""; msg("That file is too large to be a backup from this app.", "err"); return; }
+    var reader = new FileReader();
+    reader.onload = function(){
+      input.value = "";
+      try{ pending = validate(String(reader.result || "")); }
+      catch(err){ msg(err.message, "err"); return; }
+      var d = pending.exportedAt ? new Date(pending.exportedAt) : null;
+      var when = (d && !isNaN(d)) ? "from " + nice(d) : "with no date";
+      $("restoreSummary").textContent = "This backup is " + when + " and has " +
+        plural(countOf(pending.data["ft:logs"], "obj"), "logged exercise", "logged exercises") + ", " +
+        plural(countOf(pending.data["ft:custom"], "arr"), "custom exercise", "custom exercises") + ", " +
+        plural(svParse(pending.data["ft:saved"] || null).length, "saved workout", "saved workouts") + " and " +
+        plural(countOf(pending.data["runmap:routes"], "arr"), "saved route", "saved routes") + ".";
+      $("restoreConfirm").hidden = false;
+      try{ $("restoreConfirm").scrollIntoView({ block: "nearest", behavior: "smooth" }); }catch(e2){}
+      $("restoreNo").focus();
+    };
+    reader.onerror = function(){ input.value = ""; msg("Sorry, that file could not be opened. Please try again.", "err"); };
+    reader.readAsText(f);
+  }
+
+  function applyRestore(){
+    if(!pending) return;
+    try{ clearTimeout(saveTimer); saveTimer = null; }catch(e){}
+    var data = pending.data;
+    try{
+      allKeys().forEach(function(k){ if(!(k in data)) localStorage.removeItem(k); });
+      Object.keys(data).forEach(function(k){
+        if(data[k] === null) localStorage.removeItem(k); else localStorage.setItem(k, data[k]);
+      });
+      try{ sessionStorage.setItem(RESTORED_FLAG, "1"); }catch(e){}
+    }catch(e){
+      msg("Sorry, the restore did not finish. Your phone may be out of storage space. Please try again.", "err"); return;
+    }
+    $("restoreConfirm").hidden = true;
+    $("restoreYes").disabled = true;
+    /* future migration hook: lets a later build adjust restored data before the reload */
+    try{ if(typeof window.__poAfterImport === "function") window.__poAfterImport({ version: pending.version, data: data }); }catch(e){}
+    pending = null;
+    msg("Restore complete. Reloading...", "ok");
+    setTimeout(function(){ location.reload(); }, 700);
+  }
+
+  if(!$("dataCard")) return;
+  $("backupBtn").onclick = doBackup;
+  $("restoreBtn").onclick = function(){ msg(""); $("restoreFile").click(); };
+  $("restoreFile").addEventListener("change", onFile);
+  $("restoreYes").onclick = applyRestore;
+  $("restoreNo").onclick = function(){ pending = null; $("restoreConfirm").hidden = true; msg("Restore cancelled. Your data was not changed.", "ok"); $("restoreBtn").focus(); };
+  showLast();
+  try{ if(sessionStorage.getItem(RESTORED_FLAG)){ sessionStorage.removeItem(RESTORED_FLAG); msg("Your backup was restored. Welcome back.", "ok"); } }catch(e){}
+})();
+
 /* ============ PWA service worker ============ */
 if("serviceWorker" in navigator && location.protocol.indexOf("http") === 0){
   window.addEventListener("load", function(){
@@ -1215,12 +1830,13 @@ if("serviceWorker" in navigator && location.protocol.indexOf("http") === 0){
 }
 
 /* ============ boot ============ */
-try{ console.log("Progressive Overload build v13"); }catch(e){}
+try{ console.log("Progressive Overload build v15"); }catch(e){}
 storeGet("ft:custom", function(v){
   try{ CUSTOM = v ? JSON.parse(v) : []; }catch(e){ CUSTOM = []; }
   CUSTOM.forEach(function(x){ x.custom = true; if(idx(x.n)<0) LIB.push(x); });
   storeGet("ft:logs", function(v2){
     try{ logs = v2 ? JSON.parse(v2) : {}; }catch(e){ logs = {}; }
+    storeGet(SV_KEY, function(v3){ SAVED = svParse(v3); svRender(); });
     renderChips();
     renderLibrary();
     show("home");
@@ -1311,7 +1927,7 @@ storeGet("ft:custom", function(v){
       ]},
       trails: { label:"Trails", chain:[
         { name:"cyclosm", url:"https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png",
-          opt:{ maxZoom:18, subdomains:"abc", attribution:'&copy; OpenStreetMap contributors &mdash; CyclOSM | OSM France' } },
+          opt:{ maxZoom:18, subdomains:"abc", attribution:'&copy; OpenStreetMap contributors - CyclOSM | OSM France' } },
         { name:"opentopo", url:"https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
           opt:{ maxZoom:17, subdomains:"abc", attribution:'Map data &copy; OpenStreetMap contributors, SRTM | Style &copy; OpenTopoMap (CC-BY-SA)' } },
         { name:"osm", url:"https://tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -1319,7 +1935,7 @@ storeGet("ft:custom", function(v){
       ]},
       satellite: { label:"Satellite", chain:[
         { name:"esrisat", url:"https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-          opt:{ maxZoom:19, attribution:'Tiles &copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics' } },
+          opt:{ maxZoom:19, attribution:'Tiles &copy; Esri - Source: Esri, Maxar, Earthstar Geographics' } },
         { name:"osm", url:"https://tile.openstreetmap.org/{z}/{x}/{y}.png",
           opt:{ maxZoom:19, attribution:'&copy; OpenStreetMap contributors' } }
       ]}
@@ -1333,7 +1949,7 @@ storeGet("ft:custom", function(v){
       var lib = window.__leafletSrc || (typeof L !== "undefined" ? "ok" : "loading");
       var mEl = document.getElementById("map");
       var size = mEl ? (mEl.clientWidth + "x" + mEl.clientHeight) : "?";
-      d.textContent = "v13 · lib:" + lib + " · " + PROV()[provIdx].name + "/" + (lastRouter||"—") + " " + size + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (diagNote ? " · " + diagNote : "");
+      d.textContent = "v15 · lib:" + lib + " · " + PROV()[provIdx].name + "/" + (lastRouter||"-") + " " + size + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (diagNote ? " · " + diagNote : "");
     }
     function mountTiles(){
       if(tiles) map.removeLayer(tiles);
@@ -1346,7 +1962,7 @@ storeGet("ft:custom", function(v){
         tileErrs++; diag();
         if(!tileOk && tileErrs >= 4){
           if(provIdx < PROV().length - 1){ provIdx++; mountTiles(); }
-          else setStatus("The map imagery isn't loading right now. Measuring still works — points and distances stay accurate — but you're drawing blind. Check your connection and try again.");
+          else setStatus("The map imagery isn't loading right now. Measuring still works - points and distances stay accurate - but you're drawing blind. Check your connection and try again.");
         }
       });
       tiles.addTo(map);
@@ -1418,7 +2034,7 @@ storeGet("ft:custom", function(v){
   }
 
   /* Route providers.
-     FOSSGIS runs SEPARATE OSRM instances per profile — routed-foot understands
+     FOSSGIS runs SEPARATE OSRM instances per profile - routed-foot understands
      footways, paths and tracks, which is what trail running needs. The profile
      word in the path is ignored by those instances; the endpoint decides. */
   var ROUTERS = {
@@ -1489,7 +2105,7 @@ storeGet("ft:custom", function(v){
         routingUp = false;
         snap = false;
         $("snapChk").checked = false;
-        $("snapNote").textContent = "Unavailable right now — the free routing service couldn't be reached.";
+        $("snapNote").textContent = "Unavailable right now - the free routing service couldn't be reached.";
         setStatus("Routing couldn't be reached, so legs are straight lines again. Drop a point at every corner to stay honest, or try the toggle again in a minute.");
       }
       return res;
@@ -1607,13 +2223,13 @@ storeGet("ft:custom", function(v){
         (diff > 0 ? "+"+diff.toFixed(2) : diff.toFixed(2)) + " " + unit;
       $("targetOut").style.color = diff >= -0.005 ? "var(--ok)" : "var(--mark)";
     }else{
-      $("targetOut").textContent = "—";
+      $("targetOut").textContent = "-";
       $("targetOut").style.color = "var(--mark)";
     }
 
     // pace → time
     var pace = parsePace($("paceIn").value);
-    $("timeOut").textContent = (pace && total > 0) ? fmtTime(pace * toUnit(total)) : "—";
+    $("timeOut").textContent = (pace && total > 0) ? fmtTime(pace * toUnit(total)) : "-";
   }
 
   function paintRail(){
@@ -1628,8 +2244,8 @@ storeGet("ft:custom", function(v){
 
     $("fill").style.width = Math.min(100, (total/span)*100) + "%";
     $("railTotal").textContent = fmt(total) + " " + unit;
-    $("railLabel").textContent = outBack ? "Distance rail — out and back" :
-                                 (closeLoop && points.length > 2 ? "Distance rail — loop" : "Distance rail");
+    $("railLabel").textContent = outBack ? "Distance rail - out and back" :
+                                 (closeLoop && points.length > 2 ? "Distance rail - loop" : "Distance rail");
 
     // whole-unit ticks
     var step = M_PER[unit], n = 1;
@@ -1748,7 +2364,7 @@ storeGet("ft:custom", function(v){
 
     $("shareBtn").onclick = function(){
       var url = location.origin + location.pathname + encodeRoute();
-      var done = function(){ setStatus("Link copied — anyone who opens it sees this exact route."); };
+      var done = function(){ setStatus("Link copied - anyone who opens it sees this exact route."); };
       if(navigator.clipboard && navigator.clipboard.writeText){
         navigator.clipboard.writeText(url).then(done).catch(function(){ setStatus(url); });
       } else { setStatus(url); }
@@ -1782,7 +2398,7 @@ storeGet("ft:custom", function(v){
     fetch("https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" + encodeURIComponent(q))
       .then(function(r){ return r.ok ? r.json() : "__blocked"; })
       .then(function(j){
-        if(j === "__blocked"){ setStatus("The free place-search service refused this site's request. Pan and zoom the map by hand — everything else still works."); return; }
+        if(j === "__blocked"){ setStatus("The free place-search service refused this site's request. Pan and zoom the map by hand - everything else still works."); return; }
         if(!j || !j.length){ setStatus("No match for that. Try a fuller address, or pan the map by hand."); return; }
         setStatus("");
         map.setView([parseFloat(j[0].lat), parseFloat(j[0].lon)], 15);
@@ -1802,7 +2418,7 @@ storeGet("ft:custom", function(v){
       tries++;
       if(tries > 45){
         el.innerHTML = '<div style="padding:24px;font-family:monospace;font-size:12px;color:#7E96A8;line-height:1.7"><b style="color:#E8F0F5">The map library could not be downloaded from either CDN.</b><br>The rest of the site is unaffected. This is usually a connection issue or a content blocker on this device.<br>Try: a different network, disabling ad/content blockers for this site, then reload.</div>';
-        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v13 · lib:none (both CDNs failed)";
+        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v15 · lib:none (both CDNs failed)";
         return;
       }
       setTimeout(waitL, 150);
@@ -1853,8 +2469,8 @@ storeGet("ft:custom", function(v){
         cache = {};                                  /* mode changes the answer */
         var note = document.getElementById("snapNote");
         if(note) note.textContent = routeMode === "trail"
-          ? "On \u2014 legs follow footpaths, trails and tracks."
-          : "On \u2014 legs follow roads and sidewalks only.";
+          ? "On - legs follow footpaths, trails and tracks."
+          : "On - legs follow roads and sidewalks only.";
         if(typeof render === "function" && snap && points.length > 1){
           setStatus("Recalculating on " + (routeMode === "trail" ? "trails and paths" : "roads") + "\u2026");
           render();
