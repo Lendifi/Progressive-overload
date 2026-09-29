@@ -471,6 +471,80 @@
   .remind span{display:block;font-size:13.5px;color:#5c4a1e;line-height:1.45;margin-top:4px;}
   .remindbtns{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
   .remindbtns .minibtn{flex:1 1 130px;}
+
+  /* ---------- v17: HIT workouts + EMOM timer ---------- */
+  .nav button{min-height:44px;margin:-5px 0;}
+  .brand{min-height:44px;margin:-15px 0;}
+  #view-hit .backbtn{min-height:44px;}
+  .hitcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px;}
+  .hitcard .tag,.hitlist .tag{display:inline-block;font-family:var(--f-display);font-weight:800;font-synthesis:none;font-size:15px;color:#fff;
+    background:var(--cobalt);border-radius:6px;padding:3px 10px;text-transform:uppercase;margin-bottom:8px;}
+  .hitcard h2{font-family:var(--f-display);font-weight:800;font-synthesis:none;font-size:clamp(28px,8vw,36px);text-transform:uppercase;line-height:1;}
+  .hitcredit{font-size:12.5px;color:var(--steel);font-weight:600;margin:0 0 2px;}
+  .hitcredit a{color:var(--cobalt-dk);font-weight:800;display:inline-flex;align-items:center;min-height:44px;padding:0 2px;}
+  .hitformat{background:var(--paper);border-radius:12px;padding:12px 14px;font-size:14px;line-height:1.5;color:var(--ink);margin:6px 0 14px;}
+  .hitformat b{display:block;font-family:var(--f-display);font-weight:800;font-synthesis:none;font-size:17px;text-transform:uppercase;letter-spacing:.01em;}
+  .hitformat .goal{display:block;margin-top:6px;font-weight:800;color:var(--cobalt-dk);}
+  .wpick{border:none;margin:0 0 14px;padding:0;}
+  .wpick legend{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--steel);margin-bottom:8px;padding:0;}
+  .wpick .wgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .wopt{min-height:52px;border:2px solid var(--line);border-radius:12px;background:#fff;cursor:pointer;text-align:left;padding:8px 12px;line-height:1.2;touch-action:manipulation;}
+  .wopt b{display:block;font-size:15px;font-weight:800;}
+  .wopt small{display:block;font-size:12.5px;font-weight:700;color:var(--steel);margin-top:2px;}
+  .wopt[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:#fff;}
+  .wopt[aria-pressed=true] small{color:#c4ccd6;}
+  .hitmoves{list-style:none;margin:0;padding:0;}
+  .hitmove{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-top:1px solid var(--line);}
+  .hitmove .cardfig{width:82px;height:82px;}
+  .hitmove .mt{flex:1;min-width:0;}
+  .hitmove .mn{font-family:var(--f-display);font-weight:800;font-synthesis:none;font-size:19px;text-transform:uppercase;line-height:1.1;}
+  .hitmove .mn span{color:var(--cobalt);margin-right:6px;}
+  .hitmove .mc{font-size:14px;line-height:1.45;color:var(--steel);margin-top:4px;}
+  .hittimer{background:var(--ink);color:#fff;border-radius:16px;padding:18px;margin-bottom:14px;scroll-margin-top:64px;}
+  .hittimer .hh{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#9aa4b2;font-weight:700;}
+  .hround{font-family:var(--f-display);font-weight:800;font-synthesis:none;font-size:clamp(30px,9vw,40px);text-transform:uppercase;line-height:1;margin-top:6px;}
+  .hround span{color:var(--cobalt-lt);}
+  .hsecs{display:flex;align-items:baseline;gap:10px;margin-top:6px;}
+  .hsecs b{font-family:var(--f-display);font-weight:800;font-synthesis:none;font-size:clamp(96px,32vw,140px);line-height:.95;font-variant-numeric:tabular-nums;}
+  .hsecs small{font-size:14px;font-weight:700;color:#c4ccd6;line-height:1.3;max-width:9em;}
+  .hittimer.is-low .hsecs b{color:#ffc65c;}
+  .hbar{height:8px;background:#2a3140;border-radius:99px;overflow:hidden;margin-top:10px;}
+  .hbar div{height:100%;width:0;background:var(--cobalt-lt);border-radius:99px;}
+  .hmeta{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;font-size:13.5px;font-weight:700;color:#c4ccd6;}
+  .hdone{display:block;width:100%;min-height:64px;margin-top:14px;border:none;border-radius:14px;background:var(--done);color:#fff;cursor:pointer;
+    font-family:var(--f-display);font-weight:800;font-synthesis:none;font-size:24px;text-transform:uppercase;letter-spacing:.02em;touch-action:manipulation;}
+  .hdone[aria-disabled=true]{background:#2a3140;color:#c4ccd6;cursor:default;font-size:18px;}
+  .hctl{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+  .hctl .minibtn{flex:1 1 90px;min-height:52px;font-size:15px;background:transparent;color:#fff;border-color:#c4ccd6;}
+  .hctl .minibtn.primary{background:var(--cobalt);border-color:var(--cobalt);flex:2 1 140px;font-size:17px;}
+  .hittimer :focus-visible{outline-color:var(--cobalt-lt);}
+  .hhint{font-size:13px;line-height:1.45;color:#9aa4b2;margin-top:12px;}
+  .hrest{list-style:none;margin:12px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:6px;}
+  .hrest li{background:#1f2633;border-radius:8px;padding:6px 8px;font-size:13px;font-weight:700;color:#e8edf3;}
+  .hrest li small{display:block;font-size:11px;color:#9aa4b2;font-weight:700;text-transform:uppercase;letter-spacing:.05em;}
+  .hrest li.miss{color:#9aa4b2;}
+  .hfinish{margin-top:6px;}
+  .hfinish h3{font-family:var(--f-display);font-weight:800;font-synthesis:none;font-size:clamp(34px,10vw,46px);text-transform:uppercase;line-height:1;color:var(--cobalt-lt);}
+  .hfinish p{font-size:15px;line-height:1.5;color:#e8edf3;margin-top:8px;font-weight:600;}
+  .hfinish .hsaved{color:#7fe0b4;font-weight:800;}
+  .hitlist .wk-card{display:block;min-height:44px;}
+  .hitsub{font-size:13px;font-weight:800;color:var(--cobalt-dk);text-transform:uppercase;letter-spacing:.05em;margin-top:4px;}
+  .wpick .wgrid.g4{grid-template-columns:repeat(4,minmax(0,1fr));}
+  .wgrid.g4 .wopt{text-align:center;padding:8px 4px;}
+  .wopt[aria-disabled=true]{opacity:.45;cursor:default;}
+  .hamrap{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-top:6px;}
+  .htime b,.hcount b{display:block;font-family:var(--f-display);font-weight:800;font-synthesis:none;line-height:.95;font-variant-numeric:tabular-nums;}
+  .htime b{font-size:clamp(64px,20vw,110px);}
+  .hcount{text-align:right;}
+  .hcount b{font-size:clamp(64px,20vw,110px);color:var(--cobalt-lt);}
+  .htime small,.hcount small{display:block;font-size:13px;font-weight:700;color:#c4ccd6;margin-top:4px;}
+  .hittimer.is-low .htime b{color:#ffc65c;}
+  .hdone.hbig{min-height:96px;font-size:30px;}
+  .hrest .hat{display:block;font-size:11px;color:#9aa4b2;font-weight:700;}
+  .hpart{display:block;margin-top:12px;font-size:13px;font-weight:800;color:#e8edf3;text-transform:uppercase;letter-spacing:.05em;}
+  .hpart span{color:#9aa4b2;text-transform:none;letter-spacing:0;font-weight:700;}
+  .hpart input{display:block;width:100%;margin-top:6px;min-height:48px;border:2px solid #c4ccd6;border-radius:10px;padding:10px;background:#fff;color:var(--ink);
+    font-family:var(--f-body);font-size:16px;font-weight:600;text-transform:none;letter-spacing:0;}
 </style>
 </head>
 <body>
@@ -559,6 +633,10 @@ if (typeof window.storage === "undefined") {
 <symbol id="f-highknee" viewBox="0 0 120 120"><path class="gnd" d="M22 106 L98 106"/><circle class="hd" cx="58" cy="26" r="9"/><path class="stick" d="M58 36 L58 68 M58 68 L42 74 M42 74 L48 94 M58 68 L66 90 M66 90 L70 104 M58 44 L42 58 M58 44 L74 54"/><path class="acc" d="M30 66 L30 50 M26 55 L30 50 L34 55"/></symbol>
 <symbol id="f-bicycle" viewBox="0 0 120 120"><path class="gnd" d="M12 100 L108 100"/><circle class="hd" cx="74" cy="58" r="8"/><path class="stick" d="M66 66 L44 84 M44 84 L24 78 M50 80 L60 60 M60 60 L74 68 M46 86 L64 94"/></symbol>
 <symbol id="f-inchworm" viewBox="0 0 120 120"><path class="gnd" d="M12 102 L108 102"/><circle class="hd" cx="32" cy="72" r="8"/><path class="stick" d="M40 76 L70 58 M70 58 L94 92 M38 78 L34 96"/><path class="acc" d="M22 58 L36 54 M30 48 L36 54 L30 60"/></symbol>
+<symbol id="f-bbburpee" viewBox="0 0 120 120"><path class="gnd" d="M8 106 L112 106"/><circle class="db" cx="30" cy="94" r="11"/><circle cx="30" cy="94" r="3.5" fill="#eef0f2"/><circle class="hd" cx="20" cy="70" r="8"/><path class="stick" d="M30 78 L76 90 M76 90 L106 100 M32 80 L44 90 M44 90 L32 92"/><path class="acc" d="M56 54 L56 72 M51 67 L56 72 L61 67"/></symbol>
+<symbol id="f-hpclean" viewBox="0 0 120 120"><path class="gnd" d="M18 106 L100 106"/><circle class="hd" cx="50" cy="22" r="9"/><path class="stick" d="M52 32 L50 64 M50 64 L66 80 M66 80 L60 102 M60 102 L74 102 M52 38 L68 46 M68 46 L70 36"/><circle class="db" cx="72" cy="34" r="10"/><circle cx="72" cy="34" r="3.5" fill="#eef0f2"/><path class="acc" d="M98 86 L98 44 M92 50 L98 44 L104 50"/></symbol>
+<symbol id="f-s2oh" viewBox="0 0 120 120"><path class="gnd" d="M22 106 L98 106"/><circle class="hd" cx="48" cy="40" r="9"/><path class="stick" d="M56 48 L56 76 M56 76 L50 90 M50 90 L54 104 M54 104 L68 104 M57 52 L62 24"/><circle class="db" cx="62" cy="16" r="10"/><circle cx="62" cy="16" r="3.5" fill="#eef0f2"/><path class="acc" d="M90 70 L90 28 M84 34 L90 28 L96 34"/></symbol>
+<symbol id="f-bbthruster" viewBox="0 0 120 120"><path class="gnd" d="M16 106 L104 106"/><circle class="hd" cx="48" cy="40" r="9"/><path class="stick" d="M52 50 L44 74 M44 74 L70 82 M70 82 L64 102 M64 102 L78 102 M52 54 L66 60 M66 60 L66 50"/><circle class="db" cx="68" cy="48" r="10"/><circle cx="68" cy="48" r="3.5" fill="#eef0f2"/><path class="acc" d="M96 84 L96 22 M90 28 L96 22 L102 28"/></symbol>
 </defs></svg>
 <div class="histbar" id="histBar" role="alert" hidden></div>
 <!-- ============ shell ============ -->
@@ -566,6 +644,7 @@ if (typeof window.storage === "undefined") {
   <button class="brand" id="brandBtn"><span class="dot"></span><span id="brandName"></span></button>
   <nav class="nav">
     <button data-nav="prebuilt">Workouts</button>
+    <button data-nav="hit">HIT</button>
     <button data-nav="builder">Builder</button>
     <button data-nav="run">Run</button>
   </nav>
@@ -595,6 +674,11 @@ if (typeof window.storage === "undefined") {
     <button class="path" data-nav="prebuilt">
       <span class="glyph"><svg width="34" height="34" viewBox="0 0 120 120"><use href="#f-ohp"/></svg></span>
       <span><h2>Use a prebuilt workout</h2><p>15 sessions - push, pull and total body, at every equipment level.</p></span>
+      <span class="go">→</span>
+    </button>
+    <button class="path" data-nav="hit" id="homeHit">
+      <span class="glyph"><svg width="34" height="34" viewBox="0 0 120 120"><use href="#f-bbthruster"/></svg></span>
+      <span><h2>HIT workouts</h2><p>Barbell EMOM workouts with a built-in timer that beeps every minute.</p></span>
       <span class="go">→</span>
     </button>
     <button class="path" data-nav="builder">
@@ -628,7 +712,7 @@ if (typeof window.storage === "undefined") {
     </div>
     <div class="datamsg" id="dataMsg" role="status" aria-live="polite"></div>
   </section>
-  <p class="buildtag">build v16 &middot; map: CARTO / Esri / OSM</p>
+  <p class="buildtag">build v17 &middot; map: CARTO / Esri / OSM</p>
 </div>
 
 <!-- ============ prebuilt ============ -->
@@ -643,6 +727,16 @@ if (typeof window.storage === "undefined") {
   <div class="chips" id="pbChips"></div>
   <p class="searchcount" id="pbCount"></p>
   <div id="prebuiltCards"></div>
+</div>
+
+<!-- ============ v17: HIT workouts ============ -->
+<div class="view wrap" id="view-hit">
+  <div id="hitListPane">
+    <button class="backbtn" data-nav="home">← Home</button>
+    <div class="pagehead"><h1>HIT Workouts</h1><p>Short, hard workouts with a built-in timer. Pick your weight, tap Start, and the app counts the rounds and beeps at every new minute.</p></div>
+    <div class="hitlist" id="hitCards"></div>
+  </div>
+  <div id="hitDetailPane" hidden></div>
 </div>
 
 <!-- ============ builder ============ -->
@@ -761,7 +855,7 @@ if (typeof window.storage === "undefined") {
       <div class="rm-map" id="map"></div>
       <div class="rm-hint" id="hint">Tap the map to drop your first point</div>
       <div class="rm-status" id="status"></div>
-      <div class="rm-diag" id="diagLine">v16 · opening…</div>
+      <div class="rm-diag" id="diagLine">v17 · opening…</div>
     </div>
     <div class="rm-rail">
       <div class="rm-railhead"><span id="railLabel">Distance rail</span><span id="railTotal">0.00 mi</span></div>
@@ -1090,7 +1184,7 @@ function saveCustom(){
 /* ============ router ============ */
 var mapBooted = false;
 function show(view){
-  var views = ["home","prebuilt","builder","workout","run"];
+  var views = ["home","prebuilt","builder","workout","run","hit"];
   views.forEach(function(v){ $("view-"+v).classList.toggle("on", v===view); });
   document.body.classList.toggle("in-run", view==="run");
   document.querySelectorAll(".nav button").forEach(function(b){
@@ -1103,6 +1197,7 @@ function show(view){
     window.__bootRunMapper();
   }
   if(view==="home" && window.__poRefreshReminder) window.__poRefreshReminder();
+  if(view==="hit" && window.__poHitShow) window.__poHitShow();   /* v17 */
   if(view==="run" && window.__rmResize) setTimeout(window.__rmResize, 80);
   window.scrollTo(0,0);
 }
@@ -2248,7 +2343,7 @@ $("stopEdit").onclick = function(){
   function buildBackup(){
     var data = {};
     allKeys().forEach(function(k){ data[k] = lsGet(k); });
-    return { app: APP_ID, version: BACKUP_VERSION, build: "v16", exportedAt: new Date().toISOString(), data: data };
+    return { app: APP_ID, version: BACKUP_VERSION, build: "v17", exportedAt: new Date().toISOString(), data: data };
   }
   function downloadBlob(blob, name){
     var url = URL.createObjectURL(blob);
@@ -2394,6 +2489,543 @@ $("stopEdit").onclick = function(){
   try{ if(sessionStorage.getItem(RESTORED_FLAG)){ sessionStorage.removeItem(RESTORED_FLAG); msg("Your backup was restored. Welcome back.", "ok"); } }catch(e){}
 })();
 
+/* ============ v17: HIT workouts (EMOM timer) ============ */
+/* Add more workouts to this list. Each one gets its own card, timer and "Last time" line.
+   mode "emom" (default): rounds x interval seconds, Round done records rest left. weights: bar weight choices (optional).
+   mode "amrap": durations (minutes to pick from) + defDur; Set done counts sets. credit: optional. */
+var HITS = [
+  { id: "grip-it-rip-it", title: "Grip it and Rip it", tag: "EMOM", gear: "Barbell", gearCls: "tag-bar",
+    rounds: 15, interval: 60,
+    formatText: "When each new minute starts, do all 4 moves below. Rest for whatever is left of the minute, then go again.",
+    goal: "Goal: about 30 seconds of rest each round.",
+    weights: [ { k: "men", label: "Men", lb: 115 }, { k: "men-s", label: "Men scaled", lb: 95 },
+               { k: "women", label: "Women", lb: 85 }, { k: "women-s", label: "Women scaled", lb: 65 } ],
+    def: "men",
+    moves: [
+      { n: "Barbell burpee", reps: 4, f: "f-bbburpee", cue: "Hands on the bar, chest to the bar, jump your feet in, then stand up with the bar like a deadlift. No jumping over the bar." },
+      { n: "Hang power clean", reps: 3, f: "f-hpclean", cue: "Bar at mid-thigh, hips back. Snap your hips, pull the bar up close and catch it on your shoulders, elbows high, knees slightly bent." },
+      { n: "Shoulder to overhead", reps: 2, f: "f-s2oh", cue: "Bar on your shoulders. Dip and drive with your legs, then lock it out straight overhead. Press, push press or jerk all count." },
+      { n: "Thruster", reps: 1, f: "f-bbthruster", cue: "Bar on your shoulders, squat below parallel, then drive up and press it overhead in one smooth move." }
+    ],
+    credit: { by: "Winnesworld", url: "https://www.facebook.com/reel/1277987307752745/" } }
+,
+  { id: "bw-20", mode: "amrap", title: "20-Minute Bodyweight Challenge", tag: "AMRAP", gear: "Bodyweight", gearCls: "",
+    subtitle: "You need a pull-up bar", durations: [10, 15, 20, 30], defDur: 20,
+    formatText: "Start the clock and do as many full sets of the 4 moves below as you can before time runs out. Tap Set done after each full set.",
+    goal: "Goal: beat your best number of sets.",
+    moves: [
+      { n: "Air squat", reps: 10, f: "f-bwsquat", cue: "Feet shoulder-width, sit your hips back and down until thighs are parallel, chest up, then stand tall." },
+      { n: "Push-up", reps: 10, f: "f-pushup", cue: "Hands under shoulders, body in one straight line. Chest to the floor, then push all the way up." },
+      { n: "Pull-up", reps: 5, f: "f-pullup", cue: "Hang with straight arms, pull until your chin is over the bar, lower all the way down." },
+      { n: "Burpee", reps: 5, f: "f-burpee", cue: "Hands down, jump feet back, chest to the floor, jump feet in, then jump up with a clap overhead." }
+    ] }
+];
+var HX_KEY = "po:hitTimer";   /* device-only timer state (like po:lastBackup, not in backups). Finished workouts go to ft:hist. */
+var HX_MAX_AGE = 12 * 3600000;
+/* HX: { v:3, mode: "emom"|"amrap", wk, total (ms), status: running|paused|done, t0, pAt, pTot, endAt, savedId,
+         emom: opt, iv, rounds, rest[]   amrap: dur (min), taps[] (elapsed ms at each Set done), partial } */
+var HX = null;
+var hxOpen = null, hxCfg = {}, hxTick = null, hxAC = null, hxWL = null, hxPrev = null, hxPartTimer = null;
+window.__poHitLog = [];
+
+function hxFind(id){ for(var i = 0; i < HITS.length; i++) if(HITS[i].id === id) return HITS[i]; return null; }
+function hxMode(w){ return w.mode === "amrap" ? "amrap" : "emom"; }
+function hxWid(w){ return "hit:" + w.id; }
+function hxOpt(w, k){
+  if(!w.weights) return null;
+  for(var i = 0; i < w.weights.length; i++) if(w.weights[i].k === k) return w.weights[i];
+  return w.weights[0];
+}
+function hxPer(c){ return c.iv * 1000; }
+function hxEvery(iv){ return iv === 60 ? "every minute on the minute" : "every " + iv + " seconds"; }
+function hxMMSS(ms){ var t = Math.floor(ms / 1000); return Math.floor(t / 60) + ":" + hPad(t % 60); }
+function hxMMSSup(ms){ return hxMMSS(Math.ceil(ms / 1000) * 1000); }
+function hxActive(){ return !!(HX && (HX.status === "running" || HX.status === "paused")); }
+function hxSessions(w){ return HIST.sessions.filter(function(s){ return s && !s.legacy && s.wid === hxWid(w) && s.hit; }); }
+function hxLast(w){ var a = hxSessions(w); return a.length ? a[a.length - 1] : null; }
+function hxBest(w, dur){
+  var best = null;
+  hxSessions(w).forEach(function(s){ if(s.hit.dur === dur && typeof s.hit.sets === "number" && (best === null || s.hit.sets > best)) best = s.hit.sets; });
+  return best;
+}
+function hxPlural(n, one, many){ return n + " " + (n === 1 ? one : many); }
+function hxLastText(s){
+  if(!s) return "";
+  var x = s.hit, parts = [];
+  if(x.mode === "amrap"){
+    return "Last time: " + hxPlural(x.sets, "set", "sets") + (x.partial ? " + " + x.partial : "") + " in " + hxMMSS((x.secs || 0) * 1000) + " " + whenText(s);
+  }
+  if(typeof x.lb === "number") parts.push(x.lb + " lb");
+  parts.push(x.rounds + " of " + x.total + " rounds");
+  if(typeof x.avgRest === "number") parts.push(x.avgRest + " sec avg rest");
+  return "Last time: " + parts.join(", ") + " " + whenText(s);
+}
+function hxLog(k){ var l = window.__poHitLog; l.push(k); if(l.length > 80) l.shift(); }
+function hxCfgFor(w){
+  if(!hxCfg[w.id]){
+    var last = hxLast(w), lh = last && last.hit;
+    if(HX && HX.wk === w.id) hxCfg[w.id] = { opt: HX.opt || null, dur: HX.dur || null };
+    else if(hxMode(w) === "amrap") hxCfg[w.id] = { dur: lh && w.durations.indexOf(lh.dur) >= 0 ? lh.dur : w.defDur };
+    else hxCfg[w.id] = { opt: w.weights ? (lh && lh.opt ? lh.opt : w.def) : null };
+  }
+  return hxCfg[w.id];
+}
+
+/* ----- time: always computed from timestamps, never by counting ticks ----- */
+function hxElapsed(now){
+  if(!HX) return 0;
+  var ref = HX.status === "running" ? now : HX.status === "paused" ? HX.pAt : HX.endAt;
+  return Math.max(0, Math.min(HX.total, ref - HX.t0 - HX.pTot));
+}
+function hxSnap(now){
+  var e = hxElapsed(now), done = e >= HX.total;
+  if(HX.mode === "amrap"){ var l = HX.total - e; return { e: e, done: done, leftMs: l, secs: Math.ceil(l / 1000) }; }
+  var per = hxPer(HX), left = done ? 0 : per - (e % per);
+  return { e: e, done: done, round: done ? HX.rounds : Math.floor(e / per) + 1, leftMs: left, secs: Math.ceil(left / 1000) };
+}
+function hxStats(){
+  var e = hxElapsed(Date.now());
+  if(HX.mode === "amrap"){
+    var splits = HX.taps.map(function(t, i){ return t - (i ? HX.taps[i - 1] : 0); });
+    return { e: e, sets: HX.taps.length, splits: splits };
+  }
+  var per = hxPer(HX);
+  var reached = Math.min(HX.rounds, Math.ceil(e / per)), vals = HX.rest.filter(function(r){ return typeof r === "number"; });
+  var sum = vals.reduce(function(a, b){ return a + b; }, 0);
+  return { e: e, reached: reached, marked: vals.length, avg: vals.length ? Math.round(sum / vals.length) : null,
+           rounds: vals.length ? vals.length : Math.floor(e / per) };
+}
+function hxPersist(){ try{ if(HX) localStorage.setItem(HX_KEY, JSON.stringify(HX)); else localStorage.removeItem(HX_KEY); }catch(e){} }
+
+/* ----- sound, vibration, screen wake: all optional, all fail silently ----- */
+function hxAudioUnlock(){
+  try{
+    var C = window.AudioContext || window.webkitAudioContext; if(!C) return;
+    if(!hxAC) hxAC = new C();
+    if(hxAC.state !== "running" && hxAC.resume) hxAC.resume().catch(function(){});
+    var b = hxAC.createBuffer(1, 1, 22050), src = hxAC.createBufferSource();
+    src.buffer = b; src.connect(hxAC.destination); src.start(0);
+  }catch(e){}
+}
+function hxBeep(freq, dur, kind){
+  hxLog(kind);
+  try{
+    if(!hxAC) return;
+    if(hxAC.state === "suspended" && hxAC.resume) hxAC.resume().catch(function(){});
+    var o = hxAC.createOscillator(), g = hxAC.createGain(), t = hxAC.currentTime;
+    o.type = "square"; o.frequency.value = freq;
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.35, t + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(hxAC.destination); o.start(t); o.stop(t + dur + 0.03);
+  }catch(e){}
+}
+function hxBuzz(p){ try{ if(navigator.vibrate) navigator.vibrate(p); }catch(e){} }
+function hxWakeOn(){
+  try{
+    if(hxWL || !navigator.wakeLock || document.visibilityState !== "visible") return;
+    navigator.wakeLock.request("screen").then(function(s){
+      hxWL = s;
+      try{ s.addEventListener("release", function(){ if(hxWL === s) hxWL = null; }); }catch(e){}
+    }).catch(function(){});
+  }catch(e){}
+}
+function hxWakeOff(){ try{ if(hxWL) hxWL.release().catch(function(){}); }catch(e){} hxWL = null; }
+function hxSay(t){ var l = $("hxLive"); if(l) l.textContent = t; }
+
+/* ----- timer actions ----- */
+function hxStop(){ clearInterval(hxTick); hxTick = null; }
+function hxRun(){ hxStop(); hxTick = setInterval(hxOnTick, 200); hxOnTick(); }
+function hxStart(){
+  var w = hxFind(hxOpen); if(!w) return;
+  hxAudioUnlock();                       /* inside the tap, so iPhone lets us play sound */
+  var c = hxCfgFor(w), now = Date.now();
+  HX = { v: 3, mode: hxMode(w), wk: w.id, status: "running", t0: now, pAt: null, pTot: 0, endAt: null, savedId: null };
+  if(HX.mode === "amrap"){ HX.dur = c.dur; HX.total = c.dur * 60000; HX.taps = []; HX.partial = ""; }
+  else {
+    HX.opt = c.opt; HX.iv = w.interval || 60; HX.rounds = w.rounds; HX.total = HX.iv * HX.rounds * 1000; HX.rest = [];
+    for(var i = 0; i < HX.rounds; i++) HX.rest.push(null);
+  }
+  hxPrev = null; hxPersist();
+  hxBeep(1320, 0.4, "go"); hxBuzz(250);
+  hxWakeOn(); hxRun();
+  hxSay(HX.mode === "amrap" ? hxMMSS(HX.total) + " on the clock. Go." : "Round 1 of " + HX.rounds + ". Go.");
+}
+function hxPause(){
+  if(!HX || HX.status !== "running") return;
+  HX.status = "paused"; HX.pAt = Date.now(); hxPersist();
+  hxStop(); hxWakeOff(); hxRender(); hxSay("Paused.");
+}
+function hxResume(){
+  if(!HX || HX.status !== "paused") return;
+  hxAudioUnlock();
+  HX.pTot += Date.now() - HX.pAt; HX.pAt = null; HX.status = "running"; hxPrev = null; hxPersist();
+  hxWakeOn(); hxRun(); hxSay("Resumed.");
+}
+function hxOnTick(){
+  if(!HX || HX.status !== "running"){ hxStop(); return; }
+  var now = Date.now(), s = hxSnap(now);
+  var live = hxPrev && now - hxPrev.at < 1500;   /* after a lock or a hidden tab, don't play the beeps we missed */
+  if(s.done){ hxFinish(live); return; }
+  if(HX.mode === "amrap"){
+    var lt = Math.ceil(s.leftMs / 1000);
+    if(live && lt !== hxPrev.secs){
+      if(lt === 60 && HX.total > 60000){ hxBeep(1100, 0.3, "warn"); hxBuzz([150, 80, 150]); hxSay("One minute left."); }
+      else if(lt >= 1 && lt <= 3){ hxBeep(880, 0.12, "c" + lt); hxBuzz(60); }
+    }
+    hxPrev = { at: now, secs: lt };
+  } else {
+    if(hxPrev && s.round !== hxPrev.round){
+      if(live){ hxBeep(1320, 0.4, "min"); hxBuzz(300); }
+      hxSay("Round " + s.round + " of " + HX.rounds);
+    } else if(live && s.secs !== hxPrev.secs && s.secs >= 1 && s.secs <= 3){
+      hxBeep(880, 0.12, "c" + s.secs); hxBuzz(60);
+    }
+    hxPrev = { at: now, round: s.round, secs: s.secs };
+  }
+  hxRender(s);
+}
+function hxFinish(withSound){
+  if(HX.status === "running") HX.endAt = HX.t0 + HX.pTot + Math.min(HX.total, Date.now() - HX.t0 - HX.pTot);
+  else if(HX.status === "paused") HX.endAt = HX.pAt;
+  HX.status = "done"; hxStop(); hxWakeOff();
+  if(withSound){ hxBeep(1760, 0.8, "end"); hxBuzz([200, 100, 200, 100, 400]); }
+  hxSaveSession();
+  hxPersist();
+  var ae = document.activeElement, t = $("hxTimer");
+  hxRender();
+  if(t && ae && t.contains(ae) && !ae.offsetParent){ var hd = $("hxFinHead"); if(hd) hd.focus(); }
+  var st = hxStats();
+  hxSay(HX.mode === "amrap" ? "Time. " + hxPlural(st.sets, "set", "sets") + "." : "Workout done. " + st.rounds + " rounds.");
+}
+function hxMark(){           /* EMOM: Round done */
+  if(!hxActive() || HX.mode !== "emom") return;
+  var s = hxSnap(Date.now()), i = s.round - 1;
+  if(HX.rest[i] !== null) return;
+  HX.rest[i] = s.secs; hxPersist(); hxBuzz(40);
+  hxRender(); hxSay("Round " + s.round + " done. " + s.secs + " seconds rest.");
+}
+function hxSetDone(){        /* AMRAP: +1 set */
+  if(!hxActive() || HX.mode !== "amrap") return;
+  var e = hxElapsed(Date.now());
+  HX.taps.push(e); hxPersist(); hxBuzz(40);
+  hxRender(); hxSay(hxPlural(HX.taps.length, "set", "sets") + ".");
+}
+function hxUndo(){
+  if(!hxActive() || HX.mode !== "amrap" || !HX.taps.length) return;
+  HX.taps.pop(); hxPersist();
+  hxRender(); hxSay("Last set removed. " + hxPlural(HX.taps.length, "set", "sets") + ".");
+  var u = $("hxUndo"); if(u && u.hidden){ var b = $("hxSetDone"); if(b) b.focus(); }
+}
+function hxResetNow(){
+  hxStop(); hxWakeOff(); HX = null; hxPrev = null; hxPersist(); hxRender(); hxSay("Timer reset.");
+}
+function hxAskReset(){
+  if(!HX) return;
+  var saved = HX.status === "done";
+  svDialog({ title: saved ? "Clear the timer?" : "Reset the timer?",
+    text: saved ? "Your workout is already saved in your history." :
+      "This stops the timer and clears the " + (HX.mode === "amrap" ? "sets you counted" : "rounds you marked") + ". Nothing is saved.",
+    buttons: [ { id: "cancel", label: saved ? "Cancel" : "Keep going" }, { id: "reset", label: "Reset timer", cls: "dangerfill" } ],
+    onButton: function(id){ if(id === "reset"){ hxResetNow(); setTimeout(function(){ var g = $("hxGo"); if(g) g.focus(); }, 0); } } });
+}
+function hxAskSave(){
+  if(!hxActive()) return;
+  var st = hxStats(), what;
+  if(HX.mode === "amrap") what = hxPlural(st.sets, "set", "sets") + " in " + hxMMSS(st.e);
+  else { var o = hxOpt(hxFind(HX.wk), HX.opt); what = hxPlural(st.rounds, "round", "rounds") + (o ? " at " + o.lb + " lb" : ""); }
+  svDialog({ title: "End and save?", text: "This stops the timer and saves " + what + " to your history.",
+    buttons: [ { id: "save", label: "End and save", cls: "primary" }, { id: "cancel", label: "Keep going" } ],
+    onButton: function(id){ if(id === "save"){ hxFinish(false); setTimeout(function(){ var hd = $("hxFinHead"); if(hd) hd.focus(); }, 0); } } });
+}
+function hxSaveSession(){
+  if(!HX || HX.savedId) return true;
+  if(histBlocked){ svToast("Not saved: your data is from a newer version of the app. Reload the page to update."); return false; }
+  var w = hxFind(HX.wk), st = hxStats(), now = Date.now();
+  var id = "s_" + now.toString(36) + "_" + hRand(), entry, hit;
+  if(HX.mode === "amrap"){
+    entry = { n: "HIT: " + w.title, i: 0, u: "reps", s: "AMRAP " + HX.dur + " min", w: "", wn: null,
+              sets: st.splits.map(function(ms){ return { r: Math.round(ms / 1000), d: true }; }), note: HX.partial ? "+ " + HX.partial : "" };
+    hit = { v: 1, mode: "amrap", id: w.id, dur: HX.dur, sets: st.sets, splits: st.splits.slice(), partial: HX.partial || "", secs: Math.round(st.e / 1000) };
+  } else {
+    var o = hxOpt(w, HX.opt);
+    entry = { n: "HIT: " + w.title, i: 0, u: o ? "lbs" : "reps", s: HX.rounds + " rounds EMOM " + HX.iv + "s",
+              w: o ? String(o.lb) : "", wn: o ? o.lb : null,
+              sets: HX.rest.slice(0, Math.max(st.reached, 0)).map(function(r){ return { r: r, d: r !== null }; }), note: "Rest seconds left per round" };
+    hit = { v: 1, mode: "emom", id: w.id, opt: o ? o.k : null, lb: o ? o.lb : null, iv: HX.iv, rounds: st.rounds, marked: st.marked, total: HX.rounds,
+            avgRest: st.avg, rest: HX.rest.slice(), secs: Math.round(st.e / 1000) };
+  }
+  var s = { id: id, date: localDate(HX.t0), start: HX.t0, upd: now, fin: now, wid: hxWid(w), title: "HIT / " + w.title, ex: [entry], hit: hit };
+  HIST.sessions.push(s); delete histDeleted[id]; histSort();
+  HX.savedId = id;
+  var ok = histWriteNow(true);
+  hxRenderList();
+  return ok;
+}
+function hxSetPartial(v){     /* finish screen: optional "+ partial reps" note, written into the saved session */
+  if(!HX || HX.mode !== "amrap") return;
+  HX.partial = String(v || "").slice(0, 40); hxPersist();
+  var s = null; HIST.sessions.forEach(function(x){ if(x.id === HX.savedId) s = x; });
+  if(!s) return;
+  s.hit.partial = HX.partial.trim(); s.ex[0].note = s.hit.partial ? "+ " + s.hit.partial : ""; s.upd = Date.now();
+  clearTimeout(hxPartTimer); hxPartTimer = setTimeout(function(){ histWriteNow(true); hxRender(); }, 400);
+}
+
+/* ----- screens ----- */
+function hxRenderList(){
+  var host = $("hitCards"); if(!host) return;
+  host.innerHTML = "";
+  HITS.forEach(function(w){
+    var last = hxLast(w), running = HX && HX.wk === w.id && hxActive(), am = hxMode(w) === "amrap";
+    var best = am ? hxBest(w, hxCfgFor(w).dur) : null;
+    var card = el("button", "wk-card");
+    card.type = "button"; card.setAttribute("data-hit", w.id);
+    card.innerHTML = '<span class="tag">' + esc(w.tag) + '</span> <span class="hometag ' + esc(w.gearCls || "") + '">' + esc(w.gear) + '</span>' +
+      '<h2>' + esc(w.title) + '</h2>' +
+      (w.subtitle ? '<div class="hitsub">' + esc(w.subtitle) + '</div>' : '') +
+      '<div class="list">(' + esc(w.moves.map(function(m){ return m.reps + " " + m.n.toLowerCase(); }).join(", ")) + ')</div>' +
+      (last ? '<p class="lasttime">' + esc(hxLastText(last)) + '</p>' : '') +
+      (best !== null ? '<p class="lasttime">Best: ' + esc(hxPlural(best, "set", "sets")) + '</p>' : '') +
+      '<div class="meta">' + (running ? "Timer running" : am ? w.defDur + " min \u00b7 as many sets as you can" : w.rounds + " rounds \u00b7 " + Math.round(w.rounds * (w.interval || 60) / 60) + " min") +
+      " \u00b7 Tap to open \u2192</div>";
+    card.onclick = function(){ hxOpenDetail(w.id); };
+    host.appendChild(card);
+  });
+}
+function hxOpenDetail(id){
+  var w = hxFind(id); if(!w) return;
+  hxOpen = id;
+  hxCfgFor(w);
+  var am = hxMode(w) === "amrap", pane = $("hitDetailPane");
+  var moves = w.moves.map(function(m){
+    return '<li class="hitmove"><svg class="cardfig" viewBox="0 0 120 120" role="img" aria-label="' + esc(m.n) + ' diagram"><use href="#' + m.f + '"/></svg>' +
+      '<div class="mt"><div class="mn"><span>' + m.reps + '</span>' + esc(m.n) + '</div><p class="mc">' + esc(m.cue) + '</p></div></li>';
+  }).join("");
+  var picks = "";
+  if(w.weights) picks += '<fieldset class="wpick"><legend>Bar weight</legend><div class="wgrid">' + w.weights.map(function(o){
+    return '<button type="button" class="wopt" data-opt="' + esc(o.k) + '" aria-pressed="false"><b>' + esc(o.label) + '</b><small>' + o.lb + ' lb</small></button>';
+  }).join("") + '</div></fieldset>';
+  if(am && w.durations.length > 1) picks += '<fieldset class="wpick"><legend>Time on the clock</legend><div class="wgrid g4">' + w.durations.map(function(d){
+    return '<button type="button" class="wopt" data-dur="' + d + '" aria-pressed="false"><b>' + d + ' min</b></button>';
+  }).join("") + '</div></fieldset>';
+  var runBox = am ?
+      '<div class="hamrap"><div class="htime"><b id="hxTime">20:00</b><small>time left</small></div>' +
+        '<div class="hcount"><b id="hxCount">0</b><small id="hxCountLbl">sets done</small></div></div>' +
+      '<div class="hbar" aria-hidden="true"><div id="hxFill"></div></div>' +
+      '<div class="hmeta"><span id="hxTotalLine"></span><span id="hxLastSplit"></span></div>' +
+      '<button type="button" class="hdone hbig" id="hxSetDone" hidden>Set done +1</button>' +
+      '<div class="hctl">' +
+        '<button type="button" class="minibtn primary" id="hxGo">Start</button>' +
+        '<button type="button" class="minibtn" id="hxUndo" hidden>Undo last set</button>' +
+        '<button type="button" class="minibtn" id="hxReset" hidden>Reset</button>' +
+        '<button type="button" class="minibtn" id="hxSave" hidden>Save &amp; end</button>' +
+      '</div>' +
+      '<p class="hhint" id="hxHint">Beeps at the start, with 1 minute left, and 3-2-1 at the end. Tap Set done after each full set of all 4 moves. Tapped by mistake? Use Undo. Keep your ringer on to hear the beeps.</p>'
+    :
+      '<p class="hround" id="hxRound"></p>' +
+      '<div class="hsecs"><b id="hxSecs">60</b><small id="hxSecsLbl">seconds left this minute</small></div>' +
+      '<div class="hbar" aria-hidden="true"><div id="hxFill"></div></div>' +
+      '<div class="hmeta"><span id="hxWeightLine"></span><span id="hxTotalLine"></span><span id="hxAvgLine"></span></div>' +
+      '<button type="button" class="hdone" id="hxMark" hidden>Round done</button>' +
+      '<div class="hctl">' +
+        '<button type="button" class="minibtn primary" id="hxGo">Start</button>' +
+        '<button type="button" class="minibtn" id="hxReset" hidden>Reset</button>' +
+        '<button type="button" class="minibtn" id="hxSave" hidden>Save &amp; end</button>' +
+      '</div>' +
+      '<p class="hhint" id="hxHint">Beeps at every new minute, with 3-2-1 beeps just before. Tap Round done as soon as you finish the ' + w.moves.length + ' moves: it records how much rest you have left. Keep your ringer on to hear the beeps.</p>';
+  pane.innerHTML =
+    '<button class="backbtn" type="button" id="hxBack">\u2190 All HIT workouts</button>' +
+    '<section class="hitcard" id="hxCard" aria-labelledby="hxTitle">' +
+      '<span class="tag">' + esc(w.tag) + '</span> <span class="hometag ' + esc(w.gearCls || "") + '">' + esc(w.gear) + '</span>' +
+      '<h2 id="hxTitle">' + esc(w.title) + '</h2>' +
+      (w.subtitle ? '<p class="hitsub">' + esc(w.subtitle) + '</p>' : '') +
+      (w.credit ? '<p class="hitcredit">Workout by <a href="' + esc(w.credit.url) + '" target="_blank" rel="noopener">' + esc(w.credit.by) + '</a></p>' : '') +
+      '<p class="lasttime" id="hxLast" hidden></p>' +
+      (am ? '<p class="lasttime" id="hxBest" hidden></p>' : '') +
+      '<div class="hitformat"><b id="hxFmtHead"></b>' + esc(w.formatText) + '<span class="goal">' + esc(w.goal) + '</span></div>' +
+      picks +
+      '<ol class="hitmoves" aria-label="' + (am ? "One set" : "Every minute") + '">' + moves + '</ol>' +
+    '</section>' +
+    '<section class="hittimer" id="hxTimer" aria-labelledby="hxTimerHead">' +
+      '<h2 class="hh" id="hxTimerHead">' + (am ? "AMRAP timer" : "EMOM timer") + '</h2>' +
+      '<div id="hxRunBox">' + runBox + '</div>' +
+      '<div class="hfinish" id="hxFin" hidden>' +
+        '<h3 id="hxFinHead" tabindex="-1">Done!</h3>' +
+        '<p id="hxFinText"></p>' +
+        (am ? '<label class="hpart" for="hxPartial">+ partial reps <span>(optional)</span><input id="hxPartial" type="text" maxlength="40" autocomplete="off" enterkeyhint="done" placeholder="e.g. 10 squats, 4 push-ups"></label>' : '') +
+        '<p class="hsaved" id="hxFinSaved"></p>' +
+        '<div class="hctl"><button type="button" class="minibtn primary" id="hxAgain">Start over</button><button type="button" class="minibtn" id="hxToList">All HIT workouts</button></div>' +
+      '</div>' +
+      '<ol class="hrest" id="hxRest" aria-label="' + (am ? "Split time per set" : "Rest per round") + '"></ol>' +
+      '<p class="vh" id="hxLive" aria-live="polite"></p>' +
+    '</section>';
+  $("hitListPane").hidden = true; pane.hidden = false;
+  $("hxBack").onclick = hxBackToList;
+  $("hxToList").onclick = hxBackToList;
+  pane.querySelectorAll(".wopt[data-opt]").forEach(function(b){
+    b.onclick = function(){
+      hxCfg[w.id].opt = b.getAttribute("data-opt");
+      if(HX && HX.wk === w.id && HX.status !== "done"){ HX.opt = hxCfg[w.id].opt; hxPersist(); }
+      hxRender();
+    };
+  });
+  pane.querySelectorAll(".wopt[data-dur]").forEach(function(b){
+    b.onclick = function(){ if(HX && HX.wk === w.id && hxActive()) return; hxCfg[w.id].dur = +b.getAttribute("data-dur"); hxRender(); };
+  });
+  $("hxGo").onclick = function(){
+    if(hxActive() && HX.wk !== w.id){
+      var other = hxFind(HX.wk);
+      svDialog({ title: "Another timer is running", text: other.title + " is still running. Finish or reset it before starting this one.",
+        buttons: [ { id: "open", label: "Open that timer", cls: "primary" }, { id: "cancel", label: "Cancel" } ],
+        onButton: function(id){ if(id === "open") setTimeout(function(){ hxOpenDetail(other.id); window.scrollTo(0, 0); }, 0); } });
+      return;
+    }
+    if(!HX || HX.wk !== w.id || HX.status === "done"){ hxStart(); try{ $("hxTimer").scrollIntoView({ block: "start", behavior: "smooth" }); }catch(e){} }
+    else if(HX.status === "running") hxPause();
+    else hxResume();
+  };
+  if(am){
+    $("hxSetDone").onclick = hxSetDone;
+    $("hxUndo").onclick = hxUndo;
+    var pi = $("hxPartial");
+    pi.addEventListener("input", function(){ hxSetPartial(pi.value); });
+    pi.addEventListener("keydown", function(e){ if(e.key === "Enter"){ e.preventDefault(); pi.blur(); } });
+  } else {
+    $("hxMark").onclick = function(){ if($("hxMark").getAttribute("aria-disabled") !== "true") hxMark(); };
+  }
+  $("hxReset").onclick = hxAskReset;
+  $("hxSave").onclick = hxAskSave;
+  $("hxAgain").onclick = function(){ hxResetNow(); setTimeout(function(){ var g = $("hxGo"); if(g) g.focus(); }, 0); };
+  hxRender();
+  if(HX && HX.wk === id && HX.status === "running" && !hxTick) hxRun();
+}
+function hxBackToList(){
+  hxOpen = null;
+  $("hitDetailPane").hidden = true; $("hitDetailPane").innerHTML = ""; $("hitListPane").hidden = false;
+  hxRenderList(); window.scrollTo(0, 0);
+  var c = document.querySelector("#hitCards .wk-card"); if(c) c.focus();
+}
+function hxRender(snap){
+  var w = hxFind(hxOpen), timer = $("hxTimer"); if(!w || !timer) return;
+  var mine = HX && HX.wk === w.id ? HX : null, cfg = hxCfgFor(w);
+  var st = mine ? mine.status : "idle", act = !!(mine && hxActive());
+  var lt = $("hxLast"), txt = hxLastText(hxLast(w));
+  lt.textContent = txt; lt.hidden = !txt;
+  $("hxRunBox").hidden = st === "done"; $("hxFin").hidden = st !== "done";
+  timer.classList.toggle("is-low", false);
+  if(hxMode(w) === "amrap") hxRenderAmrap(w, mine, cfg, st, act, snap); else hxRenderEmom(w, mine, cfg, st, snap);
+}
+function hxRenderAmrap(w, mine, cfg, st, act, snap){
+  var dur = mine ? mine.dur : cfg.dur, total = dur * 60000;
+  document.querySelectorAll("#hitDetailPane .wopt[data-dur]").forEach(function(b){
+    b.setAttribute("aria-pressed", +b.getAttribute("data-dur") === dur ? "true" : "false");
+    b.setAttribute("aria-disabled", act ? "true" : "false");
+  });
+  var best = hxBest(w, dur), bl = $("hxBest");
+  bl.textContent = best !== null ? "Best: " + hxPlural(best, "set", "sets") + (dur !== w.defDur ? " in " + dur + " min" : "") : "";
+  bl.hidden = best === null;
+  $("hxFmtHead").textContent = dur + " minutes \u00b7 as many sets as possible";
+  if(st === "idle"){
+    $("hxTime").textContent = hxMMSS(total); $("hxCount").textContent = "0"; $("hxCountLbl").textContent = "sets done";
+    $("hxFill").style.width = "0%"; $("hxTotalLine").textContent = "Total " + hxMMSS(total); $("hxLastSplit").textContent = "";
+    $("hxSetDone").hidden = true; $("hxUndo").hidden = true; $("hxGo").textContent = "Start"; $("hxReset").hidden = true; $("hxSave").hidden = true; $("hxHint").hidden = false;
+    $("hxRest").innerHTML = "";
+    return;
+  }
+  var s = snap || hxSnap(Date.now()), stats = hxStats();
+  if(st === "done"){
+    $("hxFinHead").textContent = s.done ? "Time!" : "Workout saved";
+    $("hxFinText").textContent = hxPlural(stats.sets, "set", "sets") + " in " + hxMMSS(s.e) + "." +
+      (best !== null && stats.sets >= best && hxSessions(w).length > 1 ? " That ties or beats your best!" : "");
+    var pi = $("hxPartial"); if(document.activeElement !== pi) pi.value = mine.partial || "";
+    $("hxFinSaved").textContent = mine.savedId ? "\u2713 Saved to your history" : "Could not save to your history.";
+  } else {
+    $("hxTime").textContent = hxMMSSup(s.leftMs);
+    $("hxTimer").classList.toggle("is-low", st === "running" && s.leftMs <= 60000);
+    $("hxCount").textContent = String(stats.sets); $("hxCountLbl").textContent = stats.sets === 1 ? "set done" : "sets done";
+    $("hxFill").style.width = (100 * s.e / total).toFixed(1) + "%";
+    $("hxTotalLine").textContent = (st === "paused" ? "Paused \u00b7 " : "") + hxMMSS(s.e) + " of " + hxMMSS(total);
+    $("hxLastSplit").textContent = stats.sets ? "Current set " + hxMMSS(s.e - mine.taps[stats.sets - 1]) : "";
+    $("hxSetDone").hidden = false; $("hxUndo").hidden = !stats.sets;
+    $("hxGo").textContent = st === "running" ? "Pause" : "Resume";
+    $("hxReset").hidden = false; $("hxSave").hidden = st !== "paused"; $("hxHint").hidden = true;
+  }
+  var html = "";
+  stats.splits.forEach(function(ms, i){ html += '<li><small>Set ' + (i + 1) + '</small>' + hxMMSS(ms) + ' <span class="hat">at ' + hxMMSS(mine.taps[i]) + '</span></li>'; });
+  var ol = $("hxRest"); if(ol.innerHTML !== html) ol.innerHTML = html;
+}
+function hxRenderEmom(w, mine, cfg, st, snap){
+  var o = hxOpt(w, mine && mine.status === "done" ? mine.opt : cfg.opt), iv = w.interval || 60, rounds = mine ? mine.rounds : w.rounds;
+  document.querySelectorAll("#hitDetailPane .wopt[data-opt]").forEach(function(b){ b.setAttribute("aria-pressed", b.getAttribute("data-opt") === cfg.opt ? "true" : "false"); });
+  $("hxFmtHead").textContent = rounds + " rounds \u00b7 " + hxEvery(iv);
+  $("hxWeightLine").textContent = o ? "Bar " + o.lb + " lb" : "";
+  if(st === "idle"){
+    $("hxRound").innerHTML = rounds + " rounds <span>ready</span>";
+    $("hxSecs").textContent = String(iv); $("hxSecsLbl").textContent = "seconds each round";
+    $("hxFill").style.width = "0%";
+    $("hxTotalLine").textContent = "Total " + hxMMSS(rounds * iv * 1000); $("hxAvgLine").textContent = "";
+    $("hxMark").hidden = true; $("hxGo").textContent = "Start"; $("hxReset").hidden = true; $("hxSave").hidden = true; $("hxHint").hidden = false;
+    $("hxRest").innerHTML = "";
+    return;
+  }
+  var s = snap || hxSnap(Date.now()), stats = hxStats();
+  if(st === "done"){
+    $("hxFinHead").textContent = s.done ? "Done!" : "Workout saved";
+    $("hxFinText").textContent = stats.rounds + " of " + mine.rounds + " rounds" + (o ? " at " + o.lb + " lb" : "") +
+      (s.done ? "" : " (ended at " + hxMMSS(s.e) + ")") + ". " +
+      (stats.avg !== null ? "Average rest " + stats.avg + " sec." : "Rest was not recorded (tap Round done each minute next time).");
+    $("hxFinSaved").textContent = mine.savedId ? "\u2713 Saved to your history" : "Could not save to your history.";
+  } else {
+    $("hxRound").innerHTML = (st === "paused" ? "Paused \u00b7 " : "") + "Round <span>" + s.round + "</span> of " + mine.rounds;
+    $("hxSecs").textContent = String(s.secs); $("hxSecsLbl").textContent = mine.iv === 60 ? "seconds left this minute" : "seconds left this round";
+    $("hxTimer").classList.toggle("is-low", st === "running" && s.secs <= 3);
+    $("hxFill").style.width = (100 * (hxPer(mine) - s.leftMs) / hxPer(mine)).toFixed(1) + "%";
+    $("hxTotalLine").textContent = hxMMSS(s.e) + " of " + hxMMSS(mine.total);
+    $("hxAvgLine").textContent = stats.avg !== null ? "Avg rest " + stats.avg + " s" : "";
+    var m = $("hxMark"), r = mine.rest[s.round - 1];
+    m.hidden = false;
+    if(r === null){ m.textContent = "Round " + s.round + " done"; m.setAttribute("aria-disabled", "false"); }
+    else { m.textContent = "\u2713 Round " + s.round + " \u00b7 " + r + " s rest"; m.setAttribute("aria-disabled", "true"); }
+    $("hxGo").textContent = st === "running" ? "Pause" : "Resume";
+    $("hxReset").hidden = false; $("hxSave").hidden = st !== "paused"; $("hxHint").hidden = true;
+  }
+  var ol = $("hxRest"), html = "", upto = st === "done" ? stats.reached : s.round;
+  for(var i = 0; i < upto; i++){
+    var v = mine.rest[i];
+    if(v === null && st !== "done" && i === s.round - 1) continue;
+    html += '<li' + (v === null ? ' class="miss"' : '') + '><small>Round ' + (i + 1) + '</small>' + (v === null ? "not marked" : v + " s rest") + '</li>';
+  }
+  if(ol.innerHTML !== html) ol.innerHTML = html;
+}
+
+/* ----- entry points ----- */
+window.__poHitShow = function(){
+  hxRenderList();
+  if(hxActive()) hxOpenDetail(HX.wk);
+  else if(hxOpen) hxRender();
+};
+function hxValid(r){
+  var w = r && hxFind(r.wk);
+  if(!r || r.v !== 3 || !w || r.mode !== hxMode(w) || typeof r.t0 !== "number" || !(r.total > 0) || Date.now() - r.t0 > HX_MAX_AGE) return false;
+  if(r.mode === "amrap") return Array.isArray(r.taps) && r.dur > 0;
+  return Array.isArray(r.rest) && r.iv > 0 && r.rest.length === r.rounds;
+}
+function hxBoot(){
+  hxRenderList();
+  var raw = null; try{ raw = JSON.parse(localStorage.getItem(HX_KEY) || "null"); }catch(e){ raw = null; }
+  if(!hxValid(raw)){ if(raw !== null) try{ localStorage.removeItem(HX_KEY); }catch(e){} return; }
+  HX = raw; delete hxCfg[HX.wk];
+  if(HX.status === "running"){
+    if(hxElapsed(Date.now()) >= HX.total) hxFinish(false);   /* it ended while the app was closed */
+    else { show("hit"); hxWakeOn(); }
+  }
+}
+document.addEventListener("visibilitychange", function(){
+  if(document.visibilityState !== "visible"){ hxWL = null; return; }   /* the browser drops the wake lock when hidden */
+  if(!HX) return;
+  if(HX.status === "running"){ hxWakeOn(); hxOnTick(); }
+  else if(hxOpen) hxRender();
+});
+window.addEventListener("pageshow", function(){ if(HX && HX.status === "running") hxOnTick(); });
+
 /* ============ PWA service worker ============ */
 if("serviceWorker" in navigator && location.protocol.indexOf("http") === 0){
   window.addEventListener("load", function(){
@@ -2402,7 +3034,7 @@ if("serviceWorker" in navigator && location.protocol.indexOf("http") === 0){
 }
 
 /* ============ boot ============ */
-try{ console.log("Progressive Overload build v16"); }catch(e){}
+try{ console.log("Progressive Overload build v17"); }catch(e){}
 storeGet("ft:custom", function(v){
   try{ CUSTOM = v ? JSON.parse(v) : []; }catch(e){ CUSTOM = []; }
   CUSTOM.forEach(function(x){ x.custom = true; if(idx(x.n)<0) LIB.push(x); });
@@ -2413,6 +3045,7 @@ storeGet("ft:custom", function(v){
     renderChips();
     renderLibrary();
     show("home");
+    hxBoot();   /* v17: HIT list + restore a timer that was running */
   });
 });
 /* v16: a shared route link goes straight to Run (after every script has loaded) */
@@ -2525,7 +3158,7 @@ window.__poLoadLeaflet = function(){
       var lib = window.__leafletSrc || (typeof L !== "undefined" ? "ok" : "loading");
       var mEl = document.getElementById("map");
       var size = mEl ? (mEl.clientWidth + "x" + mEl.clientHeight) : "?";
-      d.textContent = "v16 · lib:" + lib + " · " + PROV()[provIdx].name + "/" + (lastRouter||"-") + " " + size + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (diagNote ? " · " + diagNote : "");
+      d.textContent = "v17 · lib:" + lib + " · " + PROV()[provIdx].name + "/" + (lastRouter||"-") + " " + size + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (diagNote ? " · " + diagNote : "");
     }
     function mountTiles(){
       if(tiles) map.removeLayer(tiles);
@@ -2994,7 +3627,7 @@ window.__poLoadLeaflet = function(){
       tries++;
       if(tries > 120 || window.__leafletSrc === "none"){
         el.innerHTML = '<div style="padding:24px;font-family:monospace;font-size:12px;color:#7E96A8;line-height:1.7"><b style="color:#E8F0F5">The map library could not be downloaded from either CDN.</b><br>The rest of the site is unaffected. This is usually a connection issue or a content blocker on this device.<br>Try: a different network, disabling ad/content blockers for this site, then reload.</div>';
-        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v16 · lib:none (both CDNs failed)";
+        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v17 · lib:none (both CDNs failed)";
         return;
       }
       setTimeout(waitL, 150);

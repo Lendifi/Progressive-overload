@@ -1,7 +1,7 @@
 /* Progressive Overload service worker.
    The page document is network-first (so new deploys always land);
    other same-origin assets are cache-first; tiles/routing are never touched. */
-var CACHE_V = "po-v8";
+var CACHE_V = "po-v9";
 var SHELL = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./icon-180.png"];
 
 self.addEventListener("install", function(e){
