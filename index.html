@@ -262,7 +262,6 @@
     display:flex;flex-direction:column;overflow-y:auto;}
   @media (max-width:860px){
     .rm-app{flex-direction:column}
-    .rm-stage{flex:0 0 auto;height:50dvh}
     .rm-panel{width:100%;flex:1 1 auto;border-right:none;border-top:1px solid var(--d-rule)}
   }
   .rm-head{padding:16px 18px 12px;border-bottom:1px solid var(--d-rule)}
@@ -329,7 +328,7 @@
   .rm-track{position:relative;height:10px;background:var(--d-panel2);border-radius:1px}
   .rm-fill{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--d-signal);border-radius:1px;
     transition:width .28s cubic-bezier(.4,0,.2,1)}
-  .rm-seg{position:absolute;top:-3px;bottom:-3px;width:1px;background:var(--d-ink);opacity:.85}
+  .rm-railseg{position:absolute;top:-3px;bottom:-3px;width:1px;background:var(--d-ink);opacity:.85}
   .rm-tick{position:absolute;top:-4px;height:18px;width:2px;background:var(--d-mark);transform:translateX(-1px)}
   .rm-tick span{position:absolute;top:19px;left:50%;transform:translateX(-50%);
     font-family:var(--f-display);font-weight:800;font-synthesis:none;font-size:13px;color:var(--d-mark);line-height:1}
@@ -341,12 +340,34 @@
     padding:9px 14px;font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;
     text-transform:uppercase;pointer-events:none;transition:opacity .3s;color:var(--d-chalk)}
   .rm-hint.is-gone{opacity:0}
+  .rm-app.is-debug .rm-diag{display:block}
+  .rm-hint{max-width:calc(100% - 120px);text-align:center;line-height:1.35}
+  /* v18.1: dark map style = OSM standard tiles, inverted in the browser (no extra provider) */
+  .po-dark-tiles{filter:invert(1) hue-rotate(180deg) brightness(.92) contrast(.88) saturate(.7)}
+  .rm-seg button{min-height:40px}
+  #styleSeg button{padding:9px 2px;font-size:10px;letter-spacing:.03em}
+  .rm-panel{overflow-x:hidden;min-width:0}
+  .rm-app,.rm-stage,.rm-mapwrap{max-width:100%}
+  @media (max-width:860px){
+    .rm-app{height:var(--rm-h,calc(100dvh - 48px));overflow:hidden}
+    .rm-stage{order:-1;flex:0 0 auto;height:66%;min-height:280px}
+    .rm-mapwrap{min-height:0}
+    .rm-panel{min-height:0;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+    .rm-head{display:none}
+    .rm-readout{padding:10px 14px;gap:10px}
+    .rm-big{font-size:44px}
+    .rm-sec{padding:12px 14px}
+    .rm-rail{height:60px;padding:9px 14px 6px}
+    .rm-railhead{margin-bottom:6px}
+    .rm-tick span{font-size:11px;top:16px}
+  }
+  @media (max-width:860px) and (max-height:620px){ .rm-stage{height:64%;min-height:240px} }
   .rm-status{position:absolute;z-index:500;left:12px;bottom:12px;
     background:rgba(14,22,32,.92);border:1px solid var(--d-rule);border-left:2px solid var(--d-mark);
     border-radius:2px;padding:8px 11px;font-family:var(--f-mono);font-size:11px;
     max-width:min(300px,70%);line-height:1.4;display:none;color:var(--d-chalk)}
   .rm-status.is-on{display:block}
-  .rm-diag{position:absolute;z-index:500;right:10px;top:10px;background:rgba(14,22,32,.85);border:1px solid var(--d-rule);border-radius:2px;padding:5px 8px;font-family:var(--f-mono);font-size:9px;letter-spacing:.06em;color:#7E96A8;max-width:70%;line-height:1.5}
+  .rm-diag{display:none;position:absolute;z-index:500;right:10px;bottom:30px;background:rgba(14,22,32,.85);border:1px solid var(--d-rule);border-radius:2px;padding:5px 8px;font-family:var(--f-mono);font-size:9px;letter-spacing:.06em;color:#7E96A8;max-width:70%;line-height:1.5}
   .rm-node{width:22px;height:22px;border-radius:50%;background:var(--d-signal);border:2px solid var(--d-ink);color:#fff;
     font-family:var(--f-display);font-weight:800;font-synthesis:none;font-size:13px;display:flex;align-items:center;justify-content:center;
     box-shadow:0 1px 6px rgba(0,0,0,.5)}
@@ -545,6 +566,80 @@
   .hpart span{color:#9aa4b2;text-transform:none;letter-spacing:0;font-weight:700;}
   .hpart input{display:block;width:100%;margin-top:6px;min-height:48px;border:2px solid #c4ccd6;border-radius:10px;padding:10px;background:#fff;color:var(--ink);
     font-family:var(--f-body);font-size:16px;font-weight:600;text-transform:none;letter-spacing:0;}
+
+  /* ---------- v18: 3D-style move demos + hands-free follow-along ---------- */
+  canvas.cardfig{display:block;}
+  .hitmove .cardfig{width:96px;height:96px;}
+  .hitneed{font-size:13.5px;font-weight:800;color:var(--ink);margin:4px 0 0;}
+  .hitlist .hitneed{font-size:13px;color:var(--cobalt-dk);text-transform:uppercase;letter-spacing:.04em;margin-top:4px;}
+  .hitnote{background:#fff7e6;border:1px solid #f1d9a6;border-radius:12px;padding:10px 12px;font-size:13.5px;line-height:1.45;color:#5a4712;margin:8px 0 12px;font-weight:600;}
+  .hitcard > .hitneed{margin:0 0 8px;}
+  .mtags{display:flex;flex-wrap:wrap;gap:6px;margin-top:5px;}
+  .mtags span{font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--steel);background:var(--paper);border-radius:6px;padding:2px 7px;}
+  .mtags span.up{color:#fff;background:var(--cobalt);}
+  .hivl{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-top:6px;}
+  .hivl .hcount b{font-size:clamp(48px,14vw,72px);}
+  .hivl .htime b{font-size:clamp(56px,17vw,96px);}
+  .hnow{font-size:16px;font-weight:800;color:#fff;margin-top:8px;line-height:1.35;}
+  html.fx-on, html.fx-on body{overflow:hidden;}
+  .fx{position:fixed;inset:0;z-index:1500;display:flex;flex-direction:column;color:#fff;
+    background:radial-gradient(120% 70% at 50% 30%,#1d2635 0%,#10151d 70%);
+    padding:max(10px,env(safe-area-inset-top)) 14px max(12px,env(safe-area-inset-bottom));overflow:hidden;}
+  .fx[hidden]{display:none;}
+  .fxtop{display:flex;align-items:center;gap:8px;}
+  .fxwk{flex:1;min-width:0;}
+  .fxwk b{display:block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#9aa4b2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .fxwk span{display:block;font-weight:800;font-size:15px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .fxicon{min-height:44px;min-width:44px;border-radius:12px;border:2px solid #3a4454;background:transparent;color:#fff;font-weight:800;font-size:14px;padding:0 12px;cursor:pointer;touch-action:manipulation;font-family:var(--f-body);}
+  .fxicon[aria-pressed=true]{background:#ffc65c;border-color:#ffc65c;color:var(--ink);}
+  .fx :focus-visible{outline:3px solid var(--cobalt-lt);outline-offset:2px;}
+  .fxbar{height:6px;background:#2a3140;border-radius:99px;margin-top:8px;overflow:hidden;flex:0 0 auto;}
+  .fxbar div{height:100%;width:0;background:var(--cobalt-lt);border-radius:99px;}
+  .fxmain{flex:1 1 auto;display:flex;flex-direction:column;min-height:0;}
+  .fxmain[hidden],.fxfin[hidden]{display:none;}
+  .fxstage{position:relative;flex:1 1 auto;min-height:140px;margin-top:4px;}
+  .fxstage canvas{position:absolute;inset:0;width:100%;height:100%;}
+  .fxbadge{position:absolute;left:0;top:6px;background:#ffc65c;color:var(--ink);font-family:var(--f-display);font-weight:800;font-synthesis:none;
+    font-size:16px;text-transform:uppercase;letter-spacing:.03em;padding:4px 10px;border-radius:8px;}
+  .fx.is-paused .fxbadge{background:#fff;}
+  .fxmove{font-family:var(--f-display);font-weight:800;font-synthesis:none;font-size:clamp(32px,10vw,48px);text-transform:uppercase;line-height:1;text-align:center;margin-top:2px;}
+  .fx.is-rest .fxmove{color:#ffc65c;}
+  .fxcue{font-size:14px;line-height:1.4;color:#c4ccd6;text-align:center;margin:6px auto 0;max-width:34em;min-height:2.8em;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .fxrow{display:flex;align-items:center;gap:12px;margin-top:8px;flex:0 0 auto;}
+  .fxclock{position:relative;width:118px;height:118px;flex:0 0 auto;}
+  .fxclock svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg);}
+  .fxclock circle{fill:none;stroke-width:9;}
+  .fxclock .bg{stroke:#2a3140;}
+  .fxclock .fg{stroke:#34d399;stroke-linecap:round;}
+  .fx.is-rest .fxclock .fg{stroke:#ffc65c;}
+  .fxclock b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding-bottom:10px;font-family:var(--f-display);font-weight:800;font-synthesis:none;
+    font-size:56px;font-variant-numeric:tabular-nums;line-height:1;}
+  .fx.is-low .fxclock b{color:#ffc65c;}
+  .fxclock small{position:absolute;left:0;right:0;bottom:24px;text-align:center;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#9aa4b2;}
+  .fxnext{flex:1;min-width:0;display:flex;align-items:center;gap:10px;background:#1b2230;border:2px solid transparent;border-radius:14px;padding:8px;min-height:100px;}
+  .fxnext.on{border-color:#ffc65c;}
+  .fxnext canvas{width:84px;height:84px;flex:0 0 auto;border-radius:10px;background:#141a24;}
+  .fxnext canvas[hidden]{display:none;}
+  .fxnt{min-width:0;}
+  .fxnt small{display:block;font-size:11.5px;text-transform:uppercase;color:#9aa4b2;font-weight:800;letter-spacing:.1em;}
+  .fxnext.on .fxnt small{color:#ffc65c;}
+  .fxnt b{display:block;font-family:var(--f-display);font-weight:800;font-synthesis:none;font-size:22px;text-transform:uppercase;line-height:1.05;margin-top:3px;}
+  .fxctl{display:flex;gap:10px;margin-top:10px;flex:0 0 auto;}
+  .fxctl button{flex:1;min-height:64px;border-radius:16px;border:none;cursor:pointer;touch-action:manipulation;
+    font-family:var(--f-display);font-weight:800;font-synthesis:none;font-size:26px;text-transform:uppercase;letter-spacing:.02em;}
+  #fxPause{background:#fff;color:var(--ink);flex:1.4;}
+  #fxSkip{background:#2a3140;color:#fff;}
+  .fxctl2[hidden]{display:none;}
+  #fxEnd{background:transparent;border:2px solid #c4ccd6;color:#fff;font-size:18px;min-height:52px;}
+  #fxDone{background:var(--cobalt);color:#fff;}
+  .fxkeys{font-size:12px;color:#7f8a99;text-align:center;margin-top:6px;flex:0 0 auto;}
+  @media (max-height:600px){ .fxcue{display:none;} .fxkeys{display:none;} .fxclock{width:100px;height:100px;} .fxclock b{font-size:46px;} }
+  .fxfin{flex:1 1 auto;display:flex;flex-direction:column;justify-content:center;text-align:center;}
+  .fxfin h2{font-family:var(--f-display);font-weight:800;font-synthesis:none;font-size:clamp(44px,14vw,64px);text-transform:uppercase;color:var(--cobalt-lt);line-height:1;}
+  .fxfin p{font-size:17px;line-height:1.5;margin-top:10px;font-weight:600;color:#e8edf3;}
+  .fxfin .hsaved{color:#7fe0b4;font-weight:800;}
+  .fxfin canvas{width:100%;height:200px;margin-top:8px;}
 </style>
 </head>
 <body>
@@ -678,7 +773,7 @@ if (typeof window.storage === "undefined") {
     </button>
     <button class="path" data-nav="hit" id="homeHit">
       <span class="glyph"><svg width="34" height="34" viewBox="0 0 120 120"><use href="#f-bbthruster"/></svg></span>
-      <span><h2>HIT workouts</h2><p>Barbell EMOM workouts with a built-in timer that beeps every minute.</p></span>
+      <span><h2>HIT workouts</h2><p>Follow-along interval workouts that talk you through every move, plus barbell and bodyweight timers.</p></span>
       <span class="go">→</span>
     </button>
     <button class="path" data-nav="builder">
@@ -712,7 +807,7 @@ if (typeof window.storage === "undefined") {
     </div>
     <div class="datamsg" id="dataMsg" role="status" aria-live="polite"></div>
   </section>
-  <p class="buildtag">build v17 &middot; map: CARTO / Esri / OSM</p>
+  <p class="buildtag">build v18.1 &middot; map: OpenStreetMap / Esri</p>
 </div>
 
 <!-- ============ prebuilt ============ -->
@@ -733,7 +828,7 @@ if (typeof window.storage === "undefined") {
 <div class="view wrap" id="view-hit">
   <div id="hitListPane">
     <button class="backbtn" data-nav="home">← Home</button>
-    <div class="pagehead"><h1>HIT Workouts</h1><p>Short, hard workouts with a built-in timer. Pick your weight, tap Start, and the app counts the rounds and beeps at every new minute.</p></div>
+    <div class="pagehead"><h1>HIT Workouts</h1><p>Short, hard workouts with a built-in timer. Pick one and tap Start. The interval workouts play by themselves, like a video, with a demo of every move.</p></div>
     <div class="hitlist" id="hitCards"></div>
   </div>
   <div id="hitDetailPane" hidden></div>
@@ -810,9 +905,10 @@ if (typeof window.storage === "undefined") {
       </div>
       <p class="rm-legend" style="margin-top:14px">Map style</p>
       <div class="rm-seg" id="styleSeg" role="group" aria-label="Map style">
-        <button data-style="streets" class="on">Streets</button>
-        <button data-style="trails">Trails</button>
-        <button data-style="satellite">Satellite</button>
+        <button data-style="streets" class="on" aria-pressed="true">Streets</button>
+        <button data-style="dark" aria-pressed="false">Dark</button>
+        <button data-style="trails" aria-pressed="false">Trails</button>
+        <button data-style="satellite" aria-pressed="false">Satellite</button>
       </div>
       <div class="rm-field" style="margin-top:10px;margin-bottom:0">
         <input type="text" id="searchIn" placeholder="Search a place or address…" aria-label="Search a place">
@@ -855,7 +951,7 @@ if (typeof window.storage === "undefined") {
       <div class="rm-map" id="map"></div>
       <div class="rm-hint" id="hint">Tap the map to drop your first point</div>
       <div class="rm-status" id="status"></div>
-      <div class="rm-diag" id="diagLine">v17 · opening…</div>
+      <div class="rm-diag" id="diagLine" aria-hidden="true">v18.1 · opening…</div>
     </div>
     <div class="rm-rail">
       <div class="rm-railhead"><span id="railLabel">Distance rail</span><span id="railTotal">0.00 mi</span></div>
@@ -2343,7 +2439,7 @@ $("stopEdit").onclick = function(){
   function buildBackup(){
     var data = {};
     allKeys().forEach(function(k){ data[k] = lsGet(k); });
-    return { app: APP_ID, version: BACKUP_VERSION, build: "v17", exportedAt: new Date().toISOString(), data: data };
+    return { app: APP_ID, version: BACKUP_VERSION, build: "v18.1", exportedAt: new Date().toISOString(), data: data };
   }
   function downloadBlob(blob, name){
     var url = URL.createObjectURL(blob);
@@ -2489,10 +2585,581 @@ $("stopEdit").onclick = function(){
   try{ if(sessionStorage.getItem(RESTORED_FLAG)){ sessionStorage.removeItem(RESTORED_FLAG); msg("Your backup was restored. Welcome back.", "ok"); } }catch(e){}
 })();
 
-/* ============ v17: HIT workouts (EMOM timer) ============ */
+/* ============ v18: 3D-style exercise animations ============
+   One shared rig (a simple 3D skeleton drawn as shaded, tapered capsules), one pose table per move.
+   Angles are in degrees. 0 = limb pointing straight down, 90 = pointing forward (the way the figure faces),
+   180 = straight up. ab = how far the upper arm swings out to the side. The figure is solved with forward
+   kinematics from the pelvis, then moved so the pinned point (a toe, a hand, the pelvis) stays put.
+   ik: hands or feet that must touch a point (the floor, the bar) are solved with 2-bone IK.
+   Adding a move = adding a pose table below. No libraries, no model files. */
+var PoAnim = (function(){
+  var D2R = Math.PI / 180;
+  var L = { torso: 50, sh: 45, neck: 13, head: 10.5, ua: 29, fa: 25, grip: 5, th: 43, shin: 42, ank: 9.5 };
+  var ZS = 16, ZH = 8.5;                         /* half shoulder width, half hip width */
+  var TOE_Y = 3.5, CPH = Math.cos(34 * D2R), SPH = Math.sin(34 * D2R), CTH = Math.cos(11 * D2R), STH = Math.sin(11 * D2R);
+  var PLATE_R = 18, BAR_Y = 18;
+  var CH = ["t","h","uaN","faN","abN","uaF","faF","abF","thN","shN","ftN","thF","shF","ftF","lab"];
+  var DEF = { t: 180, h: null, ua: 4, fa: 7, ab: 6, th: 0, sh: 0, ft: 90, lab: 3 };
+
+  /* ---------- pose tables ---------- */
+  var STAND = { t: 180, ua: 4, fa: 7 };
+  function K(t, o){ o.at = t; return o; }
+  var RACK = { ua: 98, fa: -150, abN: 14, abF: 14 };
+  function mix(a, b){ var o = {}, k; for(k in a) o[k] = a[k]; for(k in b) o[k] = b[k]; return o; }
+  var PLANK_TOP = { t: 105.5, h: 111, th: -74.5, sh: -74.5, ft: 15.5, ab: 26 };
+  var PLANK_LOW = { t: 95, h: 102, th: -85, sh: -85, ft: 5, ab: 38 };
+
+  var MOVES = {
+    airsquat: { dur: 2.0, still: 1, keys: [
+      K(0,    mix(STAND, { ua: 6, fa: 10 })),
+      K(0.42, { t: 138, h: 162, ua: 88, fa: 90, th: 104, sh: -33, lab: 9 }),
+      K(0.52, { t: 138, h: 162, ua: 88, fa: 90, th: 104, sh: -33, lab: 9 }),
+      K(0.9,  mix(STAND, { ua: 8, fa: 14 })) ] },
+    gobletsquat: { dur: 2.0, still: 1, eq: "goblet", keys: [
+      K(0,    { t: 180, ua: 16, fa: 158, ab: 14 }),
+      K(0.42, { t: 150, h: 172, ua: 50, fa: 172, ab: 14, th: 104, sh: -34, lab: 12 }),
+      K(0.52, { t: 150, h: 172, ua: 50, fa: 172, ab: 14, th: 104, sh: -34, lab: 12 }),
+      K(0.9,  { t: 180, ua: 16, fa: 158, ab: 14 }) ] },
+    pushup: { dur: 1.8, still: 0, keys: [
+      K(0,    mix(PLANK_TOP, { pin: { j: "TN", x: -70 }, ik: { a: [56, 5] } })),
+      K(0.45, mix(PLANK_LOW, { pin: { j: "TN", x: -70 }, ik: { a: [56, 5] } })),
+      K(0.55, mix(PLANK_LOW, { pin: { j: "TN", x: -70 }, ik: { a: [56, 5] } })) ] },
+    pike: { dur: 2.0, still: 0, keys: [
+      K(0,    { t: 36, h: 30, ft: 52, ab: 20, pin: { j: "P", x: -2, y: 92 }, ik: { a: [22, 5], l: [-34, TOE_Y, 1] } }),
+      K(0.45, { t: 17, h: 10, ft: 58, ab: 34, pin: { j: "P", x: 10, y: 86 }, ik: { a: [22, 5], l: [-34, TOE_Y, 1] } }),
+      K(0.55, { t: 17, h: 10, ft: 58, ab: 34, pin: { j: "P", x: 10, y: 86 }, ik: { a: [22, 5], l: [-34, TOE_Y, 1] } }) ] },
+    pullup: { dur: 2.2, still: 1, eq: "pullbar", keys: [
+      K(0,    { t: 182, h: 182, ua: 176, fa: 178, ab: 14, th: 8, sh: -10, ft: 40, pin: { j: "WN", x: 0, y: 214 } }),
+      K(0.4,  { t: 188, h: 176, ua: 20, fa: 168, ab: 42, th: 22, sh: -18, ft: 40, pin: { j: "WN", x: 0, y: 214 } }),
+      K(0.52, { t: 188, h: 176, ua: 20, fa: 168, ab: 42, th: 22, sh: -18, ft: 40, pin: { j: "WN", x: 0, y: 214 } }) ] },
+    superman: { dur: 2.0, still: 3, keys: [
+      K(0,    { t: 99, h: 106, ua: 102, fa: 104, ab: 24, th: -93, sh: -93, ft: 2, pin: { j: "P", x: 0, y: 11 } }),
+      K(0.12, { t: 104, h: 112, ua: 110, fa: 110, ab: 24, th: -97, sh: -97, ft: 2, pin: { j: "P", x: 0, y: 11 } }),
+      K(0.32, { t: 106, h: 114, ua: 30, fa: 100, ab: 78, th: -98, sh: -98, ft: 2, pin: { j: "P", x: 0, y: 11 } }),
+      K(0.5,  { t: 107, h: 115, ua: -48, fa: 92, ab: 58, th: -98, sh: -98, ft: 2, pin: { j: "P", x: 0, y: 11 } }),
+      K(0.62, { t: 107, h: 115, ua: -48, fa: 92, ab: 58, th: -98, sh: -98, ft: 2, pin: { j: "P", x: 0, y: 11 } }),
+      K(0.8,  { t: 106, h: 114, ua: 30, fa: 100, ab: 78, th: -98, sh: -98, ft: 2, pin: { j: "P", x: 0, y: 11 } }),
+      K(0.92, { t: 104, h: 112, ua: 110, fa: 110, ab: 24, th: -97, sh: -97, ft: 2, pin: { j: "P", x: 0, y: 11 } }) ] },
+    burpee: { dur: 2.5, still: 3, keys: [
+      K(0,    mix(STAND, { pin: { j: "TN", x: 30 } })),
+      K(0.13, { t: 120, h: 140, th: 112, sh: -42, ab: 4, lab: 8, pin: { j: "TN", x: 30 }, ik: { a: [34, 5] } }),
+      K(0.26, mix(PLANK_TOP, { pin: { j: "TN", x: -94 }, ik: { a: [34, 5] } })),
+      K(0.38, mix(PLANK_LOW, { pin: { j: "TN", x: -94 }, ik: { a: [34, 5] } })),
+      K(0.49, mix(PLANK_TOP, { pin: { j: "TN", x: -94 }, ik: { a: [34, 5] } })),
+      K(0.61, { t: 120, h: 140, th: 112, sh: -42, ab: 4, lab: 8, pin: { j: "TN", x: 30 }, ik: { a: [34, 5] } }),
+      K(0.72, { t: 176, ua: 60, fa: 70, th: 30, sh: -22, pin: { j: "TN", x: 30 } }),
+      K(0.8,  { t: 182, h: 186, ua: 172, fa: 176, ab: 18, th: -2, sh: -2, ft: 40, pin: { j: "TN", x: 30, y: 16 } }),
+      K(0.9,  { t: 176, ua: 60, fa: 70, th: 24, sh: -18, pin: { j: "TN", x: 30 } }) ] },
+    bbburpee: { dur: 2.5, still: 4, eq: "bar", keys: [
+      K(0,    { t: 180, ua: 3, fa: 3, ab: 6, pin: { j: "TN", x: 22 } }),
+      K(0.14, { t: 132, h: 150, th: 74, sh: -24, ab: 6, pin: { j: "TN", x: 22 }, ik: { a: [0, BAR_Y + L.grip] } }),
+      K(0.22, { t: 124, h: 144, th: 110, sh: -44, ab: 6, lab: 6, pin: { j: "TN", x: 22 }, ik: { a: [0, BAR_Y + L.grip] } }),
+      K(0.33, { t: 116.3, h: 121, th: -63.7, sh: -63.7, ft: 26.3, ab: 6, pin: { j: "TN", x: -113 }, ik: { a: [0, BAR_Y + L.grip] } }),
+      K(0.45, { t: 104, h: 110, th: -76, sh: -76, ft: 14, ab: 6, pin: { j: "TN", x: -118 }, ik: { a: [0, BAR_Y + L.grip] } }),
+      K(0.56, { t: 116.3, h: 121, th: -63.7, sh: -63.7, ft: 26.3, ab: 6, pin: { j: "TN", x: -113 }, ik: { a: [0, BAR_Y + L.grip] } }),
+      K(0.67, { t: 124, h: 144, th: 110, sh: -44, ab: 6, lab: 6, pin: { j: "TN", x: 22 }, ik: { a: [0, BAR_Y + L.grip] } }),
+      K(0.76, { t: 132, h: 150, th: 74, sh: -24, ab: 6, pin: { j: "TN", x: 22 }, ik: { a: [0, BAR_Y + L.grip] } }),
+      K(0.9,  { t: 180, ua: 3, fa: 3, ab: 6, pin: { j: "TN", x: 22 } }) ] },
+    hpclean: { dur: 2.2, still: 3, eq: "bar", keys: [
+      K(0,    { t: 158, h: 170, ua: -4, fa: -4, ab: 6, th: 20, sh: -12 }),
+      K(0.2,  { t: 186, h: 184, ua: 8, fa: 8, ab: 6, th: -4, sh: -4, ftN: 58, ftF: 58, pin: { j: "TN", x: 0 } }),
+      K(0.32, { t: 182, h: 180, ua: 96, fa: -40, ab: 62, th: 6, sh: -6, ftN: 70, ftF: 70 }),
+      K(0.44, mix(RACK, { t: 172, h: 178, th: 48, sh: -30 })),
+      K(0.6,  mix(RACK, { t: 180, th: 0, sh: 0 })),
+      K(0.72, mix(RACK, { t: 180, th: 0, sh: 0 })),
+      K(0.88, { t: 162, h: 172, ua: -2, fa: -2, ab: 6, th: 16, sh: -10 }) ] },
+    s2oh: { dur: 2.0, still: 3, eq: "bar", keys: [
+      K(0,    mix(RACK, { t: 180 })),
+      K(0.18, mix(RACK, { t: 180, th: 26, sh: -22 })),
+      K(0.32, { t: 180, ua: 132, fa: 176, ab: 30, th: -2, sh: -2, ftN: 66, ftF: 66 }),
+      K(0.46, { t: 180, h: 184, ua: 174, fa: 177, ab: 12 }),
+      K(0.62, { t: 180, h: 184, ua: 174, fa: 177, ab: 12 }),
+      K(0.82, { t: 180, ua: 128, fa: 176, ab: 30 }) ] },
+    bbthruster: { dur: 2.2, still: 1, eq: "bar", keys: [
+      K(0,    mix(RACK, { t: 180 })),
+      K(0.36, mix(RACK, { t: 152, h: 172, ua: 76, fa: -164, th: 105, sh: -33, lab: 9 })),
+      K(0.44, mix(RACK, { t: 152, h: 172, ua: 76, fa: -164, th: 105, sh: -33, lab: 9 })),
+      K(0.6,  { t: 174, h: 178, ua: 128, fa: 176, ab: 30, th: 22, sh: -14 }),
+      K(0.72, { t: 180, h: 184, ua: 174, fa: 177, ab: 12 }),
+      K(0.8,  { t: 180, h: 184, ua: 174, fa: 177, ab: 12 }) ] },
+    dbthruster: { dur: 2.2, still: 1, eq: "db", keys: [
+      K(0,    { t: 180, ua: 14, fa: 176, ab: 42 }),
+      K(0.36, { t: 150, h: 170, ua: 50, fa: 178, ab: 42, th: 105, sh: -33, lab: 9 }),
+      K(0.44, { t: 150, h: 170, ua: 50, fa: 178, ab: 42, th: 105, sh: -33, lab: 9 }),
+      K(0.6,  { t: 174, h: 178, ua: 110, fa: 178, ab: 40, th: 22, sh: -14 }),
+      K(0.72, { t: 180, h: 182, ua: 174, fa: 178, ab: 14 }),
+      K(0.8,  { t: 180, h: 182, ua: 174, fa: 178, ab: 14 }) ] },
+    dbpress: { dur: 2.0, still: 2, eq: "db", keys: [
+      K(0,    { t: 180, ua: 14, fa: 176, ab: 42 }),
+      K(0.2,  { t: 180, ua: 14, fa: 176, ab: 42 }),
+      K(0.5,  { t: 180, h: 182, ua: 174, fa: 178, ab: 14 }),
+      K(0.62, { t: 180, h: 182, ua: 174, fa: 178, ab: 14 }),
+      K(0.9,  { t: 180, ua: 14, fa: 176, ab: 42 }) ] },
+    dbrow: { dur: 2.0, still: 2, eq: "db", keys: [
+      K(0,    { t: 132, h: 118, ua: 0, fa: 0, ab: 8, th: 24, sh: -8 }),
+      K(0.18, { t: 132, h: 118, ua: 0, fa: 0, ab: 8, th: 24, sh: -8 }),
+      K(0.45, { t: 132, h: 118, ua: -78, fa: -8, ab: 12, th: 24, sh: -8 }),
+      K(0.58, { t: 132, h: 118, ua: -78, fa: -8, ab: 12, th: 24, sh: -8 }) ] },
+    dbrdl: { dur: 2.2, still: 2, eq: "db", keys: [
+      K(0,    { t: 180, ua: 0, fa: 0, ab: 6 }),
+      K(0.1,  { t: 180, ua: 0, fa: 0, ab: 6 }),
+      K(0.48, { t: 108, h: 100, ua: -14, fa: -14, ab: 6, th: 30, sh: -5 }),
+      K(0.58, { t: 108, h: 100, ua: -14, fa: -14, ab: 6, th: 30, sh: -5 }) ] },
+    lunge: { dur: 4.0, reps: 2, still: 2, keys: lungeKeys(false) },
+    dblunge: { dur: 4.0, reps: 2, still: 2, eq: "db", keys: lungeKeys(true) },
+    climber: { dur: 1.5, still: 0, keys: [
+      K(0,    mix(PLANK_TOP, { thF: 44, shF: -96, ftF: 30, pin: { j: "TN", x: -70 }, ik: { a: [56, 5] } })),
+      K(0.18, mix(PLANK_TOP, { thF: 44, shF: -96, ftF: 30, pin: { j: "TN", x: -70 }, ik: { a: [56, 5] } })),
+      K(0.5,  mix(PLANK_TOP, { thN: 44, shN: -96, ftN: 30, pin: { j: "TF", x: -70 }, ik: { a: [56, 5] } })),
+      K(0.68, mix(PLANK_TOP, { thN: 44, shN: -96, ftN: 30, pin: { j: "TF", x: -70 }, ik: { a: [56, 5] } })) ] }
+  };
+  function lungeKeys(db){
+    var arms = db ? { ua: 0, fa: 0, ab: 8 } : { ua: 0, fa: 6, ab: 6 };
+    var low = function(front, back, pinJ, toe){
+      var o = { t: 172, h: 176 }, k, ik = {};
+      o["th" + front] = 84; o["sh" + front] = -8; o["ft" + front] = 90;
+      o["ft" + back] = 36;
+      ik["l" + back] = [toe, TOE_Y, 1];
+      o.ik = ik; o.pin = { j: pinJ, x: 0 };
+      for(k in arms) o[k] = arms[k];
+      if(!db){ o.ua = 34; o.fa = 90; o.ab = 30; }
+      return o;
+    };
+    var up = function(pinJ){ var o = { t: 180, pin: { j: pinJ, x: 0 } }; for(var k in arms) o[k] = arms[k]; return o; };
+    return [ K(0, up("TN")), K(0.22, low("N", "F", "TN", -74)), K(0.3, low("N", "F", "TN", -74)), K(0.5, up("TN")),
+             K(0.5001, up("TF")), K(0.72, low("F", "N", "TF", -74)), K(0.8, low("F", "N", "TF", -74)), K(0.9999, up("TF")) ];
+  }
+
+  /* ---------- math ---------- */
+  function d2(a){ a *= D2R; return [Math.sin(a), -Math.cos(a)]; }
+  function dir3(a, ab, side){ var c = Math.cos(ab * D2R), s = Math.sin(ab * D2R), v = d2(a); return [v[0] * c, v[1] * c, side * s]; }
+  function add(p, v, k){ return [p[0] + v[0] * k, p[1] + v[1] * k, p[2] + (v[2] || 0) * k]; }
+  function ang(dx, dy){ return Math.atan2(dx, -dy) / D2R; }
+  function unwrap(a, near){ while(a - near > 180) a -= 360; while(a - near < -180) a += 360; return a; }
+  function footPts(A, ft){       /* heel and toe of the shoe, sole side */
+    var u = d2(ft), v = d2(ft - 90);
+    return { heel: [A[0] - 4 * u[0] + 6 * v[0], A[1] - 4 * u[1] + 6 * v[1], A[2]], toe: [A[0] + 14 * u[0] + 6 * v[0], A[1] + 14 * u[1] + 6 * v[1], A[2]] };
+  }
+
+  /* forward kinematics: channels -> joints (pelvis at 0,0) */
+  function fk(c){
+    var J = {}, P = [0, 0, 0], T = d2(c.t);
+    J.P = P; J.NK = add(P, T, L.torso); J.Sc = add(P, T, L.sh);
+    J.H = add(J.NK, d2(c.h), L.neck);
+    ["N", "F"].forEach(function(s){
+      var sd = s === "N" ? 1 : -1;
+      var S = [J.Sc[0], J.Sc[1], sd * ZS], E = add(S, dir3(c["ua" + s], c["ab" + s], sd), L.ua);
+      var fd = d2(c["fa" + s]), W = add(E, fd, L.fa), G = add(W, fd, L.grip);
+      var Hp = [0, 0, sd * ZH], Kn = add(Hp, dir3(c["th" + s], c.lab, sd), L.th), A = add(Kn, d2(c["sh" + s]), L.shin);
+      var f = footPts(A, c["ft" + s]);
+      J["S" + s] = S; J["E" + s] = E; J["W" + s] = W; J["G" + s] = G; J["Hp" + s] = Hp; J["K" + s] = Kn; J["A" + s] = A;
+      J["T" + s] = f.toe; J["L" + s] = f.heel;
+    });
+    return J;
+  }
+  function shift(J, o){ var R = {}; for(var k in J) R[k] = [J[k][0] + o[0], J[k][1] + o[1], J[k][2]]; return R; }
+  function pinOffset(J, pin){
+    var p = pin || { j: "TN", x: 0 }, q = J[p.j];
+    var ty = p.y !== undefined ? p.y : (p.j.charAt(0) === "T" ? TOE_Y : 0);
+    return [p.x - q[0], ty - q[1]];
+  }
+  /* 2-bone IK in the side view. bend: -1 elbow toward the back, +1 knee toward the front */
+  function ik2(root, tgt, l1, l2, bend){
+    var dx = tgt[0] - root[0], dy = tgt[1] - root[1], d = Math.sqrt(dx * dx + dy * dy);
+    d = Math.max(Math.abs(l1 - l2) + 0.01, Math.min(l1 + l2 - 0.01, d));
+    var a = Math.acos(Math.max(-1, Math.min(1, (l1 * l1 + d * d - l2 * l2) / (2 * l1 * d)))), base = Math.atan2(dy, dx);
+    var best = null;
+    [a, -a].forEach(function(s){
+      var mx = root[0] + l1 * Math.cos(base + s), my = root[1] + l1 * Math.sin(base + s);
+      var cr = dx * (my - root[1]) - dy * (mx - root[0]);
+      if(best === null || (bend < 0 ? cr < 0 : cr > 0)) best = [mx, my];
+    });
+    return best;
+  }
+  function applyIK(c, J, ik){
+    ["N", "F"].forEach(function(s){
+      var t = ik["a" + s] || ik.a;
+      if(t){
+        var S = J["S" + s], l1 = L.ua * Math.cos(c["ab" + s] * D2R), l2 = L.fa;   /* the wrist lands on the target */
+        var m = ik2(S, t, l1, l2, -1);
+        c["ua" + s] = unwrap(ang(m[0] - S[0], m[1] - S[1]), c["ua" + s]);
+        c["fa" + s] = unwrap(ang(t[0] - m[0], t[1] - m[1]), c["fa" + s]);
+      }
+      var lt = ik["l" + s] || ik.l;
+      if(lt){
+        var Hp = J["Hp" + s], tg = [lt[0], lt[1]];
+        if(lt[2]){ var f = footPts([0, 0, 0], c["ft" + s]); tg = [lt[0] - f.toe[0], lt[1] - f.toe[1]]; }
+        var l1b = L.th * Math.cos(c.lab * D2R), mk = ik2(Hp, tg, l1b, L.shin, 1);
+        c["th" + s] = unwrap(ang(mk[0] - Hp[0], mk[1] - Hp[1]), c["th" + s]);
+        c["sh" + s] = unwrap(ang(tg[0] - mk[0], tg[1] - mk[1]), c["sh" + s]);
+      }
+    });
+  }
+  /* full pose for one key: fk -> pin -> ik -> fk -> pin (IK depends on where the body is) */
+  function solveKey(c, pin, ik){
+    var J = fk(c), o = pinOffset(J, pin);
+    if(ik){
+      for(var it = 0; it < 3; it++){
+        var Jw = shift(J, o), rel = {};
+        ["a", "aN", "aF", "l", "lN", "lF"].forEach(function(k){ if(ik[k]) rel[k] = [ik[k][0] - o[0], ik[k][1] - o[1], ik[k][2]]; });
+        applyIK(c, J, rel); J = fk(c); o = pinOffset(J, pin); void Jw;
+      }
+    }
+    return { J: J, o: o };
+  }
+
+  /* ---------- prepare moves: expand shorthand, resolve IK, monotone cubic tangents ---------- */
+  function expand(k, prev){
+    var c = {}, i;
+    for(i = 0; i < CH.length; i++){
+      var n = CH[i], base = n.replace(/[NF]$/, ""), v = k[n];
+      if(v === undefined) v = k[base];
+      if(v === undefined) v = prev ? prev.__src[base] !== undefined || prev.__src[n] !== undefined ? DEF[base] : DEF[base] : DEF[base];
+      c[n] = v;
+    }
+    if(c.h === null || c.h === undefined) c.h = c.t;
+    c.__src = k;
+    return c;
+  }
+  function prep(m){
+    if(m.ready) return m;
+    var ks = m.keys, n = ks.length, i, j;
+    m.C = ks.map(function(k){ return expand(k); });
+    m.O = [];
+    for(i = 0; i < n; i++){
+      var r = solveKey(m.C[i], ks[i].pin, ks[i].ik);
+      m.O.push(r.o);
+    }
+    m.T = ks.map(function(k){ return k.at; });
+    m.M = [];
+    for(i = 0; i < n; i++){
+      var ip = (i - 1 + n) % n, inx = (i + 1) % n;
+      var tp = m.T[ip] - (i === 0 ? 1 : 0), tn = m.T[inx] + (inx === 0 ? 1 : 0), mm = {};
+      CH.forEach(function(ch){
+        var vp = m.C[ip][ch], v = m.C[i][ch], vn = m.C[inx][ch];
+        var s0 = (v - vp) / Math.max(1e-6, m.T[i] - tp), s1 = (vn - v) / Math.max(1e-6, tn - m.T[i]);
+        mm[ch] = (s0 * s1 <= 0) ? 0 : 2 / (1 / s0 + 1 / s1) * 0.9;
+      });
+      m.M.push(mm);
+    }
+    m.reps = m.reps || 1;
+    m.ready = true;
+    m.bounds = null;
+    return m;
+  }
+  function smooth(u){ return u * u * (3 - 2 * u); }
+  /* pose at phase 0..1 */
+  function poseAt(m, ph){
+    prep(m);
+    var n = m.T.length, i = n - 1, j;
+    ph = ((ph % 1) + 1) % 1;
+    for(j = 0; j < n; j++){ if(m.T[j] <= ph) i = j; }
+    var i2 = (i + 1) % n, ta = m.T[i], tb = m.T[i2] + (i2 === 0 ? 1 : 0), h = Math.max(1e-6, tb - ta), u = (ph - ta) / h;
+    var A = m.C[i], B = m.C[i2], MA = m.M[i], MB = m.M[i2], c = {};
+    var h00 = 2*u*u*u - 3*u*u + 1, h10 = u*u*u - 2*u*u + u, h01 = -2*u*u*u + 3*u*u, h11 = u*u*u - u*u;
+    CH.forEach(function(ch){ var b = B[ch]; c[ch] = h00 * A[ch] + h10 * h * MA[ch] + h01 * b + h11 * h * MB[ch]; });
+    var ka = m.keys[i], kb = m.keys[i2], s = smooth(u);
+    /* hands/feet that stay on the same spot in both keys: solve IK live so they don't slide */
+    var J = fk(c), pa = pinOffset(J, ka.pin), pb = pinOffset(J, kb.pin);
+    if(ka.pin && ka.pin.rel) pa = m.O[i]; if(kb.pin && kb.pin.rel) pb = m.O[i2];
+    if(ka.pin && ka.pin.rel && !(kb.pin && kb.pin.rel)) pa = pb.slice(); if(kb.pin && kb.pin.rel && !(ka.pin && ka.pin.rel)) pb = pa.slice();
+    var o = [pa[0] + (pb[0] - pa[0]) * s, pa[1] + (pb[1] - pa[1]) * s];
+    if(ka.ik && kb.ik){
+      var live = {};
+      ["a", "aN", "aF", "l", "lN", "lF"].forEach(function(k){
+        var x = ka.ik[k], y = kb.ik[k];
+        if(x && y) live[k] = [x[0] + (y[0] - x[0]) * s - o[0], x[1] + (y[1] - x[1]) * s - o[1], x[2]];
+      });
+      applyIK(c, J, live); J = fk(c);
+    }
+    return { c: c, J: shift(J, o), m: m, flat: !!(ka.ik && kb.ik && (ka.ik.a || ka.ik.aN) && (kb.ik.a || kb.ik.aN)) };
+  }
+
+  /* ---------- drawing ---------- */
+  var PAL = {
+    skin: "#eab48e", shirt: "#3566e6", shorts: "#27324c", shoe: "#2b303a", hair: "#3a2a22",
+    steel: "#6c7684", plate: "#23272f", plateRim: "#454c58", db: "#30353f"
+  };
+  function hex(h){ var n = parseInt(h.slice(1), 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; }
+  var CC = {};
+  function tone(h, k){
+    var key = h + k.toFixed(2); if(CC[key]) return CC[key];
+    var c = hex(h), r = k >= 1 ? c.map(function(v){ return Math.round(v + (255 - v) * (k - 1)); }) : c.map(function(v){ return Math.round(v * k); });
+    return (CC[key] = "rgb(" + r[0] + "," + r[1] + "," + r[2] + ")");
+  }
+  function proj(p, V){      /* 3/4 view, camera a little above */
+    var x = p[0] * CPH - p[2] * SPH, depth = p[0] * SPH + p[2] * CPH;
+    return [V.ox + x * V.s, V.oy + (-p[1] * CTH + depth * STH) * V.s, depth];
+  }
+  function capsule(g, a, b, r1, r2, col, V, dim){
+    var dx = b[0] - a[0], dy = b[1] - a[1], len = Math.sqrt(dx * dx + dy * dy);
+    r1 *= V.s; r2 *= V.s;
+    if(len < 0.5){ ball(g, a, Math.max(r1, r2), col, V, dim); return; }
+    var th = Math.atan2(dy, dx), rr = Math.max(-0.99, Math.min(0.99, (r1 - r2) / len)), ph = Math.acos(rr);
+    g.beginPath();
+    g.arc(b[0], b[1], r2, th + ph, th - ph, true);
+    g.arc(a[0], a[1], r1, th - ph, th + ph, true);
+    g.closePath();
+    var nx = -dy / len, ny = dx / len; if(nx * -0.55 + ny * -0.83 < 0){ nx = -nx; ny = -ny; }   /* n points toward the light */
+    var mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2, rm = (r1 + r2) / 2;
+    var gr = g.createLinearGradient(mx + nx * rm, my + ny * rm, mx - nx * rm, my - ny * rm);
+    gr.addColorStop(0, tone(col, 1.28 * dim)); gr.addColorStop(0.45, tone(col, 1.0 * dim)); gr.addColorStop(1, tone(col, 0.62 * dim));
+    g.fillStyle = gr; g.fill();
+    if(V.rim){ g.strokeStyle = V.rim; g.lineWidth = 1; g.stroke(); }
+  }
+  function ball(g, c, r, col, V, dim){
+    var gr = g.createRadialGradient(c[0] - r * 0.35, c[1] - r * 0.4, r * 0.1, c[0], c[1], r);
+    gr.addColorStop(0, tone(col, 1.3 * dim)); gr.addColorStop(0.6, tone(col, 1.0 * dim)); gr.addColorStop(1, tone(col, 0.66 * dim));
+    g.beginPath(); g.arc(c[0], c[1], r, 0, Math.PI * 2); g.fillStyle = gr; g.fill();
+    if(V.rim){ g.strokeStyle = V.rim; g.lineWidth = 1; g.stroke(); }
+  }
+  function disc(g, c, rx, ry, col, V, dim, rot){
+    g.beginPath(); g.ellipse(c[0], c[1], rx, ry, rot || 0, 0, Math.PI * 2);
+    var gr = g.createLinearGradient(c[0] - rx, c[1] - ry, c[0] + rx, c[1] + ry);
+    gr.addColorStop(0, tone(col, 1.35 * dim)); gr.addColorStop(1, tone(col, 0.75 * dim));
+    g.fillStyle = gr; g.fill();
+    if(V.rim){ g.strokeStyle = V.rim; g.lineWidth = 1; g.stroke(); }
+  }
+  function lerp3(a, b, k){ return [a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k, a[2] + (b[2] - a[2]) * k]; }
+
+  function buildItems(P, V){
+    var J = P.J, c = P.c, m = P.m, items = [];
+    function push(depth, fn){ items.push({ d: depth, f: fn }); }
+    function seg(a3, b3, r1, r2, col, bias){
+      var a = proj(a3, V), b = proj(b3, V), dim = 1 + Math.max(-0.2, Math.min(0.06, (a[2] + b[2]) / 2 / 90));
+      push((a[2] + b[2]) / 2 + (bias || 0), function(g){ capsule(g, a, b, r1, r2, col, V, dim); });
+    }
+    function sphere(p3, r, col, bias){
+      var p = proj(p3, V), dim = 1 + Math.max(-0.2, Math.min(0.06, p[2] / 90));
+      push(p[2] + (bias || 0), function(g){ ball(g, p, r * V.s, col, V, dim); });
+    }
+    ["F", "N"].forEach(function(s){
+      /* leg: shoe, shin, thigh (skin + shorts) */
+      var A = J["A" + s], Kn = J["K" + s], Hp = J["Hp" + s];
+      seg(J["L" + s], J["T" + s], 4.6, 3.6, PAL.shoe, 0.2);
+      seg(Kn, A, 6.2, 4.2, PAL.skin);
+      seg(Hp, Kn, 9, 6.3, PAL.skin, 0.1);
+      seg(Hp, lerp3(Hp, Kn, 0.55), 10, 8, PAL.shorts, 0.3);
+      /* arm: upper arm (sleeve) and forearm, hand */
+      var S = J["S" + s], E = J["E" + s], W = J["W" + s];
+      seg(S, E, 5.8, 4.6, PAL.skin, 0.4);
+      seg(S, lerp3(S, E, 0.42), 7, 6.1, PAL.shirt, 0.5);
+      seg(E, W, 4.6, 3.5, PAL.skin, 0.6);
+      if(P.flat) seg(W, add(W, [1, 0, 0], 7), 3.6, 2.9, PAL.skin, 0.7);
+      else sphere(add(W, d2(c["fa" + s]), 2.5), 4.1, PAL.skin, 0.7);
+    });
+    /* torso, hips, shoulders, neck, head */
+    var P0 = J.P, Sc = J.Sc;
+    seg([P0[0], P0[1], -ZH], [P0[0], P0[1], ZH], 10.5, 10.5, PAL.shorts, 0);
+    seg(P0, lerp3(P0, Sc, 0.28), 11.8, 12.2, PAL.shorts, 0.2);
+    seg(lerp3(P0, Sc, 0.18), Sc, 11.2, 13.2, PAL.shirt, 0.1);
+    seg([Sc[0], Sc[1], -ZS + 3], [Sc[0], Sc[1], ZS - 3], 7.5, 7.5, PAL.shirt, 0.15);
+    seg(J.NK, J.H, 4.4, 4.4, PAL.skin, -0.5);
+    (function(){
+      var h = proj(J.H, V), r = L.head * V.s, up = d2(c.h), fw = d2(c.h - 90);
+      var au = Math.atan2(-up[1] * CTH, up[0] * CPH), af = Math.atan2(-fw[1] * CTH, fw[0] * CPH);
+      push(h[2] + 0.6, function(g){
+        ball(g, h, r, PAL.skin, V, 1);
+        /* hair on the top and back of the head, an ear, an eye and a nose so you can see which way the head faces */
+        g.beginPath(); g.arc(h[0], h[1], r * 1.03, af - 1.2, af - 3.75, true); g.closePath(); g.fillStyle = PAL.hair; g.fill();
+        g.beginPath(); g.arc(h[0] - Math.cos(af) * r * 0.08, h[1] + r * 0.12, r * 0.2, 0, Math.PI * 2); g.fillStyle = tone(PAL.skin, 0.82); g.fill();
+        g.beginPath(); g.arc(h[0] + Math.cos(af - 0.42) * r * 0.62, h[1] + Math.sin(af - 0.42) * r * 0.62, Math.max(0.8, r * 0.1), 0, Math.PI * 2); g.fillStyle = "#2a2320"; g.fill();
+        g.beginPath(); g.arc(h[0] + Math.cos(af + 0.12) * r * 0.97, h[1] + Math.sin(af + 0.12) * r * 0.97, r * 0.2, 0, Math.PI * 2); g.fillStyle = tone(PAL.skin, 0.92); g.fill();
+        void au;
+      });
+    })();
+    equipment(items, P, V);
+    return items;
+  }
+
+  function gripMid(J){ return [(J.GN[0] + J.GF[0]) / 2, (J.GN[1] + J.GF[1]) / 2]; }
+  function equipment(items, P, V){
+    var J = P.J, m = P.m, eq = m.eq;
+    function push(d, f){ items.push({ d: d, f: f }); }
+    if(eq === "bar"){
+      var g0 = gripMid(J), zs = [-58, -36, 36, 58];
+      var a = proj([g0[0], g0[1], -64], V), b = proj([g0[0], g0[1], 0], V), c2 = proj([g0[0], g0[1], 64], V);
+      push(a[2] / 2 - 0.3, function(g){ g.lineCap = "round"; g.strokeStyle = PAL.steel; g.lineWidth = 2.6 * V.s; g.beginPath(); g.moveTo(a[0], a[1]); g.lineTo(b[0], b[1]); g.stroke(); });
+      push(c2[2] / 2 + 0.3, function(g){ g.lineCap = "round"; g.strokeStyle = PAL.steel; g.lineWidth = 2.6 * V.s; g.beginPath(); g.moveTo(b[0], b[1]); g.lineTo(c2[0], c2[1]); g.stroke(); });
+      [-1, 1].forEach(function(sd){
+        for(var q = 0; q < 3; q++){
+          var z = sd * (38 + q * 3), p = proj([g0[0], g0[1], z], V);
+          (function(p, q){
+            push(p[2], function(g){ disc(g, p, PLATE_R * V.s * CPH * 0.98, PLATE_R * V.s, q === 1 ? PAL.plateRim : PAL.plate, V, 1); });
+          })(p, q);
+        }
+        var hub = proj([g0[0], g0[1], sd * 45], V);
+        push(hub[2] + 0.1, function(g){ disc(g, hub, 4 * V.s, 4.4 * V.s, PAL.steel, V, 1.1); });
+      });
+    } else if(eq === "db"){
+      ["N", "F"].forEach(function(s){
+        var G = J["G" + s];
+        for(var q = -1; q <= 1; q += 2){
+          var z = G[2] + q * 8, p = proj([G[0], G[1], z], V), p2 = proj([G[0], G[1], G[2] + q * 5.5], V);
+          (function(p, p2){
+            push(p[2] + 0.8, function(g){ disc(g, p2, 6.4 * V.s * CPH, 7 * V.s, PAL.db, V, 0.9); disc(g, p, 6.4 * V.s * CPH, 7 * V.s, PAL.db, V, 1.05); });
+          })(p, p2);
+        }
+      });
+    } else if(eq === "goblet"){
+      var gm = gripMid(J), cx = gm[0] + 4, cy = gm[1] - 4;
+      var top = proj([cx, cy + 9, 0], V), bot = proj([cx, cy - 9, 0], V), mid = proj([cx, cy, 0], V);
+      push(mid[2] + 18, function(g){
+        g.strokeStyle = PAL.steel; g.lineWidth = 3 * V.s; g.lineCap = "round"; g.beginPath(); g.moveTo(top[0], top[1]); g.lineTo(bot[0], bot[1]); g.stroke();
+        capsule(g, [bot[0], bot[1] + 3 * V.s], [bot[0], bot[1] - 3 * V.s], 7, 7, PAL.db, V, 1);
+        capsule(g, [top[0], top[1] + 3 * V.s], [top[0], top[1] - 3 * V.s], 7.5, 7.5, PAL.db, V, 1.05);
+      });
+    } else if(eq === "pullbar"){
+      var pin = m.keys[0].pin, by = pin.y + 1.5, bx = pin.x + 3.5;
+      var e1 = proj([bx, by, -70], V), e2 = proj([bx, by, 70], V), mm = proj([bx, by, 0], V);
+      var e1u = proj([bx, by + 30, -70], V), e2u = proj([bx, by + 30, 70], V);
+      push(-60, function(g){ g.lineCap = "round"; g.strokeStyle = "#9aa3b0"; g.lineWidth = 3 * V.s; g.beginPath(); g.moveTo(e1[0], e1[1]); g.lineTo(e1u[0], e1u[1]); g.stroke();
+        g.strokeStyle = PAL.steel; g.lineWidth = 3.4 * V.s; g.beginPath(); g.moveTo(e1[0], e1[1]); g.lineTo(mm[0], mm[1]); g.stroke(); });
+      push(15.5, function(g){ g.lineCap = "round"; g.strokeStyle = PAL.steel; g.lineWidth = 3.4 * V.s; g.beginPath(); g.moveTo(mm[0], mm[1]); g.lineTo(e2[0], e2[1]); g.stroke();
+        g.strokeStyle = "#9aa3b0"; g.lineWidth = 3 * V.s; g.beginPath(); g.moveTo(e2[0], e2[1]); g.lineTo(e2u[0], e2u[1]); g.stroke(); });
+    }
+  }
+
+  /* world-space bounds over the whole loop, so the figure never jumps or gets cut off */
+  function boundsOf(m){
+    if(m.bounds) return m.bounds;
+    var b = { x0: 1e9, x1: -1e9, y0: 1e9, y1: -1e9 }, V = { ox: 0, oy: 0, s: 1 };
+    for(var i = 0; i < 40; i++){
+      var P = poseAt(m, i / 40), J = P.J;
+      for(var k in J){
+        var p = proj(J[k], V), pad = k === "H" ? 12 : 10;
+        b.x0 = Math.min(b.x0, p[0] - pad); b.x1 = Math.max(b.x1, p[0] + pad); b.y0 = Math.min(b.y0, p[1] - pad); b.y1 = Math.max(b.y1, p[1] + pad);
+      }
+      if(m.eq === "bar"){ var g0 = gripMid(J); [-64, 64].forEach(function(z){ var p = proj([g0[0], g0[1], z], V); b.x0 = Math.min(b.x0, p[0] - 22); b.x1 = Math.max(b.x1, p[0] + 22); b.y0 = Math.min(b.y0, p[1] - 24); b.y1 = Math.max(b.y1, p[1] + 24); }); }
+      if(m.eq === "pullbar"){ var pn = m.keys[0].pin; [-70, 70].forEach(function(z){ var p = proj([pn.x, pn.y + 30, z], V); b.x0 = Math.min(b.x0, p[0] - 4); b.x1 = Math.max(b.x1, p[0] + 4); b.y0 = Math.min(b.y0, p[1] - 4); }); }
+    }
+    [[b.x0, 0], [b.x1, 0]].forEach(function(){ });
+    var g1 = proj([0, 0, 0], V); b.y1 = Math.max(b.y1, g1[1] + 8);
+    return (m.bounds = b);
+  }
+
+  function render(g, m, ph, w, h, opt){
+    opt = opt || {};
+    var b = boundsOf(prep(m)), pad = opt.pad !== undefined ? opt.pad : 0.08;
+    var s = Math.min(w * (1 - 2 * pad) / (b.x1 - b.x0), h * (1 - 2 * pad) / (b.y1 - b.y0));
+    if(opt.maxScale) s = Math.min(s, opt.maxScale * Math.min(w, h) / 180);
+    var V = { s: s, rim: opt.dark ? "rgba(255,255,255,.16)" : "rgba(20,24,31,.16)" };
+    V.ox = w / 2 - (b.x0 + b.x1) / 2 * s; V.oy = h / 2 - (b.y0 + b.y1) / 2 * s;
+    var P = poseAt(m, ph), J = P.J;
+    /* floor + contact shadow */
+    var xs = [J.AN[0], J.AF[0], J.TN[0], J.TF[0], J.P[0], J.WN[0], J.WF[0]], lo = Math.min.apply(null, xs), hi = Math.max.apply(null, xs);
+    var fl = proj([(b.x0 + b.x1) / 2 / CPH, 0, 0], V), sc = proj([(lo + hi) / 2, 0, 0], V);
+    var high = Math.min(J.TN[1], J.TF[1], J.P[1] - 10, J.WN[1]);
+    var alpha = Math.max(0.08, 0.32 - Math.max(0, high - 4) / 220);
+    g.clearRect(0, 0, w, h);
+    g.save();
+    var frx = (b.x1 - b.x0) / 2 * s * 1.02;
+    var fg = g.createRadialGradient(fl[0], fl[1], 1, fl[0], fl[1], frx);
+    fg.addColorStop(0, opt.dark ? "rgba(255,255,255,.10)" : "rgba(20,40,90,.10)"); fg.addColorStop(1, "rgba(0,0,0,0)");
+    g.fillStyle = fg; g.translate(fl[0], fl[1]); g.scale(1, 0.2); g.translate(-fl[0], -fl[1]);
+    g.beginPath(); g.arc(fl[0], fl[1], frx, 0, Math.PI * 2); g.fill();
+    g.restore();
+    g.save();
+    var srx = ((hi - lo) / 2 + 22) * s;
+    var sg = g.createRadialGradient(sc[0], sc[1], 1, sc[0], sc[1], srx);
+    sg.addColorStop(0, "rgba(0,0,0," + alpha.toFixed(3) + ")"); sg.addColorStop(1, "rgba(0,0,0,0)");
+    g.fillStyle = sg; g.translate(sc[0], sc[1]); g.scale(1, 0.22); g.translate(-sc[0], -sc[1]);
+    g.beginPath(); g.arc(sc[0], sc[1], srx, 0, Math.PI * 2); g.fill();
+    g.restore();
+    var items = buildItems(P, V);
+    items.sort(function(a, c){ return a.d - c.d; });
+    for(var i = 0; i < items.length; i++) items[i].f(g);
+    return P;
+  }
+
+  /* ---------- player: one requestAnimationFrame loop for every visible figure ---------- */
+  var list = [], raf = 0, io = null, ro = null, rm = null, stats = { frames: 0, ms: 0, draws: 0 };
+  function reduced(){ try{ if(!rm) rm = window.matchMedia("(prefers-reduced-motion: reduce)"); return rm.matches; }catch(e){ return false; } }
+  function now(){ return (window.performance && performance.now) ? performance.now() : Date.now(); }
+  function size(it){
+    var cv = it.cv, r = cv.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1);
+    var w = Math.max(1, Math.round(r.width)), h = Math.max(1, Math.round(r.height));
+    if(it.w !== w || it.h !== h || it.dpr !== dpr){
+      it.w = w; it.h = h; it.dpr = dpr; cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+      return true;
+    }
+    return false;
+  }
+  function drawOne(it, t){
+    if(!it.m) return;
+    size(it);
+    var g = it.g || (it.g = it.cv.getContext("2d")); if(!g) return;
+    var st = reduced(), ph = st ? stillPhase(it.m) : ((t - it.t0) / (it.m.dur * 1000)) % 1;
+    g.setTransform(it.dpr, 0, 0, it.dpr, 0, 0);
+    render(g, it.m, ph, it.w, it.h, it.opt);
+    it.ph = ph; stats.draws++;
+  }
+  function stillPhase(m){ prep(m); return m.T[m.still || 0]; }
+  function live(it){ return it.vis && !it.paused && it.cv.isConnected && it.m; }
+  function frame(){
+    raf = 0;
+    var t = now(), any = false, t0 = now(), still = reduced();
+    for(var i = list.length - 1; i >= 0; i--){
+      var it = list[i];
+      if(!it.cv.isConnected){ if(io) io.unobserve(it.cv); if(ro) ro.unobserve(it.cv); list.splice(i, 1); continue; }
+      if(live(it) && !still){ drawOne(it, t); any = true; }
+    }
+    if(any){ stats.frames++; stats.ms += now() - t0; }
+    if(api.onFrame) try{ api.onFrame(t); }catch(e){}
+    if((any && !reduced()) || api.onFrame) kick();
+  }
+  function kick(){ if(!raf && document.visibilityState !== "hidden") raf = requestAnimationFrame(frame); }
+  function find(cv){ for(var i = 0; i < list.length; i++) if(list[i].cv === cv) return list[i]; return null; }
+  function mount(cv, key, opt){
+    var it = find(cv);
+    if(!it){ it = { cv: cv, vis: true, paused: false, t0: now() }; list.push(it); if(io) io.observe(cv); if(ro) ro.observe(cv); }
+    it.opt = opt || it.opt || {};
+    var fresh = it.key !== key;
+    if(fresh){ it.key = key; it.m = MOVES[key] || null; it.t0 = now(); cv.setAttribute("data-anim", key); }
+    if(fresh || !it.ph && it.ph !== 0) drawOne(it, now());
+    kick();
+    return it;
+  }
+  function init(){
+    try{
+      if(window.IntersectionObserver) io = new IntersectionObserver(function(es){
+        es.forEach(function(e){ var it = find(e.target); if(it){ it.vis = e.isIntersecting; if(it.vis){ drawOne(it, now()); kick(); } } });
+      }, { rootMargin: "40px" });
+    }catch(e){ io = null; }
+    try{
+      if(window.ResizeObserver) ro = new ResizeObserver(function(es){
+        es.forEach(function(e){ var it = find(e.target); if(it && it.m && e.contentRect.width > 0){ if(size(it) || reduced()) drawOne(it, now()); } });
+      });
+    }catch(e){ ro = null; }
+    try{
+      var mq = window.matchMedia("(prefers-reduced-motion: reduce)"), onCh = function(){ list.forEach(function(it){ drawOne(it, now()); }); kick(); };
+      if(mq.addEventListener) mq.addEventListener("change", onCh); else if(mq.addListener) mq.addListener(onCh);
+    }catch(e){}
+    document.addEventListener("visibilitychange", function(){ if(document.visibilityState !== "hidden") kick(); });
+    window.addEventListener("resize", function(){ list.forEach(function(it){ if(it.cv.isConnected) drawOne(it, now()); }); });
+  }
+  var api = {
+    MOVES: MOVES, mount: mount, render: render, poseAt: poseAt, prep: prep, stats: stats, reduced: reduced, onFrame: null,
+    has: function(k){ return !!MOVES[k]; },
+    pause: function(root, on){ list.forEach(function(it){ if(root.contains(it.cv)){ it.paused = !!on; } }); if(!on) kick(); },
+    redraw: function(cv){ var it = find(cv); if(it){ it.w = 0; drawOne(it, now()); } },
+    kick: kick,
+    active: function(){ return list.filter(live).length; },
+    list: list
+  };
+  init();
+  return api;
+})();
+window.PoAnim = PoAnim;
+
+/* ============ v17/v18: HIT workouts (EMOM, AMRAP, follow-along intervals) ============ */
 /* Add more workouts to this list. Each one gets its own card, timer and "Last time" line.
    mode "emom" (default): rounds x interval seconds, Round done records rest left. weights: bar weight choices (optional).
-   mode "amrap": durations (minutes to pick from) + defDur; Set done counts sets. credit: optional. */
+   mode "amrap": durations (minutes to pick from) + defDur; Set done counts sets. credit: optional.
+   mode "interval" (v18): rounds of moves, work/rest seconds, roundRest between rounds, lead = get-ready seconds.
+     Plays hands-free in the follow-along screen. upper: true marks upper-body moves. barOpt: pull-up bar choice,
+     a move with bar: {...} swaps to that move when "I have a bar" is picked.
+   Every move has anim: a pose table name in PoAnim.MOVES (the looping 3D-style demo). */
 var HITS = [
   { id: "grip-it-rip-it", title: "Grip it and Rip it", tag: "EMOM", gear: "Barbell", gearCls: "tag-bar",
     rounds: 15, interval: 60,
@@ -2502,10 +3169,10 @@ var HITS = [
                { k: "women", label: "Women", lb: 85 }, { k: "women-s", label: "Women scaled", lb: 65 } ],
     def: "men",
     moves: [
-      { n: "Barbell burpee", reps: 4, f: "f-bbburpee", cue: "Hands on the bar, chest to the bar, jump your feet in, then stand up with the bar like a deadlift. No jumping over the bar." },
-      { n: "Hang power clean", reps: 3, f: "f-hpclean", cue: "Bar at mid-thigh, hips back. Snap your hips, pull the bar up close and catch it on your shoulders, elbows high, knees slightly bent." },
-      { n: "Shoulder to overhead", reps: 2, f: "f-s2oh", cue: "Bar on your shoulders. Dip and drive with your legs, then lock it out straight overhead. Press, push press or jerk all count." },
-      { n: "Thruster", reps: 1, f: "f-bbthruster", cue: "Bar on your shoulders, squat below parallel, then drive up and press it overhead in one smooth move." }
+      { n: "Barbell burpee", reps: 4, f: "f-bbburpee", anim: "bbburpee", cue: "Hands on the bar, chest to the bar, jump your feet in, then stand up with the bar like a deadlift. No jumping over the bar." },
+      { n: "Hang power clean", reps: 3, f: "f-hpclean", anim: "hpclean", cue: "Bar at mid-thigh, hips back. Snap your hips, pull the bar up close and catch it on your shoulders, elbows high, knees slightly bent." },
+      { n: "Shoulder to overhead", reps: 2, f: "f-s2oh", anim: "s2oh", cue: "Bar on your shoulders. Dip and drive with your legs, then lock it out straight overhead. Press, push press or jerk all count." },
+      { n: "Thruster", reps: 1, f: "f-bbthruster", anim: "bbthruster", cue: "Bar on your shoulders, squat below parallel, then drive up and press it overhead in one smooth move." }
     ],
     credit: { by: "Winnesworld", url: "https://www.facebook.com/reel/1277987307752745/" } }
 ,
@@ -2514,10 +3181,53 @@ var HITS = [
     formatText: "Start the clock and do as many full sets of the 4 moves below as you can before time runs out. Tap Set done after each full set.",
     goal: "Goal: beat your best number of sets.",
     moves: [
-      { n: "Air squat", reps: 10, f: "f-bwsquat", cue: "Feet shoulder-width, sit your hips back and down until thighs are parallel, chest up, then stand tall." },
-      { n: "Push-up", reps: 10, f: "f-pushup", cue: "Hands under shoulders, body in one straight line. Chest to the floor, then push all the way up." },
-      { n: "Pull-up", reps: 5, f: "f-pullup", cue: "Hang with straight arms, pull until your chin is over the bar, lower all the way down." },
-      { n: "Burpee", reps: 5, f: "f-burpee", cue: "Hands down, jump feet back, chest to the floor, jump feet in, then jump up with a clap overhead." }
+      { n: "Air squat", reps: 10, f: "f-bwsquat", anim: "airsquat", cue: "Feet shoulder-width, sit your hips back and down until thighs are parallel, chest up, then stand tall." },
+      { n: "Push-up", reps: 10, f: "f-pushup", anim: "pushup", cue: "Hands under shoulders, body in one straight line. Chest to the floor, then push all the way up." },
+      { n: "Pull-up", reps: 5, f: "f-pullup", anim: "pullup", cue: "Hang with straight arms, pull until your chin is over the bar, lower all the way down." },
+      { n: "Burpee", reps: 5, f: "f-burpee", anim: "burpee", cue: "Hands down, jump feet back, chest to the floor, jump feet in, then jump up with a clap overhead." }
+    ] }
+,
+  { id: "db-full", mode: "interval", title: "Dumbbell Full Body", tag: "Intervals", gear: "Dumbbells", gearCls: "tag-gym",
+    need: "One pair of dumbbells",
+    weightNote: "Suggested weight: a pair you could press overhead about 12 times when fresh. For many people that is 10 to 25 lb in each hand. If you are not sure, go lighter.",
+    work: 40, rest: 20, roundRest: 60, rounds: 4, lead: 10,
+    formatText: "Tap Start and follow along. The app shows each move, counts down, talks you through it and moves on by itself. Work for 40 seconds, rest for 20, and rest 1 minute between rounds.",
+    goal: "Goal: smooth, steady reps for all 4 rounds.",
+    moves: [
+      { n: "Goblet squat", anim: "gobletsquat", cue: "Hold one dumbbell upright at your chest. Sit down between your heels, chest up, then stand tall. Go easy the first round: it is your warm-up." },
+      { n: "Bent-over row", anim: "dbrow", cue: "Hinge forward with a flat back and soft knees. Pull both dumbbells to your ribs, squeeze, then lower slowly." },
+      { n: "Romanian deadlift", anim: "dbrdl", cue: "Soft knees. Push your hips back and slide the dumbbells down your legs to mid-shin, back flat. Squeeze your glutes to stand up." },
+      { n: "Overhead press", anim: "dbpress", cue: "Dumbbells at your shoulders. Tighten your belly and press straight up until your arms are straight, then lower with control." },
+      { n: "Reverse lunge", anim: "dblunge", cue: "Dumbbells at your sides. Step one foot back and lower until both knees bend about 90 degrees. Push through the front heel to stand. Switch legs each rep." },
+      { n: "Dumbbell thruster", anim: "dbthruster", cue: "Dumbbells at your shoulders. Squat down, then drive up and press them overhead in one smooth move." }
+    ] }
+,
+  { id: "bw-full", mode: "interval", title: "No-Equipment Full Body", tag: "Intervals", gear: "Bodyweight", gearCls: "",
+    need: "No equipment",
+    work: 45, rest: 15, roundRest: 60, rounds: 4, lead: 10,
+    formatText: "Tap Start and follow along. The app shows each move, counts down, talks you through it and moves on by itself. Work for 45 seconds, rest for 15, and rest 1 minute between rounds.",
+    goal: "Goal: keep moving for the whole 45 seconds. Slow down rather than stop.",
+    moves: [
+      { n: "Air squat", anim: "airsquat", cue: "Feet shoulder-width. Sit your hips back and down until your thighs are level with the floor, chest up, then stand tall. Easy pace to warm up." },
+      { n: "Push-up", anim: "pushup", cue: "Hands under your shoulders, body in one straight line. Lower your chest to the floor, then push up. Knees on the floor is fine." },
+      { n: "Reverse lunge", anim: "lunge", cue: "Step one foot back and lower until both knees bend about 90 degrees. Push through the front heel to stand. Switch legs each rep." },
+      { n: "Mountain climber", anim: "climber", cue: "Start in a high plank, hands under shoulders. Drive one knee toward your chest, then switch legs, like running in place. Keep your hips low." },
+      { n: "Burpee", anim: "burpee", cue: "Hands down, jump or step your feet back, chest to the floor, push up, feet back in, then jump up with your arms overhead." }
+    ] }
+,
+  { id: "bw-upper", mode: "interval", title: "Upper Body Focus", tag: "Intervals", gear: "Bodyweight", gearCls: "",
+    subtitle: "Pull-up bar optional", need: "No equipment. A pull-up bar is optional.",
+    work: 40, rest: 20, roundRest: 60, rounds: 5, lead: 10,
+    barOpt: [ { k: "nobar", label: "No bar", sub: "Superman pull" }, { k: "bar", label: "I have a bar", sub: "Pull-ups" } ], def: "nobar",
+    formatText: "Tap Start and follow along. The app shows each move, counts down, talks you through it and moves on by itself. Work for 40 seconds, rest for 20, and rest 1 minute between rounds. 3 of the 5 moves work your upper body.",
+    goal: "Goal: good form on every rep. Rest a few seconds inside the 40 if you need to.",
+    moves: [
+      { n: "Air squat", anim: "airsquat", cue: "Feet shoulder-width. Sit your hips back and down until your thighs are level with the floor, then stand tall. Easy pace to warm up." },
+      { n: "Push-up", anim: "pushup", upper: true, cue: "Hands under your shoulders, body in one straight line. Lower your chest to the floor, then push up. Knees on the floor is fine." },
+      { n: "Superman pull", anim: "superman", upper: true, cue: "Lie face down, arms straight in front. Lift your chest and arms a little, then pull your elbows down to your ribs like a pull-up. Reach forward again.",
+        bar: { n: "Pull-up", anim: "pullup", cue: "Hang with straight arms, pull until your chin is over the bar, lower all the way. Do a few, drop off, shake out, go again." } },
+      { n: "Reverse lunge", anim: "lunge", cue: "Step one foot back and lower until both knees bend about 90 degrees. Push through the front heel to stand. Switch legs each rep." },
+      { n: "Pike push-up", anim: "pike", upper: true, cue: "Hands and feet on the floor, hips high like an upside-down V. Bend your elbows to lower the top of your head toward the floor, then push back up." }
     ] }
 ];
 var HX_KEY = "po:hitTimer";   /* device-only timer state (like po:lastBackup, not in backups). Finished workouts go to ft:hist. */
@@ -2526,10 +3236,39 @@ var HX_MAX_AGE = 12 * 3600000;
          emom: opt, iv, rounds, rest[]   amrap: dur (min), taps[] (elapsed ms at each Set done), partial } */
 var HX = null;
 var hxOpen = null, hxCfg = {}, hxTick = null, hxAC = null, hxWL = null, hxPrev = null, hxPartTimer = null;
-window.__poHitLog = [];
+var HX_MUTE = "po:hitMute";   /* device-only: follow-along sound on/off */
+window.__poHitLog = []; window.__poSayLog = [];
+window.__poHits = HITS;
 
 function hxFind(id){ for(var i = 0; i < HITS.length; i++) if(HITS[i].id === id) return HITS[i]; return null; }
-function hxMode(w){ return w.mode === "amrap" ? "amrap" : "emom"; }
+function hxMode(w){ return w.mode === "amrap" || w.mode === "interval" ? w.mode : "emom"; }
+/* ----- interval workouts: the plan is a list of segments (get ready, work, rest, round rest) ----- */
+function hxMovesFor(w, opt){
+  return w.moves.map(function(m){
+    if(m.bar && opt === "bar") return { n: m.bar.n, anim: m.bar.anim, cue: m.bar.cue, upper: m.upper, swapped: true };
+    return m;
+  });
+}
+function hxPlan(w, opt){
+  var mv = hxMovesFor(w, opt), segs = [], t = 0, n = mv.length, r, i;
+  function add(k, sec, m, rd){ segs.push({ k: k, at: t, d: sec * 1000, mv: m, r: rd }); t += sec * 1000; }
+  add("lead", w.lead || 10, 0, 1);
+  for(r = 1; r <= w.rounds; r++){
+    for(i = 0; i < n; i++){
+      add("work", w.work, i, r);
+      if(i < n - 1) add("rest", w.rest, i + 1, r);
+      else if(r < w.rounds) add("rrest", w.roundRest || w.rest, 0, r + 1);
+    }
+  }
+  var half = -1, lead = segs[0].d, mid = lead + (t - lead) / 2;
+  for(i = 0; i < segs.length; i++) if(half < 0 && segs[i].k !== "work" && segs[i].k !== "lead" && segs[i].at >= mid) half = i;
+  var work = segs.filter(function(s){ return s.k === "work"; }).length;
+  return { segs: segs, total: t, lead: lead, workTotal: t - lead, half: half, moves: mv, works: work,
+           upper: segs.filter(function(s){ return s.k === "work" && mv[s.mv].upper; }).length };
+}
+window.__poPlan = function(id, opt){ var w = hxFind(id); return w && w.mode === "interval" ? hxPlan(w, opt) : null; };
+function hxIvText(w){ return w.work + " s on / " + w.rest + " s off"; }
+function hxMuted(){ try{ return localStorage.getItem(HX_MUTE) === "1"; }catch(e){ return false; } }
 function hxWid(w){ return "hit:" + w.id; }
 function hxOpt(w, k){
   if(!w.weights) return null;
@@ -2552,6 +3291,9 @@ function hxPlural(n, one, many){ return n + " " + (n === 1 ? one : many); }
 function hxLastText(s){
   if(!s) return "";
   var x = s.hit, parts = [];
+  if(x.mode === "interval"){
+    return "Last time: " + x.done + " of " + x.total + " intervals in " + hxMMSS((x.secs || 0) * 1000) + " " + whenText(s);
+  }
   if(x.mode === "amrap"){
     return "Last time: " + hxPlural(x.sets, "set", "sets") + (x.partial ? " + " + x.partial : "") + " in " + hxMMSS((x.secs || 0) * 1000) + " " + whenText(s);
   }
@@ -2566,6 +3308,7 @@ function hxCfgFor(w){
     var last = hxLast(w), lh = last && last.hit;
     if(HX && HX.wk === w.id) hxCfg[w.id] = { opt: HX.opt || null, dur: HX.dur || null };
     else if(hxMode(w) === "amrap") hxCfg[w.id] = { dur: lh && w.durations.indexOf(lh.dur) >= 0 ? lh.dur : w.defDur };
+    else if(hxMode(w) === "interval") hxCfg[w.id] = { opt: w.barOpt ? (lh && lh.opt ? lh.opt : w.def) : null };
     else hxCfg[w.id] = { opt: w.weights ? (lh && lh.opt ? lh.opt : w.def) : null };
   }
   return hxCfg[w.id];
@@ -2575,16 +3318,38 @@ function hxCfgFor(w){
 function hxElapsed(now){
   if(!HX) return 0;
   var ref = HX.status === "running" ? now : HX.status === "paused" ? HX.pAt : HX.endAt;
-  return Math.max(0, Math.min(HX.total, ref - HX.t0 - HX.pTot));
+  return Math.max(0, Math.min(HX.total, ref - HX.t0 - HX.pTot + (HX.skip || 0)));
 }
+function hxReal(now){          /* interval: real time spent, not counting pauses or skipped time */
+  var ref = HX.status === "running" ? now : HX.status === "paused" ? HX.pAt : HX.endAt;
+  return Math.max(0, ref - HX.t0 - HX.pTot);
+}
+function hxPlanOf(){ return HX.plan || (HX.plan = hxPlan(hxFind(HX.wk), HX.opt)); }
 function hxSnap(now){
   var e = hxElapsed(now), done = e >= HX.total;
+  if(HX.mode === "interval"){
+    var P = hxPlanOf(), i = P.segs.length - 1;
+    for(var j = 0; j < P.segs.length; j++){ if(e < P.segs[j].at + P.segs[j].d){ i = j; break; } }
+    var sg = P.segs[i], left = done ? 0 : sg.at + sg.d - e;
+    return { e: e, done: done, i: i, seg: sg, leftMs: left, secs: Math.ceil(left / 1000), frac: sg.d ? 1 - left / sg.d : 1 };
+  }
   if(HX.mode === "amrap"){ var l = HX.total - e; return { e: e, done: done, leftMs: l, secs: Math.ceil(l / 1000) }; }
   var per = hxPer(HX), left = done ? 0 : per - (e % per);
   return { e: e, done: done, round: done ? HX.rounds : Math.floor(e / per) + 1, leftMs: left, secs: Math.ceil(left / 1000) };
 }
 function hxStats(){
   var e = hxElapsed(Date.now());
+  if(HX.mode === "interval"){
+    var P = hxPlanOf(), done = 0, per = {}, rr = 0;
+    P.segs.forEach(function(sg, i){
+      if(sg.k !== "work" || sg.at >= e) return;
+      rr = Math.max(rr, sg.r);
+      if(sg.at + sg.d <= e && HX.skips.indexOf(i) < 0){ done++; per[sg.r] = (per[sg.r] || 0) + 1; }
+    });
+    var skipped = HX.skips.filter(function(i){ return P.segs[i].k === "work"; }).length;
+    var real = hxReal(Date.now()), secs = Math.max(0, Math.round((real - Math.min(real, P.lead)) / 1000));
+    return { e: e, done: done, total: P.works, skipped: skipped, rounds: rr, per: per, secs: secs };
+  }
   if(HX.mode === "amrap"){
     var splits = HX.taps.map(function(t, i){ return t - (i ? HX.taps[i - 1] : 0); });
     return { e: e, sets: HX.taps.length, splits: splits };
@@ -2595,7 +3360,12 @@ function hxStats(){
   return { e: e, reached: reached, marked: vals.length, avg: vals.length ? Math.round(sum / vals.length) : null,
            rounds: vals.length ? vals.length : Math.floor(e / per) };
 }
-function hxPersist(){ try{ if(HX) localStorage.setItem(HX_KEY, JSON.stringify(HX)); else localStorage.removeItem(HX_KEY); }catch(e){} }
+function hxPersist(){
+  try{
+    if(HX){ var p = HX.plan; delete HX.plan; localStorage.setItem(HX_KEY, JSON.stringify(HX)); if(p) HX.plan = p; }
+    else localStorage.removeItem(HX_KEY);
+  }catch(e){}
+}
 
 /* ----- sound, vibration, screen wake: all optional, all fail silently ----- */
 function hxAudioUnlock(){
@@ -2610,7 +3380,7 @@ function hxAudioUnlock(){
 function hxBeep(freq, dur, kind){
   hxLog(kind);
   try{
-    if(!hxAC) return;
+    if(!hxAC || (HX && HX.mode === "interval" && hxMuted())) return;
     if(hxAC.state === "suspended" && hxAC.resume) hxAC.resume().catch(function(){});
     var o = hxAC.createOscillator(), g = hxAC.createGain(), t = hxAC.currentTime;
     o.type = "square"; o.frequency.value = freq;
@@ -2618,6 +3388,18 @@ function hxBeep(freq, dur, kind){
     o.connect(g); g.connect(hxAC.destination); o.start(t); o.stop(t + dur + 0.03);
   }catch(e){}
 }
+/* voice cues: iPhone only allows speech after a tap, so the first one is spoken inside the Start tap */
+function hxVoice(t){
+  window.__poSayLog.push(t); if(window.__poSayLog.length > 120) window.__poSayLog.shift();
+  if(hxMuted()) return;
+  try{
+    var ss = window.speechSynthesis; if(!ss || !window.SpeechSynthesisUtterance) return;
+    ss.cancel();
+    var u = new SpeechSynthesisUtterance(t); u.lang = "en-US"; u.rate = 1.05; u.volume = 1;
+    ss.speak(u);
+  }catch(e){}
+}
+function hxSpeechUnlock(){ try{ var ss = window.speechSynthesis; if(ss && ss.resume) ss.resume(); }catch(e){} }
 function hxBuzz(p){ try{ if(navigator.vibrate) navigator.vibrate(p); }catch(e){} }
 function hxWakeOn(){
   try{
@@ -2639,6 +3421,15 @@ function hxStart(){
   hxAudioUnlock();                       /* inside the tap, so iPhone lets us play sound */
   var c = hxCfgFor(w), now = Date.now();
   HX = { v: 3, mode: hxMode(w), wk: w.id, status: "running", t0: now, pAt: null, pTot: 0, endAt: null, savedId: null };
+  if(HX.mode === "interval"){
+    HX.opt = c.opt; HX.skip = 0; HX.skips = []; HX.plan = hxPlan(w, c.opt); HX.total = HX.plan.total;
+    hxPrev = null; hxPersist();
+    hxSpeechUnlock();
+    hxVoice("Get ready. First up: " + HX.plan.moves[0].n + ".");   /* inside the tap: unlocks speech on iPhone */
+    hxBeep(1320, 0.25, "go0"); hxBuzz(150);
+    hxWakeOn(); fxOpen(); hxRun();
+    return;
+  }
   if(HX.mode === "amrap"){ HX.dur = c.dur; HX.total = c.dur * 60000; HX.taps = []; HX.partial = ""; }
   else {
     HX.opt = c.opt; HX.iv = w.interval || 60; HX.rounds = w.rounds; HX.total = HX.iv * HX.rounds * 1000; HX.rest = [];
@@ -2653,11 +3444,13 @@ function hxPause(){
   if(!HX || HX.status !== "running") return;
   HX.status = "paused"; HX.pAt = Date.now(); hxPersist();
   hxStop(); hxWakeOff(); hxRender(); hxSay("Paused.");
+  if(HX.mode === "interval") hxVoice("Paused.");
 }
 function hxResume(){
   if(!HX || HX.status !== "paused") return;
   hxAudioUnlock();
   HX.pTot += Date.now() - HX.pAt; HX.pAt = null; HX.status = "running"; hxPrev = null; hxPersist();
+  if(HX.mode === "interval"){ hxSpeechUnlock(); hxVoice("Go."); }
   hxWakeOn(); hxRun(); hxSay("Resumed.");
 }
 function hxOnTick(){
@@ -2665,6 +3458,17 @@ function hxOnTick(){
   var now = Date.now(), s = hxSnap(now);
   var live = hxPrev && now - hxPrev.at < 1500;   /* after a lock or a hidden tab, don't play the beeps we missed */
   if(s.done){ hxFinish(live); return; }
+  if(HX.mode === "interval"){
+    if(hxPrev && s.i !== hxPrev.i){ if(live) hxSegCue(s.i); }
+    else if(live && s.secs !== hxPrev.secs && s.secs >= 1 && s.secs <= 3){
+      if(s.seg.k === "work") hxBeep(880, 0.12, "c" + s.secs);
+      else { hxBeep(880, 0.12, "c" + s.secs); hxVoice(String(s.secs)); }
+      hxBuzz(60);
+    }
+    hxPrev = { at: now, i: s.i, secs: s.secs };
+    hxRender(s);
+    return;
+  }
   if(HX.mode === "amrap"){
     var lt = Math.ceil(s.leftMs / 1000);
     if(live && lt !== hxPrev.secs){
@@ -2683,18 +3487,49 @@ function hxOnTick(){
   }
   hxRender(s);
 }
+/* what the voice says when a new segment starts */
+function hxSegCue(i){
+  var P = hxPlanOf(), sg = P.segs[i], w = hxFind(HX.wk), nm = P.moves[sg.mv].n, t;
+  if(sg.k === "work"){
+    var firstOfLast = sg.r === w.rounds && sg.mv === 0 && w.rounds > 1;
+    hxBeep(1320, 0.4, "go"); hxBuzz(300);
+    t = (firstOfLast ? "Last round. " : "") + "Go! " + nm + ".";
+  } else if(sg.k === "rest"){
+    hxBeep(660, 0.35, "rest"); hxBuzz([120, 60, 120]);
+    t = (i === P.half ? "Halfway there. " : "") + "Rest. Next: " + nm + ".";
+  } else if(sg.k === "rrest"){
+    hxBeep(660, 0.35, "rest"); hxBuzz([120, 60, 120]);
+    t = (i === P.half ? "Halfway there. " : "") + "Round " + (sg.r - 1) + " done. Rest for " + Math.round(sg.d / 1000) + " seconds." +
+        (sg.r === w.rounds ? " Last round next." : "") + " Next: " + nm + ".";
+  } else t = "Get ready. First up: " + nm + ".";
+  hxVoice(t); hxSay(t);
+}
+function hxSkip(){
+  if(!hxActive() || HX.mode !== "interval") return;
+  var now = Date.now(), s = hxSnap(now);
+  if(s.done) return;
+  HX.skip = (HX.skip || 0) + s.leftMs;
+  if(s.seg.k === "work") HX.skips.push(s.i);
+  hxPersist(); hxBuzz(40);
+  var n = hxSnap(now);
+  if(n.done){ hxFinish(true); return; }
+  if(HX.status === "running"){ hxSegCue(n.i); hxPrev = { at: now, i: n.i, secs: n.secs }; hxRender(n); }
+  else { hxPrev = null; hxRender(n); hxVoice("Skipped. " + (n.seg.k === "work" ? hxPlanOf().moves[n.seg.mv].n : "Rest") + "."); }
+}
 function hxFinish(withSound){
   if(HX.status === "running") HX.endAt = HX.t0 + HX.pTot + Math.min(HX.total, Date.now() - HX.t0 - HX.pTot);
   else if(HX.status === "paused") HX.endAt = HX.pAt;
   HX.status = "done"; hxStop(); hxWakeOff();
   if(withSound){ hxBeep(1760, 0.8, "end"); hxBuzz([200, 100, 200, 100, 400]); }
+  if(HX.mode === "interval" && withSound) hxVoice("Workout done. Great job!");
   hxSaveSession();
   hxPersist();
   var ae = document.activeElement, t = $("hxTimer");
   hxRender();
-  if(t && ae && t.contains(ae) && !ae.offsetParent){ var hd = $("hxFinHead"); if(hd) hd.focus(); }
+  if(HX.mode === "interval" && fxIsOpen()){ var fd = $("fxDone"); if(fd) fd.focus(); }
+  else if(t && ae && t.contains(ae) && !ae.offsetParent){ var hd = $("hxFinHead"); if(hd) hd.focus(); }
   var st = hxStats();
-  hxSay(HX.mode === "amrap" ? "Time. " + hxPlural(st.sets, "set", "sets") + "." : "Workout done. " + st.rounds + " rounds.");
+  hxSay(HX.mode === "amrap" ? "Time. " + hxPlural(st.sets, "set", "sets") + "." : HX.mode === "interval" ? "Workout done. " + st.done + " of " + st.total + " intervals." : "Workout done. " + st.rounds + " rounds.");
 }
 function hxMark(){           /* EMOM: Round done */
   if(!hxActive() || HX.mode !== "emom") return;
@@ -2716,14 +3551,14 @@ function hxUndo(){
   var u = $("hxUndo"); if(u && u.hidden){ var b = $("hxSetDone"); if(b) b.focus(); }
 }
 function hxResetNow(){
-  hxStop(); hxWakeOff(); HX = null; hxPrev = null; hxPersist(); hxRender(); hxSay("Timer reset.");
+  hxStop(); hxWakeOff(); HX = null; hxPrev = null; hxPersist(); fxClose(true); hxRender(); hxSay("Timer reset.");
 }
 function hxAskReset(){
   if(!HX) return;
   var saved = HX.status === "done";
   svDialog({ title: saved ? "Clear the timer?" : "Reset the timer?",
     text: saved ? "Your workout is already saved in your history." :
-      "This stops the timer and clears the " + (HX.mode === "amrap" ? "sets you counted" : "rounds you marked") + ". Nothing is saved.",
+      "This stops the timer and clears " + (HX.mode === "amrap" ? "the sets you counted" : HX.mode === "interval" ? "your progress" : "the rounds you marked") + ". Nothing is saved.",
     buttons: [ { id: "cancel", label: saved ? "Cancel" : "Keep going" }, { id: "reset", label: "Reset timer", cls: "dangerfill" } ],
     onButton: function(id){ if(id === "reset"){ hxResetNow(); setTimeout(function(){ var g = $("hxGo"); if(g) g.focus(); }, 0); } } });
 }
@@ -2731,17 +3566,25 @@ function hxAskSave(){
   if(!hxActive()) return;
   var st = hxStats(), what;
   if(HX.mode === "amrap") what = hxPlural(st.sets, "set", "sets") + " in " + hxMMSS(st.e);
+  else if(HX.mode === "interval") what = st.done + " of " + st.total + " intervals";
   else { var o = hxOpt(hxFind(HX.wk), HX.opt); what = hxPlural(st.rounds, "round", "rounds") + (o ? " at " + o.lb + " lb" : ""); }
   svDialog({ title: "End and save?", text: "This stops the timer and saves " + what + " to your history.",
     buttons: [ { id: "save", label: "End and save", cls: "primary" }, { id: "cancel", label: "Keep going" } ],
-    onButton: function(id){ if(id === "save"){ hxFinish(false); setTimeout(function(){ var hd = $("hxFinHead"); if(hd) hd.focus(); }, 0); } } });
+    onButton: function(id){ if(id === "save"){ hxFinish(false); setTimeout(function(){ var hd = fxIsOpen() ? $("fxDone") : $("hxFinHead"); if(hd) hd.focus(); }, 0); } } });
 }
 function hxSaveSession(){
   if(!HX || HX.savedId) return true;
   if(histBlocked){ svToast("Not saved: your data is from a newer version of the app. Reload the page to update."); return false; }
   var w = hxFind(HX.wk), st = hxStats(), now = Date.now();
   var id = "s_" + now.toString(36) + "_" + hRand(), entry, hit;
-  if(HX.mode === "amrap"){
+  if(HX.mode === "interval"){
+    var per = [];
+    for(var r = 1; r <= Math.max(1, st.rounds); r++) per.push({ r: st.per[r] || 0, d: true });
+    entry = { n: "HIT: " + w.title, i: 0, u: "reps", s: w.rounds + " rounds, " + hxIvText(w), w: "", wn: null, sets: per,
+              note: st.done + " of " + st.total + " intervals" + (st.skipped ? ", " + st.skipped + " skipped" : "") };
+    hit = { v: 1, mode: "interval", id: w.id, opt: HX.opt || null, done: st.done, total: st.total, skipped: st.skipped,
+            rounds: st.rounds, work: w.work, rest: w.rest, secs: st.secs };
+  } else if(HX.mode === "amrap"){
     entry = { n: "HIT: " + w.title, i: 0, u: "reps", s: "AMRAP " + HX.dur + " min", w: "", wn: null,
               sets: st.splits.map(function(ms){ return { r: Math.round(ms / 1000), d: true }; }), note: HX.partial ? "+ " + HX.partial : "" };
     hit = { v: 1, mode: "amrap", id: w.id, dur: HX.dur, sets: st.sets, splits: st.splits.slice(), partial: HX.partial || "", secs: Math.round(st.e / 1000) };
@@ -2774,17 +3617,19 @@ function hxRenderList(){
   var host = $("hitCards"); if(!host) return;
   host.innerHTML = "";
   HITS.forEach(function(w){
-    var last = hxLast(w), running = HX && HX.wk === w.id && hxActive(), am = hxMode(w) === "amrap";
+    var last = hxLast(w), running = HX && HX.wk === w.id && hxActive(), am = hxMode(w) === "amrap", iv = hxMode(w) === "interval";
     var best = am ? hxBest(w, hxCfgFor(w).dur) : null;
     var card = el("button", "wk-card");
     card.type = "button"; card.setAttribute("data-hit", w.id);
     card.innerHTML = '<span class="tag">' + esc(w.tag) + '</span> <span class="hometag ' + esc(w.gearCls || "") + '">' + esc(w.gear) + '</span>' +
       '<h2>' + esc(w.title) + '</h2>' +
       (w.subtitle ? '<div class="hitsub">' + esc(w.subtitle) + '</div>' : '') +
-      '<div class="list">(' + esc(w.moves.map(function(m){ return m.reps + " " + m.n.toLowerCase(); }).join(", ")) + ')</div>' +
+      (iv ? '<div class="hitneed">You need: ' + esc(w.need) + '</div>' : '') +
+      '<div class="list">(' + esc(w.moves.map(function(m){ return (iv ? "" : m.reps + " ") + m.n.toLowerCase(); }).join(", ")) + ')</div>' +
       (last ? '<p class="lasttime">' + esc(hxLastText(last)) + '</p>' : '') +
       (best !== null ? '<p class="lasttime">Best: ' + esc(hxPlural(best, "set", "sets")) + '</p>' : '') +
-      '<div class="meta">' + (running ? "Timer running" : am ? w.defDur + " min \u00b7 as many sets as you can" : w.rounds + " rounds \u00b7 " + Math.round(w.rounds * (w.interval || 60) / 60) + " min") +
+      '<div class="meta">' + (running ? "Timer running" : iv ? hxMMSS(hxPlan(w, null).workTotal) + " total \u00b7 " + w.rounds + " rounds \u00b7 " + hxIvText(w) :
+        am ? w.defDur + " min \u00b7 as many sets as you can" : w.rounds + " rounds \u00b7 " + Math.round(w.rounds * (w.interval || 60) / 60) + " min") +
       " \u00b7 Tap to open \u2192</div>";
     card.onclick = function(){ hxOpenDetail(w.id); };
     host.appendChild(card);
@@ -2794,19 +3639,40 @@ function hxOpenDetail(id){
   var w = hxFind(id); if(!w) return;
   hxOpen = id;
   hxCfgFor(w);
-  var am = hxMode(w) === "amrap", pane = $("hitDetailPane");
-  var moves = w.moves.map(function(m){
-    return '<li class="hitmove"><svg class="cardfig" viewBox="0 0 120 120" role="img" aria-label="' + esc(m.n) + ' diagram"><use href="#' + m.f + '"/></svg>' +
-      '<div class="mt"><div class="mn"><span>' + m.reps + '</span>' + esc(m.n) + '</div><p class="mc">' + esc(m.cue) + '</p></div></li>';
+  var am = hxMode(w) === "amrap", iv = hxMode(w) === "interval", pane = $("hitDetailPane"), cfg0 = hxCfgFor(w);
+  var ivOpt = iv ? (HX && HX.wk === w.id && hxActive() ? HX.opt : cfg0.opt) : null;
+  var mlist = iv ? hxMovesFor(w, ivOpt) : w.moves, plan = iv ? hxPlan(w, ivOpt) : null;
+  var moves = mlist.map(function(m){
+    return '<li class="hitmove"><canvas class="cardfig" data-a="' + esc(m.anim) + '" role="img" aria-label="' + esc(m.n) + ' demo"></canvas>' +
+      '<div class="mt"><div class="mn">' + (iv ? '' : '<span>' + m.reps + '</span>') + esc(m.n) + '</div>' +
+      (iv ? '<div class="mtags"><span>' + w.work + ' s</span>' + (m.upper ? '<span class="up">Upper body</span>' : '') + (m.swapped ? '<span>Needs the bar</span>' : '') + '</div>' : '') +
+      '<p class="mc">' + esc(m.cue) + '</p></div></li>';
   }).join("");
   var picks = "";
+  if(iv) picks += '<p class="hitneed">You need: ' + esc(w.need) + '</p>' + (w.weightNote ? '<p class="hitnote">' + esc(w.weightNote) + '</p>' : '');
+  if(w.barOpt) picks += '<fieldset class="wpick"><legend>Pull-up bar</legend><div class="wgrid">' + w.barOpt.map(function(o){
+    return '<button type="button" class="wopt" data-bar="' + esc(o.k) + '" aria-pressed="false"><b>' + esc(o.label) + '</b><small>' + esc(o.sub) + '</small></button>';
+  }).join("") + '</div></fieldset>';
   if(w.weights) picks += '<fieldset class="wpick"><legend>Bar weight</legend><div class="wgrid">' + w.weights.map(function(o){
     return '<button type="button" class="wopt" data-opt="' + esc(o.k) + '" aria-pressed="false"><b>' + esc(o.label) + '</b><small>' + o.lb + ' lb</small></button>';
   }).join("") + '</div></fieldset>';
   if(am && w.durations.length > 1) picks += '<fieldset class="wpick"><legend>Time on the clock</legend><div class="wgrid g4">' + w.durations.map(function(d){
     return '<button type="button" class="wopt" data-dur="' + d + '" aria-pressed="false"><b>' + d + ' min</b></button>';
   }).join("") + '</div></fieldset>';
-  var runBox = am ?
+  var runBox = iv ?
+      '<div class="hivl"><div class="htime"><b id="hxTime">' + hxMMSS(plan.workTotal) + '</b><small id="hxTimeLbl">total time</small></div>' +
+        '<div class="hcount"><b id="hxCount">' + plan.works + '</b><small id="hxCountLbl">intervals</small></div></div>' +
+      '<p class="hnow" id="hxNow" hidden></p>' +
+      '<div class="hbar" aria-hidden="true"><div id="hxFill"></div></div>' +
+      '<div class="hmeta"><span id="hxTotalLine"></span></div>' +
+      '<div class="hctl">' +
+        '<button type="button" class="minibtn primary" id="hxGo">Start</button>' +
+        '<button type="button" class="minibtn" id="hxFull" hidden>Open full screen</button>' +
+        '<button type="button" class="minibtn" id="hxReset" hidden>Reset</button>' +
+        '<button type="button" class="minibtn" id="hxSave" hidden>Save &amp; end</button>' +
+      '</div>' +
+      '<p class="hhint" id="hxHint">One tap on Start and it plays by itself, like a video: a big demo of each move, a countdown, and a voice that tells you what is next. It starts with 10 seconds to get ready. Turn your ringer on to hear it. Keyboard: Space pauses, the right arrow skips.</p>'
+    : am ?
       '<div class="hamrap"><div class="htime"><b id="hxTime">20:00</b><small>time left</small></div>' +
         '<div class="hcount"><b id="hxCount">0</b><small id="hxCountLbl">sets done</small></div></div>' +
       '<div class="hbar" aria-hidden="true"><div id="hxFill"></div></div>' +
@@ -2842,10 +3708,10 @@ function hxOpenDetail(id){
       (am ? '<p class="lasttime" id="hxBest" hidden></p>' : '') +
       '<div class="hitformat"><b id="hxFmtHead"></b>' + esc(w.formatText) + '<span class="goal">' + esc(w.goal) + '</span></div>' +
       picks +
-      '<ol class="hitmoves" aria-label="' + (am ? "One set" : "Every minute") + '">' + moves + '</ol>' +
+      '<ol class="hitmoves" aria-label="' + (iv ? "Each round" : am ? "One set" : "Every minute") + '">' + moves + '</ol>' +
     '</section>' +
     '<section class="hittimer" id="hxTimer" aria-labelledby="hxTimerHead">' +
-      '<h2 class="hh" id="hxTimerHead">' + (am ? "AMRAP timer" : "EMOM timer") + '</h2>' +
+      '<h2 class="hh" id="hxTimerHead">' + (iv ? "Follow-along timer" : am ? "AMRAP timer" : "EMOM timer") + '</h2>' +
       '<div id="hxRunBox">' + runBox + '</div>' +
       '<div class="hfinish" id="hxFin" hidden>' +
         '<h3 id="hxFinHead" tabindex="-1">Done!</h3>' +
@@ -2858,6 +3724,8 @@ function hxOpenDetail(id){
       '<p class="vh" id="hxLive" aria-live="polite"></p>' +
     '</section>';
   $("hitListPane").hidden = true; pane.hidden = false;
+  pane.querySelectorAll("canvas.cardfig[data-a]").forEach(function(cv){ if(window.PoAnim) PoAnim.mount(cv, cv.getAttribute("data-a")); });
+  if(fxIsOpen()) PoAnim.pause(pane, true);
   $("hxBack").onclick = hxBackToList;
   $("hxToList").onclick = hxBackToList;
   pane.querySelectorAll(".wopt[data-opt]").forEach(function(b){
@@ -2865,6 +3733,14 @@ function hxOpenDetail(id){
       hxCfg[w.id].opt = b.getAttribute("data-opt");
       if(HX && HX.wk === w.id && HX.status !== "done"){ HX.opt = hxCfg[w.id].opt; hxPersist(); }
       hxRender();
+    };
+  });
+  pane.querySelectorAll(".wopt[data-bar]").forEach(function(b){
+    b.onclick = function(){
+      if(HX && HX.wk === w.id && hxActive()) return;
+      hxCfg[w.id].opt = b.getAttribute("data-bar");
+      var y = window.scrollY; hxOpenDetail(w.id); window.scrollTo(0, y);
+      var nb = document.querySelector('#hitDetailPane .wopt[data-bar="' + hxCfg[w.id].opt + '"]'); if(nb) nb.focus();
     };
   });
   pane.querySelectorAll(".wopt[data-dur]").forEach(function(b){
@@ -2878,11 +3754,13 @@ function hxOpenDetail(id){
         onButton: function(id){ if(id === "open") setTimeout(function(){ hxOpenDetail(other.id); window.scrollTo(0, 0); }, 0); } });
       return;
     }
-    if(!HX || HX.wk !== w.id || HX.status === "done"){ hxStart(); try{ $("hxTimer").scrollIntoView({ block: "start", behavior: "smooth" }); }catch(e){} }
+    if(!HX || HX.wk !== w.id || HX.status === "done"){ hxStart(); if(!iv) try{ $("hxTimer").scrollIntoView({ block: "start", behavior: "smooth" }); }catch(e){} }
     else if(HX.status === "running") hxPause();
     else hxResume();
   };
-  if(am){
+  if(iv){
+    $("hxFull").onclick = function(){ fxOpen(); };
+  } else if(am){
     $("hxSetDone").onclick = hxSetDone;
     $("hxUndo").onclick = hxUndo;
     var pi = $("hxPartial");
@@ -2904,6 +3782,7 @@ function hxBackToList(){
   var c = document.querySelector("#hitCards .wk-card"); if(c) c.focus();
 }
 function hxRender(snap){
+  if(HX && HX.mode === "interval") fxRender(snap);
   var w = hxFind(hxOpen), timer = $("hxTimer"); if(!w || !timer) return;
   var mine = HX && HX.wk === w.id ? HX : null, cfg = hxCfgFor(w);
   var st = mine ? mine.status : "idle", act = !!(mine && hxActive());
@@ -2911,7 +3790,42 @@ function hxRender(snap){
   lt.textContent = txt; lt.hidden = !txt;
   $("hxRunBox").hidden = st === "done"; $("hxFin").hidden = st !== "done";
   timer.classList.toggle("is-low", false);
-  if(hxMode(w) === "amrap") hxRenderAmrap(w, mine, cfg, st, act, snap); else hxRenderEmom(w, mine, cfg, st, snap);
+  if(hxMode(w) === "interval") hxRenderInterval(w, mine, cfg, st, act, snap);
+  else if(hxMode(w) === "amrap") hxRenderAmrap(w, mine, cfg, st, act, snap); else hxRenderEmom(w, mine, cfg, st, snap);
+}
+function hxRenderInterval(w, mine, cfg, st, act, snap){
+  var opt = mine ? mine.opt : cfg.opt, plan = mine ? hxPlanOf() : hxPlan(w, opt);
+  document.querySelectorAll("#hitDetailPane .wopt[data-bar]").forEach(function(b){
+    b.setAttribute("aria-pressed", b.getAttribute("data-bar") === opt ? "true" : "false");
+    b.setAttribute("aria-disabled", act ? "true" : "false");
+  });
+  $("hxFmtHead").textContent = hxMMSS(plan.workTotal) + " total \u00b7 " + w.rounds + " rounds \u00b7 " + hxIvText(w);
+  if(st === "idle"){
+    $("hxTime").textContent = hxMMSS(plan.workTotal); $("hxTimeLbl").textContent = "total time";
+    $("hxCount").textContent = String(plan.works); $("hxCountLbl").textContent = "intervals";
+    $("hxNow").hidden = true; $("hxFill").style.width = "0%";
+    $("hxTotalLine").textContent = w.rounds + " rounds of " + plan.moves.length + " moves, " + hxIvText(w) + ", " + Math.round((w.roundRest || w.rest)) + " s between rounds";
+    $("hxGo").textContent = "Start"; $("hxFull").hidden = true; $("hxReset").hidden = true; $("hxSave").hidden = true; $("hxHint").hidden = false;
+    $("hxRest").innerHTML = "";
+    return;
+  }
+  var s = snap || hxSnap(Date.now()), stats = hxStats();
+  if(st === "done"){
+    $("hxFinHead").textContent = s.done ? "Done!" : "Workout saved";
+    $("hxFinText").textContent = stats.done + " of " + stats.total + " intervals in " + hxMMSS(stats.secs * 1000) + "." + (stats.skipped ? " " + hxPlural(stats.skipped, "interval", "intervals") + " skipped." : "");
+    $("hxFinSaved").textContent = mine.savedId ? "\u2713 Saved to your history" : "Could not save to your history.";
+  } else {
+    var sg = s.seg, mv = plan.moves[sg.mv];
+    $("hxTime").textContent = hxMMSSup(s.leftMs); $("hxTimeLbl").textContent = sg.k === "work" ? "work left" : sg.k === "lead" ? "to get ready" : "rest left";
+    $("hxCount").textContent = String(stats.done); $("hxCountLbl").textContent = "of " + stats.total + " done";
+    $("hxNow").hidden = false;
+    $("hxNow").textContent = (st === "paused" ? "Paused \u00b7 " : "") + (sg.k === "work" ? "Round " + sg.r + " of " + w.rounds + " \u00b7 " + mv.n : sg.k === "lead" ? "Get ready \u00b7 first up: " + mv.n : "Rest \u00b7 next up: " + mv.n);
+    $("hxFill").style.width = (100 * s.e / plan.total).toFixed(1) + "%";
+    $("hxTotalLine").textContent = hxMMSS(Math.max(0, s.e - plan.lead)) + " of " + hxMMSS(plan.workTotal);
+    $("hxGo").textContent = st === "running" ? "Pause" : "Resume";
+    $("hxFull").hidden = fxIsOpen(); $("hxReset").hidden = false; $("hxSave").hidden = st !== "paused"; $("hxHint").hidden = true;
+  }
+  $("hxRest").innerHTML = "";
 }
 function hxRenderAmrap(w, mine, cfg, st, act, snap){
   var dur = mine ? mine.dur : cfg.dur, total = dur * 60000;
@@ -2996,16 +3910,150 @@ function hxRenderEmom(w, mine, cfg, st, snap){
   if(ol.innerHTML !== html) ol.innerHTML = html;
 }
 
+
+/* ----- v18: full-screen follow-along player for interval workouts ----- */
+var fxEl = null, fxPrevFocus = null, FX_C = 2 * Math.PI * 52;
+function fxIsOpen(){ return !!(fxEl && !fxEl.hidden); }
+function fxBuild(){
+  if(fxEl) return fxEl;
+  fxEl = el("div", "fx"); fxEl.id = "fx"; fxEl.hidden = true;
+  fxEl.setAttribute("role", "dialog"); fxEl.setAttribute("aria-modal", "true"); fxEl.setAttribute("aria-labelledby", "fxMove");
+  fxEl.innerHTML =
+    '<div class="fxtop"><div class="fxwk"><b id="fxWk"></b><span id="fxPos"></span></div>' +
+      '<button type="button" class="fxicon" id="fxMute" aria-pressed="false">Sound on</button>' +
+      '<button type="button" class="fxicon" id="fxClose" aria-label="Close full screen. The timer keeps running.">Close</button></div>' +
+    '<div class="fxbar" aria-hidden="true"><div id="fxAll"></div></div>' +
+    '<div class="fxmain" id="fxMain">' +
+      '<div class="fxstage"><canvas id="fxCv" role="img" aria-label="Move demo"></canvas><span class="fxbadge" id="fxBadge" hidden></span></div>' +
+      '<h2 class="fxmove" id="fxMove"></h2>' +
+      '<p class="fxcue" id="fxCue"></p>' +
+      '<div class="fxrow">' +
+        '<div class="fxclock" aria-hidden="true"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" class="bg"/><circle cx="60" cy="60" r="52" class="fg" id="fxRing" stroke-dasharray="' + FX_C.toFixed(2) + '" stroke-dashoffset="0"/></svg>' +
+          '<b id="fxSecs">10</b><small id="fxLbl">get ready</small></div>' +
+        '<div class="fxnext" id="fxNext"><canvas id="fxNextCv" aria-hidden="true"></canvas><div class="fxnt"><small id="fxNextHd">Next up</small><b id="fxNextName"></b></div></div>' +
+      '</div>' +
+      '<div class="fxctl"><button type="button" id="fxPause">Pause</button><button type="button" id="fxSkip">Skip</button></div>' +
+      '<div class="fxctl fxctl2" id="fxCtl2" hidden><button type="button" id="fxEnd">End and save</button></div>' +
+      '<p class="fxkeys">Space pauses. Right arrow skips. Esc closes.</p>' +
+    '</div>' +
+    '<div class="fxfin" id="fxFin" hidden><h2 id="fxFinHead" tabindex="-1">Done!</h2><p id="fxFinText"></p><p class="hsaved" id="fxFinSaved"></p>' +
+      '<canvas id="fxFinCv" aria-hidden="true"></canvas>' +
+      '<div class="fxctl"><button type="button" id="fxDone">Close</button></div></div>' +
+    '<p class="vh" id="fxLive" aria-live="polite"></p>';
+  document.body.appendChild(fxEl);
+  $("fxPause").onclick = function(){ if(!HX) return; if(HX.status === "running") hxPause(); else if(HX.status === "paused") hxResume(); };
+  $("fxSkip").onclick = hxSkip;
+  $("fxEnd").onclick = hxAskSave;
+  $("fxClose").onclick = function(){ fxClose(); };
+  $("fxDone").onclick = function(){ fxClose(); };
+  $("fxMute").onclick = function(){
+    var m = !hxMuted(); try{ localStorage.setItem(HX_MUTE, m ? "1" : "0"); }catch(e){}
+    if(m){ try{ window.speechSynthesis.cancel(); }catch(e){} } else { hxAudioUnlock(); hxSpeechUnlock(); hxVoice("Sound on."); }
+    fxRender();
+  };
+  PoAnim.mount($("fxCv"), "airsquat", { dark: true, pad: 0.05 });
+  PoAnim.mount($("fxNextCv"), "airsquat", { dark: true, pad: 0.06 });
+  return fxEl;
+}
+function fxOpen(){
+  if(!HX || HX.mode !== "interval") return;
+  fxBuild();
+  if(fxEl.hidden) fxPrevFocus = document.activeElement;
+  fxEl.hidden = false; document.documentElement.classList.add("fx-on");
+  var pane = $("hitDetailPane"); if(pane) PoAnim.pause(pane, true);
+  PoAnim.pause(fxEl, false);
+  PoAnim.onFrame = PoAnim.reduced() ? null : fxFrame;
+  hxRender();
+  var f = HX.status === "done" ? $("fxDone") : $("fxPause"); if(f) f.focus();
+}
+function fxClose(silent){
+  if(!fxIsOpen()) return;
+  fxEl.hidden = true; document.documentElement.classList.remove("fx-on");
+  PoAnim.pause(fxEl, true); PoAnim.onFrame = null;
+  var pane = $("hitDetailPane"); if(pane) PoAnim.pause(pane, false);
+  hxRender();
+  if(!silent){ var f = $("hxFull"); if(!f || f.hidden) f = $("hxGo"); if(!f || !f.offsetParent) f = $("hxAgain"); try{ if(f) f.focus(); }catch(e){} }
+}
+function fxNextWork(P, i){ for(var j = i + 1; j < P.segs.length; j++) if(P.segs[j].k === "work") return P.segs[j]; return null; }
+function fxRing(s){
+  var r = $("fxRing"); if(r) r.setAttribute("stroke-dashoffset", (FX_C * Math.min(1, Math.max(0, s.frac))).toFixed(2));
+  var a = $("fxAll"); if(a) a.style.width = (100 * s.e / HX.total).toFixed(2) + "%";
+}
+function fxFrame(){ if(fxIsOpen() && HX && HX.mode === "interval" && HX.status === "running"){ var s = hxSnap(Date.now()); if(!s.done) fxRing(s); } }
+function fxRender(snap){
+  if(!fxIsOpen() || !HX || HX.mode !== "interval") return;
+  var w = hxFind(HX.wk), P = hxPlanOf(), st = HX.status, muted = hxMuted();
+  $("fxWk").textContent = w.title;
+  var mb = $("fxMute"); mb.setAttribute("aria-pressed", muted ? "true" : "false"); mb.textContent = muted ? "Muted" : "Sound on";
+  var done = st === "done";
+  $("fxMain").hidden = done; $("fxFin").hidden = !done;
+  fxEl.classList.toggle("is-done", done);
+  if(done){
+    var stt = hxStats(), full = hxSnap(Date.now()).done;
+    $("fxPos").textContent = "Finished";
+    $("fxFinHead").textContent = full ? "Done!" : "Workout saved";
+    $("fxFinText").textContent = stt.done + " of " + stt.total + " intervals in " + hxMMSS(stt.secs * 1000) + "." + (stt.skipped ? " " + hxPlural(stt.skipped, "interval", "intervals") + " skipped." : " Great work.");
+    $("fxFinSaved").textContent = HX.savedId ? "\u2713 Saved to your history" : "Could not save to your history.";
+    $("fxAll").style.width = "100%";
+    PoAnim.mount($("fxFinCv"), P.moves[P.moves.length - 1].anim, { dark: true });
+    return;
+  }
+  var s = snap || hxSnap(Date.now()), sg = s.seg, mv = P.moves[sg.mv], work = sg.k === "work", paused = st === "paused";
+  var mvIdx = sg.mv + 1, nMv = P.moves.length;
+  $("fxPos").textContent = sg.k === "lead" ? "Get ready" : "Round " + sg.r + " of " + w.rounds;
+  $("fxMove").textContent = work ? mv.n : sg.k === "lead" ? "Get ready" : "Rest";
+  $("fxCue").textContent = work ? mv.cue : "Next up: " + mv.n + ". " + mv.cue;
+  var bd = $("fxBadge");
+  bd.hidden = !(paused || !work); bd.textContent = paused ? "Paused" : sg.k === "lead" ? "First up" : "Up next";
+  PoAnim.mount($("fxCv"), mv.anim, { dark: true, pad: 0.05 });
+  $("fxSecs").textContent = String(s.secs);
+  $("fxLbl").textContent = paused ? "paused" : work ? "work" : sg.k === "lead" ? "get ready" : "rest";
+  fxRing(s);
+  fxEl.classList.toggle("is-work", work); fxEl.classList.toggle("is-rest", !work);
+  fxEl.classList.toggle("is-low", !paused && s.secs <= 3); fxEl.classList.toggle("is-paused", paused);
+  var nx = $("fxNext"), showNext = !work || s.secs <= 5, nm, anim = null;
+  if(!work){ nm = mv.n; anim = mv.anim; }
+  else { var nw = fxNextWork(P, s.i); if(nw){ nm = P.moves[nw.mv].n; anim = P.moves[nw.mv].anim; } else nm = "Finish! Last one."; }
+  nx.classList.toggle("on", showNext);
+  $("fxNextHd").textContent = showNext ? (work && !anim ? "Almost done" : "Next up") : "Round " + sg.r + " of " + w.rounds;
+  $("fxNextName").textContent = showNext ? (anim ? nm : nm) : "Move " + mvIdx + " of " + nMv + " \u00b7 " + (w.work) + " s";
+  var nc = $("fxNextCv"); nc.hidden = !(showNext && anim);
+  if(showNext && anim) PoAnim.mount(nc, anim, { dark: true, pad: 0.06 });
+  $("fxPause").textContent = paused ? "Resume" : "Pause";
+  $("fxPause").setAttribute("aria-label", paused ? "Resume (Space)" : "Pause (Space)");
+  $("fxSkip").setAttribute("aria-label", "Skip to " + (work ? "the rest" : "the next move") + " (right arrow)");
+  $("fxCtl2").hidden = !paused;
+}
+document.addEventListener("keydown", function(e){
+  if(!fxIsOpen() || document.querySelector(".pomodal")) return;
+  var k = e.key;
+  if(k === "Tab"){
+    var f = [].slice.call(fxEl.querySelectorAll("button")).filter(function(b){ return b.offsetParent; }), i = f.indexOf(document.activeElement);
+    if(!f.length) return;
+    if(e.shiftKey && i <= 0){ e.preventDefault(); f[f.length - 1].focus(); }
+    else if(!e.shiftKey && (i === f.length - 1 || i < 0)){ e.preventDefault(); f[0].focus(); }
+    return;
+  }
+  if(e.altKey || e.ctrlKey || e.metaKey) return;
+  var done = HX && HX.status === "done";
+  if((k === " " || k === "Spacebar") && !done){ e.preventDefault(); $("fxPause").click(); }
+  else if(k === "ArrowRight" && !done){ e.preventDefault(); hxSkip(); }
+  else if(k === "Escape"){ e.preventDefault(); fxClose(); }
+  else if((k === "m" || k === "M") && !done){ e.preventDefault(); $("fxMute").click(); }
+});
+document.addEventListener("keyup", function(e){ if(fxIsOpen() && (e.key === " " || e.key === "Spacebar") && !(HX && HX.status === "done") && !document.querySelector(".pomodal")) e.preventDefault(); });
+
 /* ----- entry points ----- */
 window.__poHitShow = function(){
   hxRenderList();
   if(hxActive()) hxOpenDetail(HX.wk);
-  else if(hxOpen) hxRender();
+  else if(hxOpen) hxOpenDetail(hxOpen);
 };
 function hxValid(r){
   var w = r && hxFind(r.wk);
   if(!r || r.v !== 3 || !w || r.mode !== hxMode(w) || typeof r.t0 !== "number" || !(r.total > 0) || Date.now() - r.t0 > HX_MAX_AGE) return false;
   if(r.mode === "amrap") return Array.isArray(r.taps) && r.dur > 0;
+  if(r.mode === "interval") return Array.isArray(r.skips) && typeof r.skip === "number" && r.total === hxPlan(w, r.opt).total;
   return Array.isArray(r.rest) && r.iv > 0 && r.rest.length === r.rounds;
 }
 function hxBoot(){
@@ -3015,7 +4063,7 @@ function hxBoot(){
   HX = raw; delete hxCfg[HX.wk];
   if(HX.status === "running"){
     if(hxElapsed(Date.now()) >= HX.total) hxFinish(false);   /* it ended while the app was closed */
-    else { show("hit"); hxWakeOn(); }
+    else { show("hit"); hxWakeOn(); if(HX.mode === "interval") fxOpen(); }
   }
 }
 document.addEventListener("visibilitychange", function(){
@@ -3034,7 +4082,7 @@ if("serviceWorker" in navigator && location.protocol.indexOf("http") === 0){
 }
 
 /* ============ boot ============ */
-try{ console.log("Progressive Overload build v17"); }catch(e){}
+try{ console.log("Progressive Overload build v18.1"); }catch(e){}
 storeGet("ft:custom", function(v){
   try{ CUSTOM = v ? JSON.parse(v) : []; }catch(e){ CUSTOM = []; }
   CUSTOM.forEach(function(x){ x.custom = true; if(idx(x.n)<0) LIB.push(x); });
@@ -3093,6 +4141,9 @@ window.__poLoadLeaflet = function(){
   /* ============ dom ============ */
   var $ = function(id){ return document.getElementById(id); };
   var map, tileOk = false;
+  var DEBUG = /[?&]debug=1(&|$)/.test(location.search);
+  var mapStyle = "streets";
+  try{ var st0 = localStorage.getItem("runmap:style"); if(/^(streets|dark|trails|satellite)$/.test(st0 || "")) mapStyle = st0; }catch(e){}
 
   /* ============ math ============ */
   function haversine(a, b){
@@ -3125,61 +4176,82 @@ window.__poLoadLeaflet = function(){
     map = L.map("map", { zoomControl:true, doubleClickZoom:false })
            .setView([39.5, -98.35], 4);
 
+    var OSM_ATTR = '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors';
+    var FIX = ' | <a href="https://www.openstreetmap.org/fixthemap" target="_blank" rel="noopener">Report a map issue</a>';
+    var ESRI_ATTR = 'Tiles &copy; Esri';
+    var OSM = { name:"osm", label:"OpenStreetMap", url:"https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                opt:{ maxZoom:19, attribution: OSM_ATTR + FIX } };
     var STYLES = {
       streets: { label:"Streets", chain:[
-        { name:"carto", url:"https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
-          opt:{ maxZoom:19, subdomains:"abcd", attribution:'&copy; OpenStreetMap contributors &copy; CARTO' } },
-        { name:"esri", url:"https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
-          opt:{ maxZoom:19, attribution:'Tiles &copy; Esri' } },
-        { name:"osm", url:"https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-          opt:{ maxZoom:19, attribution:'&copy; OpenStreetMap contributors' } }
+        OSM,
+        { name:"esri", label:"Esri World Street Map", url:"https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+          opt:{ maxZoom:19, attribution: ESRI_ATTR + ' - Source: Esri, HERE, Garmin, USGS, NGA, EPA, USDA, NPS, ' + OSM_ATTR } }
+      ]},
+      dark: { label:"Dark", chain:[
+        { name:"osm-dark", label:"OpenStreetMap (dark)", url:OSM.url,
+          opt:{ maxZoom:19, className:"po-dark-tiles", attribution: OSM_ATTR + FIX } },
+        { name:"esri-dark", label:"Esri World Dark Gray", url:"https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+          opt:{ maxZoom:19, maxNativeZoom:16, attribution: ESRI_ATTR + ' - Esri, HERE, Garmin, ' + OSM_ATTR } },
+        OSM
       ]},
       trails: { label:"Trails", chain:[
-        { name:"cyclosm", url:"https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png",
-          opt:{ maxZoom:18, subdomains:"abc", attribution:'&copy; OpenStreetMap contributors - CyclOSM | OSM France' } },
-        { name:"opentopo", url:"https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
-          opt:{ maxZoom:17, subdomains:"abc", attribution:'Map data &copy; OpenStreetMap contributors, SRTM | Style &copy; OpenTopoMap (CC-BY-SA)' } },
-        { name:"osm", url:"https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-          opt:{ maxZoom:19, attribution:'&copy; OpenStreetMap contributors' } }
+        { name:"cyclosm", label:"CyclOSM", url:"https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png",
+          opt:{ maxZoom:19, maxNativeZoom:18, subdomains:"abc", attribution: OSM_ATTR + ' | <a href="https://www.cyclosm.org" target="_blank" rel="noopener">CyclOSM</a> hosted by OSM France' } },
+        { name:"opentopo", label:"OpenTopoMap", url:"https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+          opt:{ maxZoom:19, maxNativeZoom:17, subdomains:"abc", attribution: OSM_ATTR + ', SRTM | Style &copy; <a href="https://opentopomap.org" target="_blank" rel="noopener">OpenTopoMap</a> (CC-BY-SA)' } },
+        OSM
       ]},
       satellite: { label:"Satellite", chain:[
-        { name:"esrisat", url:"https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-          opt:{ maxZoom:19, attribution:'Tiles &copy; Esri - Source: Esri, Maxar, Earthstar Geographics' } },
-        { name:"osm", url:"https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-          opt:{ maxZoom:19, attribution:'&copy; OpenStreetMap contributors' } }
+        { name:"esrisat", label:"Esri World Imagery", url:"https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+          opt:{ maxZoom:19, attribution: ESRI_ATTR + ' - Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community' } },
+        OSM
       ]}
     };
-    var mapStyle = "streets";
+    if(!STYLES[mapStyle]) mapStyle = "streets";
     function PROV(){ return STYLES[mapStyle].chain; }
-    var provIdx = 0, tiles = null, tileErrs = 0, tileOkN = 0, tileReq = 0, diagNote = "";
+    /* Fallback: provider down/blocked (4 tile errors in a row, or every tile so far failed) -> next provider in the chain */
+    var FAIL_AFTER = 4;
+    var provIdx = 0, tiles = null, tileErrs = 0, tileErrRun = 0, tileOkN = 0, tileReq = 0, diagNote = "", switched = [];
     function diag(){
+      var p = PROV()[provIdx];
+      window.__poTiles = { style:mapStyle, provider:p.name, label:p.label, idx:provIdx, req:tileReq, ok:tileOkN, err:tileErrs, switched:switched.slice() };
       var d = document.getElementById("diagLine");
-      if(!d) return;
+      if(!d || !DEBUG) return;
       var lib = window.__leafletSrc || (typeof L !== "undefined" ? "ok" : "loading");
       var mEl = document.getElementById("map");
       var size = mEl ? (mEl.clientWidth + "x" + mEl.clientHeight) : "?";
-      d.textContent = "v17 · lib:" + lib + " · " + PROV()[provIdx].name + "/" + (lastRouter||"-") + " " + size + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (diagNote ? " · " + diagNote : "");
+      d.textContent = "v18.1 · lib:" + lib + " · " + mapStyle + ":" + p.name + "/" + (lastRouter||"-") + " " + size + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (switched.length ? " · fell back from " + switched.join(",") : "") + (diagNote ? " · " + diagNote : "");
     }
     function mountTiles(){
-      if(tiles) map.removeLayer(tiles);
-      tileErrs = 0; tileOk = false; tileOkN = 0; tileReq = 0;
+      if(tiles) map.removeLayer(tiles);   /* not .off(): Leaflet's attribution cleanup hangs on the layer's remove event */
+      tileErrs = 0; tileErrRun = 0; tileOk = false; tileOkN = 0; tileReq = 0;
       var p = PROV()[provIdx];
-      tiles = L.tileLayer(p.url, p.opt);
-      tiles.on("tileloadstart", function(){ tileReq++; diag(); });
-      tiles.on("tileload", function(){ tileOk = true; tileOkN++; setStatus(""); diag(); });
-      tiles.on("tileerror", function(){
-        tileErrs++; diag();
-        if(!tileOk && tileErrs >= 4){
-          if(provIdx < PROV().length - 1){ provIdx++; mountTiles(); }
-          else setStatus("The map imagery isn't loading right now. Measuring still works - points and distances stay accurate - but you're drawing blind. Check your connection and try again.");
+      var layer = L.tileLayer(p.url, p.opt);
+      tiles = layer;
+      var pending = 0;
+      layer.on("tileloadstart", function(){ if(tiles !== layer) return; tileReq++; pending++; diag(); });
+      layer.on("tileabort", function(){ if(tiles !== layer) return; pending = Math.max(0, pending - 1); });
+      layer.on("tileload", function(){ if(tiles !== layer) return; pending = Math.max(0, pending - 1); tileOk = true; tileOkN++; tileErrRun = 0; setStatus(""); diag(); });
+      layer.on("tileerror", function(){
+        if(tiles !== layer) return;
+        pending = Math.max(0, pending - 1);
+        tileErrs++; tileErrRun++; diag();
+        /* switch after 4 errors in a row, or when nothing has ever loaded and every tile asked for so far failed */
+        if(tileErrRun >= FAIL_AFTER || (!tileOk && pending === 0 && tileErrs >= 2)){
+          if(provIdx < PROV().length - 1){
+            switched.push(p.name); provIdx++;
+            mountTiles();
+          } else if(!tileOk){
+            setStatus("The map imagery isn't loading right now. Measuring still works - points and distances stay accurate - but you're drawing blind. Check your connection and try again.");
+          }
         }
       });
-      tiles.addTo(map);
+      layer.addTo(map);
       diag();
     }
     mountTiles();
     window.__poDiag = diag;
-    window.__poMount = function(){ provIdx = 0; mountTiles(); };
+    window.__poMount = function(){ provIdx = 0; switched = []; mountTiles(); };
 
     map.on("click", function(e){ addPoint(e.latlng.lat, e.latlng.lng); });
     setTimeout(function(){ map.invalidateSize(); }, 120);
@@ -3448,7 +4520,7 @@ window.__poLoadLeaflet = function(){
     var span = Math.max(total, tgtM, M_PER[unit]);
 
     var track = $("track");
-    Array.prototype.slice.call(track.querySelectorAll(".rm-tick,.rm-seg,.rm-flag"))
+    Array.prototype.slice.call(track.querySelectorAll(".rm-tick,.rm-railseg,.rm-flag"))
       .forEach(function(n){ n.remove(); });
 
     $("fill").style.width = Math.min(100, (total/span)*100) + "%";
@@ -3474,7 +4546,7 @@ window.__poLoadLeaflet = function(){
       cum += l.meters;
       if(i === legs.length-1 && !outBack) return;
       var s = document.createElement("div");
-      s.className = "rm-seg";
+      s.className = "rm-railseg";
       s.style.left = (cum/span)*100 + "%";
       track.appendChild(s);
     });
@@ -3622,12 +4694,12 @@ window.__poLoadLeaflet = function(){
     var tries = 0;
     var el = document.getElementById("map");
     (function waitL(){
-      if(typeof L !== "undefined"){ el.innerHTML = ""; initMap(); wire(); loadSaved(); if(readRouteFromHash()){ render(); if(points.length){ try{ map.fitBounds(points.map(function(p){ return [p.lat,p.lng]; }), {padding:[40,40]}); }catch(e){} } } paintPanel(); paintRail(); return; }
+      if(typeof L !== "undefined"){ el.innerHTML = ""; initMap(); wire(); loadSaved(); if(readRouteFromHash()){ $("hint").className = "rm-hint is-gone"; render(); if(points.length){ try{ map.fitBounds(points.map(function(p){ return [p.lat,p.lng]; }), {padding:[40,40]}); }catch(e){} } } paintPanel(); paintRail(); return; }
       if(tries === 6) el.innerHTML = '<div style="padding:24px;font-family:monospace;font-size:12px;color:#7E96A8">Loading map library…</div>';
       tries++;
       if(tries > 120 || window.__leafletSrc === "none"){
         el.innerHTML = '<div style="padding:24px;font-family:monospace;font-size:12px;color:#7E96A8;line-height:1.7"><b style="color:#E8F0F5">The map library could not be downloaded from either CDN.</b><br>The rest of the site is unaffected. This is usually a connection issue or a content blocker on this device.<br>Try: a different network, disabling ad/content blockers for this site, then reload.</div>';
-        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v17 · lib:none (both CDNs failed)";
+        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v18.1 · lib:none (both CDNs failed)";
         return;
       }
       setTimeout(waitL, 150);
@@ -3687,10 +4759,13 @@ window.__poLoadLeaflet = function(){
       };
     });
     var styleBtns = document.querySelectorAll("#styleSeg button");
+    Array.prototype.forEach.call(styleBtns, function(x){ var on = x.getAttribute("data-style") === mapStyle; x.classList.toggle("on", on); x.setAttribute("aria-pressed", on ? "true" : "false"); });
+    if(DEBUG){ var ra = document.getElementById("rmApp"); if(ra) ra.classList.add("is-debug"); }
     Array.prototype.forEach.call(styleBtns, function(b){
       b.onclick = function(){
         mapStyle = b.getAttribute("data-style");
-        Array.prototype.forEach.call(styleBtns, function(x){ x.classList.toggle("on", x === b); });
+        try{ localStorage.setItem("runmap:style", mapStyle); }catch(e){}
+        Array.prototype.forEach.call(styleBtns, function(x){ x.classList.toggle("on", x === b); x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
         if(window.__poMount) window.__poMount();      /* no-op until the map exists */
       };
     });
@@ -3699,7 +4774,15 @@ window.__poLoadLeaflet = function(){
   else wireSegments();
 
   window.__bootRunMapper = boot;
-  window.__rmResize = function(){ if(map){ map.invalidateSize(); if(window.__poDiag) window.__poDiag(); } };
+  function sizeRun(){
+    var app = document.getElementById("rmApp"); if(!app) return;
+    var tb = document.querySelector(".topbar");
+    var h = window.innerHeight - (tb ? tb.getBoundingClientRect().height : 48);
+    if(h > 200) app.style.setProperty("--rm-h", Math.round(h) + "px");
+  }
+  window.__rmResize = function(){ sizeRun(); if(map){ map.invalidateSize(); if(window.__poDiag) window.__poDiag(); } };
+  window.addEventListener("resize", sizeRun);
+  sizeRun();
   window.addEventListener("resize", function(){ if(map) map.invalidateSize(); });
   window.addEventListener("orientationchange", function(){ setTimeout(function(){ if(map) map.invalidateSize(); }, 300); });
 })();
