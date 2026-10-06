@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Progressive Overload Tracker | Free Workout Log and Run Mapper</title>
-<meta name="description" content="Free workout tracker that works on your phone. Pick a prebuilt workout or build your own from 172 exercises, log your weights, beat them next time, and map your runs. No account needed.">
+<meta name="description" content="Free workout tracker for your phone. Pick a prebuilt workout or build your own from 172 exercises, log weights, beat them next time, map runs. No account.">
 <link rel="canonical" href="https://progressiveoverloadtracker.app/">
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
 <meta property="og:type" content="website">
@@ -496,7 +496,7 @@
   .finishrow .minibtn{flex:1;font-size:15px;}
   .savednote{position:fixed;right:12px;top:calc(62px + env(safe-area-inset-top));z-index:950;background:var(--done);color:#fff;
     border-radius:999px;padding:6px 12px;margin:0;box-shadow:0 6px 18px rgba(0,0,0,.2);}
-  .histbar{position:fixed;left:0;right:0;top:0;z-index:3000;background:#b42318;color:#fff;font-size:14px;font-weight:700;
+  .histbar{position:relative;z-index:1;background:#b42318;color:#fff;font-size:14px;font-weight:700;
     line-height:1.4;padding:12px 16px;text-align:center;}
   .remind{background:#fff4dc;border:2px solid #f0b429;border-radius:16px;padding:14px 16px;margin-bottom:16px;}
   .remind strong{display:block;font-size:16px;color:var(--ink);}
@@ -651,6 +651,33 @@
   .fxfin p{font-size:17px;line-height:1.5;margin-top:10px;font-weight:600;color:#e8edf3;}
   .fxfin .hsaved{color:#7fe0b4;font-weight:800;}
   .fxfin canvas{width:100%;height:200px;margin-top:8px;}
+
+  /* ---------- v20: for-time stopwatch (Plate Grinder) ---------- */
+  .hitby{font-size:12.5px;color:var(--steel);font-weight:700;margin-top:4px;}
+  .hitswap{font-size:13.5px;font-weight:700;color:var(--steel);margin:8px 0 0;line-height:1.4;}
+  .ftcheck{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:6px;}
+  .ftcheck[hidden]{display:none;}
+  .ftcheck button{display:flex;align-items:center;gap:10px;width:100%;min-height:48px;padding:6px 12px;border:2px solid #3a4454;border-radius:12px;background:#1b2230;color:#fff;
+    text-align:left;cursor:pointer;touch-action:manipulation;font-family:var(--f-body);font-size:16px;font-weight:700;line-height:1.25;}
+  .ftcheck b{font-family:var(--f-display);font-weight:800;font-synthesis:none;font-size:24px;min-width:2.1em;color:var(--cobalt-lt);font-variant-numeric:tabular-nums;}
+  .ftcheck span{flex:1;min-width:0;}
+  .ftcheck small{display:block;font-size:13px;color:#9aa4b2;font-weight:700;}
+  .ftcheck i{font-style:normal;width:28px;height:28px;border-radius:50%;border:2px solid #5b6575;display:flex;align-items:center;justify-content:center;font-size:16px;flex:0 0 auto;}
+  .ftcheck button[aria-pressed=true]{border-color:#2f8f6a;background:#16302a;}
+  .ftcheck button[aria-pressed=true] span{color:#9fd9bf;text-decoration:line-through;}
+  .ftcheck button[aria-pressed=true] i{background:var(--done);border-color:var(--done);color:#fff;}
+  .hcount.ftsplit b{font-size:clamp(40px,12vw,64px);}
+  .hittimer.is-lead .htime b{color:#ffc65c;}
+  .hctl .minibtn[aria-pressed=true]{background:#ffc65c;border-color:#ffc65c;color:var(--ink);}
+  /* ---------- v20: 44px tap targets (regression audit) ---------- */
+  .backbtn{min-height:44px;display:inline-flex;align-items:center;padding:6px 8px 6px 0;margin-bottom:0;}
+  .figcycle{min-height:44px;}
+  .cxsave{min-height:44px;}
+  .rm-unitbtn{min-height:44px;min-width:44px;}
+  .rm-btn{min-height:44px;}
+  .rm-seg button,#styleSeg button{min-height:44px;}
+  #map .leaflet-bar a{width:44px;height:44px;line-height:44px;}
+  .rm-field input[type=text],.rm-field input[type=number]{min-height:44px;}
 </style>
 </head>
 <body>
@@ -744,7 +771,6 @@ if (typeof window.storage === "undefined") {
 <symbol id="f-s2oh" viewBox="0 0 120 120"><path class="gnd" d="M22 106 L98 106"/><circle class="hd" cx="48" cy="40" r="9"/><path class="stick" d="M56 48 L56 76 M56 76 L50 90 M50 90 L54 104 M54 104 L68 104 M57 52 L62 24"/><circle class="db" cx="62" cy="16" r="10"/><circle cx="62" cy="16" r="3.5" fill="#eef0f2"/><path class="acc" d="M90 70 L90 28 M84 34 L90 28 L96 34"/></symbol>
 <symbol id="f-bbthruster" viewBox="0 0 120 120"><path class="gnd" d="M16 106 L104 106"/><circle class="hd" cx="48" cy="40" r="9"/><path class="stick" d="M52 50 L44 74 M44 74 L70 82 M70 82 L64 102 M64 102 L78 102 M52 54 L66 60 M66 60 L66 50"/><circle class="db" cx="68" cy="48" r="10"/><circle cx="68" cy="48" r="3.5" fill="#eef0f2"/><path class="acc" d="M96 84 L96 22 M90 28 L96 22 L102 28"/></symbol>
 </defs></svg>
-<div class="histbar" id="histBar" role="alert" hidden></div>
 <!-- ============ shell ============ -->
 <div class="topbar">
   <button class="brand" id="brandBtn"><span class="dot"></span><span id="brandName"></span></button>
@@ -755,6 +781,7 @@ if (typeof window.storage === "undefined") {
     <button data-nav="run">Run</button>
   </nav>
 </div>
+<div class="histbar" id="histBar" role="alert" hidden></div>
 
 <!-- ============ landing ============ -->
 <div class="view wrap" id="view-home">
@@ -818,7 +845,7 @@ if (typeof window.storage === "undefined") {
     </div>
     <div class="datamsg" id="dataMsg" role="status" aria-live="polite"></div>
   </section>
-  <p class="buildtag">build v19 &middot; map: OpenStreetMap / Esri</p>
+  <p class="buildtag">build v20 &middot; map: OpenStreetMap / Esri</p>
 </div>
 
 <!-- ============ prebuilt ============ -->
@@ -962,7 +989,7 @@ if (typeof window.storage === "undefined") {
       <div class="rm-map" id="map"></div>
       <div class="rm-hint" id="hint">Tap the map to drop your first point</div>
       <div class="rm-status" id="status"></div>
-      <div class="rm-diag" id="diagLine" aria-hidden="true">v19 · opening…</div>
+      <div class="rm-diag" id="diagLine" aria-hidden="true">v20 · opening…</div>
     </div>
     <div class="rm-rail">
       <div class="rm-railhead"><span id="railLabel">Distance rail</span><span id="railTotal">0.00 mi</span></div>
@@ -2486,6 +2513,10 @@ $("stopEdit").onclick = function(){
   var APP_ID = "progressive-overload";
   var BACKUP_VERSION = 1;
   var KNOWN_KEYS = ["ft:logs", "ft:custom", "runmap:routes"];
+  /* v20: only these keys hold JSON, so only these are JSON-checked on restore. Every other app key
+     (runmap:style is a plain word like "dark", ft:hist:corrupt:* is a raw copy of unreadable data)
+     is carried as an opaque string, exported and restored byte for byte. */
+  var JSON_KEYS = ["ft:hist", "ft:logs", "ft:custom", "ft:saved", "ft:prefs", "runmap:routes"];
   var LAST_KEY = "po:lastBackup";          /* device-only note, not part of the backup */
   var RESTORED_FLAG = "po:justRestored";
   var MAX_BYTES = 20 * 1024 * 1024;
@@ -2525,7 +2556,7 @@ $("stopEdit").onclick = function(){
   function buildBackup(){
     var data = {};
     allKeys().forEach(function(k){ data[k] = lsGet(k); });
-    return { app: APP_ID, version: BACKUP_VERSION, build: "v19", exportedAt: new Date().toISOString(), data: data };
+    return { app: APP_ID, version: BACKUP_VERSION, build: "v20", exportedAt: new Date().toISOString(), data: data };
   }
   function downloadBlob(blob, name){
     var url = URL.createObjectURL(blob);
@@ -2578,7 +2609,7 @@ $("stopEdit").onclick = function(){
       var v = obj.data[k];
       if(v === null){ clean[k] = null; any = true; return; }
       if(typeof v !== "string") throw new Error("This backup looks damaged, so nothing was changed.");
-      try{ JSON.parse(v); }catch(e){ throw new Error("This backup looks damaged, so nothing was changed."); }
+      if(JSON_KEYS.indexOf(k) >= 0){ try{ JSON.parse(v); }catch(e){ throw new Error("This backup looks damaged, so nothing was changed."); } }
       clean[k] = v; any = true;
     });
     if(!any) throw new Error("That backup file is empty, so nothing was changed.");
@@ -2684,8 +2715,11 @@ var PoAnim = (function(){
   var ZS = 16, ZH = 8.5;                         /* half shoulder width, half hip width */
   var TOE_Y = 3.5, CPH = Math.cos(34 * D2R), SPH = Math.sin(34 * D2R), CTH = Math.cos(11 * D2R), STH = Math.sin(11 * D2R);
   var PLATE_R = 18, BAR_Y = 18;
-  var CH = ["t","h","uaN","faN","abN","uaF","faF","abF","thN","shN","ftN","thF","shF","ftF","lab"];
-  var DEF = { t: 180, h: null, ua: 4, fa: 7, ab: 6, th: 0, sh: 0, ft: 90, lab: 3 };
+  var CH = ["t","h","uaN","faN","abN","uaF","faF","abF","thN","shN","ftN","thF","shF","ftF","lab","pt"];
+  var DEF = { t: 180, h: null, ua: 4, fa: 7, ab: 6, th: 0, sh: 0, ft: 90, lab: 3, pt: 90 };
+  /* v20: 45 lb plate prop. pt = plate tilt: the direction (same angle rule as the limbs) of the plate face line
+     that runs across the hands. 90 = plate flat like a table, 180 = plate standing up, face to the front. */
+  var PL = { r: 22, t: 5 };
 
   /* ---------- pose tables ---------- */
   var STAND = { t: 180, ua: 4, fa: 7 };
@@ -2797,8 +2831,106 @@ var PoAnim = (function(){
       K(0,    mix(PLANK_TOP, { thF: 44, shF: -96, ftF: 30, pin: { j: "TN", x: -70 }, ik: { a: [56, 5] } })),
       K(0.18, mix(PLANK_TOP, { thF: 44, shF: -96, ftF: 30, pin: { j: "TN", x: -70 }, ik: { a: [56, 5] } })),
       K(0.5,  mix(PLANK_TOP, { thN: 44, shN: -96, ftN: 30, pin: { j: "TF", x: -70 }, ik: { a: [56, 5] } })),
-      K(0.68, mix(PLANK_TOP, { thN: 44, shN: -96, ftN: 30, pin: { j: "TF", x: -70 }, ik: { a: [56, 5] } })) ] }
+      K(0.68, mix(PLANK_TOP, { thN: 44, shN: -96, ftN: 30, pin: { j: "TF", x: -70 }, ik: { a: [56, 5] } })) ] },
+    /* ----- v20: Plate Grinder moves (eq "plate": a 45 lb plate held at 3 and 9 o'clock, or fixed on the floor) ----- */
+    platesnatch: { dur: 2.8, still: 6, eq: "plate", keys: plateSnatchKeys() },
+    platelunge: { dur: 4.4, reps: 2, still: 3, eq: "plate", keys: plateLungeKeys() },
+    platesitup: { dur: 2.6, still: 4, eq: "plate", keys: plateSitupKeys() },
+    platerow: { dur: 2.0, still: 2, eq: "plate", keys: plateRowKeys() },
+    plateburpee: { dur: 4.2, still: 10, eq: "plate", plateAt: [84, PL.t / 2], keys: plateBurpeeKeys() }
   };
+  /* Plate snatch: plate flat on the floor between wide feet, sumo squat, straight arms to the edges.
+     Drive with the legs, the plate rises close to the body and turns, punch it overhead, stand tall, then lower. */
+  function plateSnatchKeys(){
+    var legs = { lab: 26, ft: 90, pin: { j: "TN", x: 0 } };
+    function k(o){ return mix(legs, o); }
+    function floor(){ return k({ t: 121, h: 142, th: 104, sh: -36, ab: 12, pt: 90, ik: { a: [-4, PL.t / 2 + 5] } }); }
+    function knees(pt){ return k({ t: 140, h: 156, th: 62, sh: -22, ab: 12, pt: pt, ik: { a: [-1, 34] } }); }
+    function chest(pt){ return k({ t: 180, h: 180, th: 12, sh: -8, ua: 20, fa: 142, ab: 12, pt: pt }); }
+    function top(){ return k({ t: 180, h: 182, th: 0, sh: 0, ua: 175, fa: 177, ab: 12, pt: 262 }); }
+    return [
+      K(0,    floor()),
+      K(0.07, floor()),
+      K(0.17, knees(92)),
+      K(0.25, k({ t: 186, h: 184, th: -2, sh: -2, ftN: 66, ftF: 66, ua: 6, fa: 8, ab: 12, pt: 100 })),
+      K(0.32, chest(176)),
+      K(0.4,  k({ t: 177, h: 178, th: 38, sh: -26, ua: 170, fa: 174, ab: 12, pt: 252 })),
+      K(0.48, top()),
+      K(0.58, top()),
+      K(0.68, chest(184)),
+      K(0.78, k({ t: 176, h: 176, th: 8, sh: -4, ua: 6, fa: 8, ab: 12, pt: 100 })),
+      K(0.9,  knees(94))
+    ];
+  }
+  /* Forward step lunge hugging the plate at the chest, elbows tucked. The back foot stays put, the front foot
+     steps out, the back knee comes down to the floor, then the front foot pushes back. One rep per leg. */
+  function plateLungeKeys(){
+    var hug = { t: 180, h: 180, ua: -24, fa: 98, ab: 11, pt: 180, lab: 4 };
+    function k(o){ return mix(hug, o); }
+    function stand(pinJ){ return k({ th: 0, sh: 0, pin: { j: pinJ, x: 0 } }); }
+    function swing(f, b, back){ var o = k({ pin: { j: "T" + b, x: 0 } }); o["th" + f] = back ? 38 : 52; o["sh" + f] = back ? -14 : 4; o["ft" + f] = 96; o["th" + b] = -4; o["sh" + b] = -4; return o; }
+    function land(f, b){ var o = k({ t: 179, pin: { j: "T" + b, x: 0 } }); o["th" + b] = -20; o["sh" + b] = -30; o["ft" + b] = 58; o["ft" + f] = 90; o.ik = {}; o.ik["l" + f] = [92, TOE_Y, 1]; return o; }
+    function low(f, b){ var o = k({ t: 177, h: 178, pin: { j: "T" + b, x: 0 } }); o["th" + b] = -9; o["sh" + b] = -104; o["ft" + b] = 24; o["ft" + f] = 90; o.ik = {}; o.ik["l" + f] = [92, TOE_Y, 1]; return o; }
+    return [ K(0, stand("TF")), K(0.08, swing("N", "F")), K(0.15, land("N", "F")), K(0.26, low("N", "F")), K(0.31, low("N", "F")),
+             K(0.4, land("N", "F")), K(0.45, swing("N", "F", true)), K(0.5, stand("TF")),
+             K(0.5001, stand("TN")), K(0.58, swing("F", "N")), K(0.65, land("F", "N")), K(0.76, low("F", "N")), K(0.81, low("F", "N")),
+             K(0.9, land("F", "N")), K(0.95, swing("F", "N", true)), K(0.9999, stand("TN")) ];
+  }
+  /* Straight-leg sit-up: lying flat, legs straight on the floor, arms straight up holding the plate over the chest.
+     The arms stay straight and pointing up, so the plate arcs from over the chest to directly overhead. */
+  function plateSitupKeys(){
+    var base = { ab: 12, th: 86, sh: 89, ft: 172, lab: 6, pt: 270, pin: { j: "P", x: 0, y: 11 } };
+    function k(o){ return mix(base, o); }
+    function down(){ return k({ t: 268, h: 266, ua: 180, fa: 180 }); }
+    return [
+      K(0,    down()),
+      K(0.1,  down()),
+      K(0.18, k({ t: 250, h: 236, ua: 178, fa: 179 })),
+      K(0.3,  k({ t: 214, h: 200, ua: 172, fa: 175, pt: 262 })),
+      K(0.42, k({ t: 181, h: 180, ua: 180, fa: 180 })),
+      K(0.52, k({ t: 181, h: 180, ua: 180, fa: 180 })),
+      K(0.68, k({ t: 216, h: 206, ua: 173, fa: 176, pt: 262 })),
+      K(0.84, k({ t: 254, h: 242, ua: 178, fa: 179 }))
+    ];
+  }
+  /* Bent-over row: flat-back hinge, soft knees, plate held at the edges with arms hanging, pulled to the lower ribs. */
+  function plateRowKeys(){
+    var hinge = { t: 113, h: 122, th: 26, sh: -9, lab: 6, ab: 12, ft: 90 };
+    function k(o){ return mix(hinge, o); }
+    return [
+      K(0,    k({ ua: 1, fa: 1, pt: 90 })),
+      K(0.16, k({ ua: 1, fa: 1, pt: 90 })),
+      K(0.44, k({ ua: -74, fa: 4, ab: 13, pt: 96 })),
+      K(0.58, k({ ua: -74, fa: 4, ab: 13, pt: 96 })),
+      K(0.86, k({ ua: -4, fa: 0, pt: 92 }))
+    ];
+  }
+  /* Burpee to plate: stand behind the plate, burpee on the floor behind it (chest to the floor, not the plate),
+     jump the feet in, jump forward with both feet onto the plate, stand tall, then step back off one foot at a time. */
+  function plateBurpeeKeys(){
+    var top = PL.t + TOE_Y, onX = 92, X = 24;
+    var sq = { t: 120, h: 140, th: 112, sh: -42, ab: 4, lab: 8 };
+    var low = { t: 92, h: 100, th: -94, sh: -94, ft: 12, ab: 44 };          /* chest on the floor, behind the plate */
+    return [
+      K(0,    mix(STAND, { pin: { j: "TN", x: X } })),
+      K(0.08, mix(sq, { pin: { j: "TN", x: X }, ik: { a: [X + 6, 5] } })),
+      K(0.15, mix(PLANK_TOP, { pin: { j: "TN", x: X - 124 }, ik: { a: [X + 6, 5] } })),
+      K(0.23, mix(low, { pin: { j: "TN", x: X - 124 }, ik: { a: [X + 6, 5] } })),
+      K(0.31, mix(PLANK_TOP, { pin: { j: "TN", x: X - 124 }, ik: { a: [X + 6, 5] } })),
+      K(0.39, mix(sq, { pin: { j: "TN", x: X }, ik: { a: [X + 6, 5] } })),
+      K(0.45, { t: 134, h: 150, ua: -32, fa: -22, ab: 6, th: 98, sh: -38, lab: 6, pin: { j: "TN", x: X } }),
+      K(0.49, { t: 152, h: 164, ua: 46, fa: 56, ab: 10, th: 56, sh: -28, lab: 5, ft: 70, pin: { j: "TN", x: X } }),
+      K(0.53, { t: 172, h: 178, ua: 140, fa: 150, ab: 14, th: -4, sh: -6, ft: 40, lab: 4, pin: { j: "TN", x: X + 14, y: 10 } }),
+      K(0.59, { t: 164, h: 170, ua: 108, fa: 118, ab: 14, th: 58, sh: -44, ft: 80, lab: 5, pin: { j: "TN", x: 64, y: 30 } }),
+      K(0.65, { t: 150, h: 164, ua: 70, fa: 80, ab: 10, th: 86, sh: -34, ft: 90, lab: 6, pin: { j: "TN", x: onX, y: top } }),
+      K(0.72, mix(STAND, { pin: { j: "TN", x: onX, y: top } })),
+      K(0.77, mix(STAND, { pin: { j: "TN", x: onX, y: top } })),
+      K(0.83, mix(STAND, { thF: -26, shF: -60, ftF: 50, pin: { j: "TN", x: onX, y: top } })),
+      K(0.88, mix(STAND, { ftF: 90, pin: { j: "TN", x: onX, y: top }, ik: { lF: [X, TOE_Y, 1] } })),
+      K(0.94, mix(STAND, { thN: 30, shN: -44, ftN: 76, pin: { j: "TF", x: X } })),
+      K(0.9999, mix(STAND, { pin: { j: "TF", x: X } }))
+    ];
+  }
   function lungeKeys(db){
     var arms = db ? { ua: 0, fa: 0, ab: 8 } : { ua: 0, fa: 6, ab: 6 };
     var low = function(front, back, pinJ, toe){
@@ -3095,6 +3227,8 @@ var PoAnim = (function(){
         capsule(g, [bot[0], bot[1] + 3 * V.s], [bot[0], bot[1] - 3 * V.s], 7, 7, PAL.db, V, 1);
         capsule(g, [top[0], top[1] + 3 * V.s], [top[0], top[1] - 3 * V.s], 7.5, 7.5, PAL.db, V, 1.05);
       });
+    } else if(eq === "plate"){
+      plateItem(items, P, V);
     } else if(eq === "pullbar"){
       var pin = m.keys[0].pin, by = pin.y + 1.5, bx = pin.x + 3.5;
       var e1 = proj([bx, by, -70], V), e2 = proj([bx, by, 70], V), mm = proj([bx, by, 0], V);
@@ -3104,6 +3238,55 @@ var PoAnim = (function(){
       push(15.5, function(g){ g.lineCap = "round"; g.strokeStyle = PAL.steel; g.lineWidth = 3.4 * V.s; g.beginPath(); g.moveTo(mm[0], mm[1]); g.lineTo(e2[0], e2[1]); g.stroke();
         g.strokeStyle = "#9aa3b0"; g.lineWidth = 3 * V.s; g.beginPath(); g.moveTo(e2[0], e2[1]); g.lineTo(e2u[0], e2u[1]); g.stroke(); });
     }
+  }
+
+  /* ----- v20: the 45 lb plate. Held at 3 and 9 o'clock (center between the fists, tilt from the pt channel),
+     or lying flat on the floor (plateAt). Drawn as a real disc: back face, the rim band (convex hull), front face. ----- */
+  function plateFrame(P){
+    var m = P.m, C, pt;
+    if(m.plateAt){ C = [m.plateAt[0], m.plateAt[1], 0]; pt = 90; }
+    else { var g0 = gripMid(P.J); C = [g0[0], g0[1], 0]; pt = P.c.pt; }
+    var v = d2(pt);
+    return { C: C, u: [0, 0, 1], v: [v[0], v[1], 0], n: [-v[1], v[0], 0] };
+  }
+  function scr(vec, V){ return [(vec[0] * CPH - vec[2] * SPH) * V.s, (vec[0] * SPH * STH - vec[1] * CTH + vec[2] * CPH * STH) * V.s]; }
+  function ellPts(c, a, b, k){ var o = []; for(var i = 0; i < k; i++){ var q = i / k * Math.PI * 2, cs = Math.cos(q), sn = Math.sin(q); o.push([c[0] + a[0] * cs + b[0] * sn, c[1] + a[1] * cs + b[1] * sn]); } return o; }
+  function hull(pts){
+    pts.sort(function(p, q){ return p[0] - q[0] || p[1] - q[1]; });
+    function cr(o, a, b){ return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]); }
+    var lo = [], up = [], i;
+    for(i = 0; i < pts.length; i++){ while(lo.length >= 2 && cr(lo[lo.length - 2], lo[lo.length - 1], pts[i]) <= 0) lo.pop(); lo.push(pts[i]); }
+    for(i = pts.length - 1; i >= 0; i--){ while(up.length >= 2 && cr(up[up.length - 2], up[up.length - 1], pts[i]) <= 0) up.pop(); up.push(pts[i]); }
+    up.pop(); lo.pop(); return lo.concat(up);
+  }
+  function poly(g, pts){ g.beginPath(); g.moveTo(pts[0][0], pts[0][1]); for(var i = 1; i < pts.length; i++) g.lineTo(pts[i][0], pts[i][1]); g.closePath(); }
+  function plateItem(items, P, V){
+    var F = plateFrame(P), m = P.m, R = PL.r, T = PL.t;
+    var tow = [SPH * CTH, STH, CPH * CTH], face = F.n[0] * tow[0] + F.n[1] * tow[1] + F.n[2] * tow[2], sg = face >= 0 ? 1 : -1;
+    var front = add(F.C, F.n, sg * T / 2), back = add(F.C, F.n, -sg * T / 2);
+    var pf = proj(front, V), pb = proj(back, V), a = scr(F.u, V), b = scr(F.v, V);
+    var depth = m.plateAt ? -1e4 : proj(F.C, V)[2] + (m.plateBias || 0);
+    items.push({ d: depth, f: function(g){
+      var A = [a[0] * R, a[1] * R], B = [b[0] * R, b[1] * R];
+      var band = hull(ellPts(pf, A, B, 28).concat(ellPts(pb, A, B, 28)));
+      poly(g, band); g.fillStyle = tone(PAL.plate, 0.78); g.fill();
+      if(V.rim){ g.strokeStyle = V.rim; g.lineWidth = 1; g.stroke(); }
+      function ring(k, col, dim){
+        poly(g, ellPts(pf, [A[0] * k, A[1] * k], [B[0] * k, B[1] * k], 28));
+        if(col){
+          var rx = Math.abs(A[0]) + Math.abs(B[0]), ry = Math.abs(A[1]) + Math.abs(B[1]);
+          var gr = g.createLinearGradient(pf[0] - rx * k, pf[1] - ry * k, pf[0] + rx * k, pf[1] + ry * k);
+          gr.addColorStop(0, tone(col, 1.45 * dim)); gr.addColorStop(1, tone(col, 0.8 * dim));
+          g.fillStyle = gr; g.fill();
+        }
+      }
+      var lit = 0.9 + 0.25 * Math.abs(face);
+      ring(1, PAL.plate, lit);
+      ring(0.8, PAL.plateRim, lit * 0.92);
+      ring(0.72, PAL.plate, lit);
+      ring(0.24, PAL.steel, 1.15);
+      ring(0.09, null); g.fillStyle = "#11141a"; g.fill();
+    } });
   }
 
   /* world-space bounds over the whole loop, so the figure never jumps or gets cut off */
@@ -3117,6 +3300,9 @@ var PoAnim = (function(){
         b.x0 = Math.min(b.x0, p[0] - pad); b.x1 = Math.max(b.x1, p[0] + pad); b.y0 = Math.min(b.y0, p[1] - pad); b.y1 = Math.max(b.y1, p[1] + pad);
       }
       if(m.eq === "bar"){ var g0 = gripMid(J); [-64, 64].forEach(function(z){ var p = proj([g0[0], g0[1], z], V); b.x0 = Math.min(b.x0, p[0] - 22); b.x1 = Math.max(b.x1, p[0] + 22); b.y0 = Math.min(b.y0, p[1] - 24); b.y1 = Math.max(b.y1, p[1] + 24); }); }
+      if(m.eq === "plate"){ var F = plateFrame(P); [[1, 0], [-1, 0], [0, 1], [0, -1], [0.7, 0.7], [-0.7, 0.7], [0.7, -0.7], [-0.7, -0.7]].forEach(function(q){
+        var p = proj([F.C[0] + (F.u[0] * q[0] + F.v[0] * q[1]) * PL.r, F.C[1] + (F.u[1] * q[0] + F.v[1] * q[1]) * PL.r, F.C[2] + (F.u[2] * q[0] + F.v[2] * q[1]) * PL.r], V);
+        b.x0 = Math.min(b.x0, p[0] - 4); b.x1 = Math.max(b.x1, p[0] + 4); b.y0 = Math.min(b.y0, p[1] - 5); b.y1 = Math.max(b.y1, p[1] + 5); }); }
       if(m.eq === "pullbar"){ var pn = m.keys[0].pin; [-70, 70].forEach(function(z){ var p = proj([pn.x, pn.y + 30, z], V); b.x0 = Math.min(b.x0, p[0] - 4); b.x1 = Math.max(b.x1, p[0] + 4); b.y0 = Math.min(b.y0, p[1] - 4); }); }
     }
     [[b.x0, 0], [b.x1, 0]].forEach(function(){ });
@@ -3245,6 +3431,10 @@ window.PoAnim = PoAnim;
    mode "interval" (v18): rounds of moves, work/rest seconds, roundRest between rounds, lead = get-ready seconds.
      Plays hands-free in the follow-along screen. upper: true marks upper-body moves. barOpt: pull-up bar choice,
      a move with bar: {...} swaps to that move when "I have a bar" is picked.
+   mode "fortime" (v20): rounds of moves done as fast as possible. A stopwatch counts up, Round done records a split.
+     goalMin = goal time, capMin = time cap. weights (+ weightLabel) = weight picker, barOpt + barDef = pull-up bar choice
+     (a move with bar: { n, reps, anim, cue } swaps in), swapNote = one line under the bar choice. per: "10 per leg" etc.
+     A new for-time workout is just another entry in this list.
    Every move has anim: a pose table name in PoAnim.MOVES (the looping 3D-style demo). */
 var HITS = [
   { id: "grip-it-rip-it", title: "Grip it and Rip it", tag: "EMOM", gear: "Barbell", gearCls: "tag-bar",
@@ -3315,6 +3505,26 @@ var HITS = [
       { n: "Reverse lunge", anim: "lunge", cue: "Step one foot back and lower until both knees bend about 90 degrees. Push through the front heel to stand. Switch legs each rep." },
       { n: "Pike push-up", anim: "pike", upper: true, cue: "Hands and feet on the floor, hips high like an upside-down V. Bend your elbows to lower the top of your head toward the floor, then push back up." }
     ] }
+,
+  { id: "plate-grinder", mode: "fortime", title: "Plate Grinder", tag: "For time", gear: "Weight plate", gearCls: "tag-gym",
+    subtitle: "One weight plate", rounds: 5, goalMin: 25, capMin: 35,
+    formatText: "5 rounds for time. Start the clock, do every move below in order, then tap Round done. Keep going until round 5 is done. The clock stops at the 35 minute time cap.",
+    goal: "Goal: 25 minutes. Time cap: 35 minutes.",
+    weightLabel: "Plate weight",
+    weights: [ { k: "men", label: "Men", lb: 45 }, { k: "women", label: "Women", lb: 35 },
+               { k: "men-s", label: "Men scaled", lb: 35 }, { k: "women-s", label: "Women scaled", lb: 25 } ],
+    def: "men",
+    barOpt: [ { k: "nobar", label: "No bar", sub: "Plate rows", short: "rows" }, { k: "bar", label: "I have a bar", sub: "Strict pull-ups", short: "pull-ups" } ], barDef: "nobar",
+    swapNote: "Pull-up swap: plate rows hit the same back and biceps.",
+    moves: [
+      { n: "Plate snatch", reps: 25, anim: "platesnatch", cue: "Plate flat on the floor between your feet. Squat down and grip it at 3 and 9 o'clock. Drive up with your legs and take it overhead in one smooth move. Finish standing tall with your arms locked." },
+      { n: "Plate forward lunge", reps: 20, per: "10 per leg", anim: "platelunge", cue: "Hug the plate to your chest, elbows tucked. Step forward and lower your back knee to the floor, then push back to standing. Switch legs each rep." },
+      { n: "Plate straight-leg sit-up", reps: 15, anim: "platesitup", cue: "Lie on your back, legs straight on the floor, plate over your chest with straight arms. Sit up and keep your arms straight, so the plate ends up right above your head." },
+      { n: "Plate bent-over row", reps: 15, anim: "platerow", cue: "Hinge forward with a flat back and soft knees. Hold the plate by its edges, arms hanging. Pull it to your lower chest, squeeze your shoulder blades, then lower it.",
+        bar: { n: "Strict pull-up", reps: 10, anim: "pullup", cue: "Hang with straight arms. Pull until your chin is over the bar, no swinging or kipping, then lower all the way down." } },
+      { n: "Burpee to plate", reps: 5, anim: "plateburpee", cue: "Stand behind the plate. Do a burpee on the floor behind it, chest to the floor, not the plate. Jump your feet in, then jump forward with both feet onto the plate and land standing. Step back off." }
+    ],
+    credit: { by: "Graveperformance", url: "https://www.facebook.com/reel/2361333821070969/" } }
 ];
 var HX_KEY = "po:hitTimer";   /* device-only timer state (like po:lastBackup, not in backups). Finished workouts go to ft:hist. */
 var HX_MAX_AGE = 12 * 3600000;
@@ -3323,15 +3533,17 @@ var HX_MAX_AGE = 12 * 3600000;
 var HX = null;
 var hxOpen = null, hxCfg = {}, hxTick = null, hxAC = null, hxWL = null, hxPrev = null, hxPartTimer = null;
 var HX_MUTE = "po:hitMute";   /* device-only: follow-along sound on/off */
+var HX_PICK = "po:hitPick";   /* v20 device-only: last weight / bar picked on a for-time card (saved sessions also remember it) */
 window.__poHitLog = []; window.__poSayLog = [];
 window.__poHits = HITS;
 
 function hxFind(id){ for(var i = 0; i < HITS.length; i++) if(HITS[i].id === id) return HITS[i]; return null; }
-function hxMode(w){ return w.mode === "amrap" || w.mode === "interval" ? w.mode : "emom"; }
+function hxMode(w){ return w.mode === "amrap" || w.mode === "interval" || w.mode === "fortime" ? w.mode : "emom"; }
 /* ----- interval workouts: the plan is a list of segments (get ready, work, rest, round rest) ----- */
 function hxMovesFor(w, opt){
   return w.moves.map(function(m){
-    if(m.bar && opt === "bar") return { n: m.bar.n, anim: m.bar.anim, cue: m.bar.cue, upper: m.upper, swapped: true };
+    if(m.bar && opt === "bar") return { n: m.bar.n, anim: m.bar.anim, cue: m.bar.cue, upper: m.upper, swapped: true,
+                                        reps: m.bar.reps !== undefined ? m.bar.reps : m.reps, per: m.bar.per };
     return m;
   });
 }
@@ -3374,11 +3586,46 @@ function hxBest(w, dur){
   return best;
 }
 function hxPlural(n, one, many){ return n + " " + (n === 1 ? one : many); }
+/* ----- v20: for-time helpers ----- */
+function hxBarOpt(w, k){
+  if(!w.barOpt) return null;
+  for(var i = 0; i < w.barOpt.length; i++) if(w.barOpt[i].k === k) return w.barOpt[i];
+  return w.barOpt[0];
+}
+function hxFtDesc(x){            /* "45 lb, rows" */
+  var p = [];
+  if(typeof x.lb === "number") p.push(x.lb + " lb");
+  if(x.pull) p.push(x.pull);
+  return p.join(", ");
+}
+function hxFtBest(w){            /* fastest time with every round done and not capped */
+  var best = null;
+  hxSessions(w).forEach(function(s){
+    var x = s.hit;
+    if(x.mode === "fortime" && !x.capped && x.rounds >= x.total && typeof x.secs === "number" && x.secs > 0 && (best === null || x.secs < best)) best = x.secs;
+  });
+  return best;
+}
+function hxSpoken(ms){
+  var t = Math.round(ms / 1000), m = Math.floor(t / 60), sec = t % 60;
+  return (m ? hxPlural(m, "minute", "minutes") : "") + (m && sec ? " " : "") + (sec || !m ? hxPlural(sec, "second", "seconds") : "");
+}
+function hxPickGet(id){ try{ var o = JSON.parse(localStorage.getItem(HX_PICK) || "{}"); return o && typeof o === "object" && o[id] ? o[id] : null; }catch(e){ return null; } }
+function hxPickSet(id, k, v){
+  try{ var o = JSON.parse(localStorage.getItem(HX_PICK) || "{}"); if(!o || typeof o !== "object") o = {}; o[id] = o[id] || {}; o[id][k] = v; localStorage.setItem(HX_PICK, JSON.stringify(o)); }catch(e){}
+}
 function hxLastText(s){
   if(!s) return "";
   var x = s.hit, parts = [];
   if(x.mode === "interval"){
     return "Last time: " + x.done + " of " + x.total + " intervals in " + hxMMSS((x.secs || 0) * 1000) + " " + whenText(s);
+  }
+  if(x.mode === "fortime"){
+    var d = hxFtDesc(x), t;
+    if(x.capped) t = "capped at " + hxMMSS((x.cap || 0) * 60000) + ", " + x.rounds + " of " + x.total + " rounds" + (x.partial ? " + " + x.partial : "");
+    else if(x.rounds < x.total) t = x.rounds + " of " + x.total + " rounds in " + hxMMSS((x.secs || 0) * 1000);
+    else t = hxMMSS((x.secs || 0) * 1000);
+    return "Last time: " + t + (d ? ", " + d : "") + ", " + whenText(s);
   }
   if(x.mode === "amrap"){
     return "Last time: " + hxPlural(x.sets, "set", "sets") + (x.partial ? " + " + x.partial : "") + " in " + hxMMSS((x.secs || 0) * 1000) + " " + whenText(s);
@@ -3392,7 +3639,13 @@ function hxLog(k){ var l = window.__poHitLog; l.push(k); if(l.length > 80) l.shi
 function hxCfgFor(w){
   if(!hxCfg[w.id]){
     var last = hxLast(w), lh = last && last.hit;
-    if(HX && HX.wk === w.id) hxCfg[w.id] = { opt: HX.opt || null, dur: HX.dur || null };
+    if(HX && HX.wk === w.id) hxCfg[w.id] = { opt: HX.opt || null, dur: HX.dur || null, bar: HX.bar || null };
+    else if(hxMode(w) === "fortime"){
+      var pk = hxPickGet(w.id) || {}, ok = function(list, k){ return !!(list && k && list.some(function(o){ return o.k === k; })); };
+      hxCfg[w.id] = {
+        opt: w.weights ? (ok(w.weights, pk.opt) ? pk.opt : lh && ok(w.weights, lh.opt) ? lh.opt : w.def) : null,
+        bar: w.barOpt ? (ok(w.barOpt, pk.bar) ? pk.bar : lh && ok(w.barOpt, lh.bar) ? lh.bar : (w.barDef || w.barOpt[0].k)) : null };
+    }
     else if(hxMode(w) === "amrap") hxCfg[w.id] = { dur: lh && w.durations.indexOf(lh.dur) >= 0 ? lh.dur : w.defDur };
     else if(hxMode(w) === "interval") hxCfg[w.id] = { opt: w.barOpt ? (lh && lh.opt ? lh.opt : w.def) : null };
     else hxCfg[w.id] = { opt: w.weights ? (lh && lh.opt ? lh.opt : w.def) : null };
@@ -3404,7 +3657,7 @@ function hxCfgFor(w){
 function hxElapsed(now){
   if(!HX) return 0;
   var ref = HX.status === "running" ? now : HX.status === "paused" ? HX.pAt : HX.endAt;
-  return Math.max(0, Math.min(HX.total, ref - HX.t0 - HX.pTot + (HX.skip || 0)));
+  return Math.max(0, Math.min(HX.total, ref - HX.t0 - HX.pTot + (HX.skip || 0) - (HX.lead || 0)));
 }
 function hxReal(now){          /* interval: real time spent, not counting pauses or skipped time */
   var ref = HX.status === "running" ? now : HX.status === "paused" ? HX.pAt : HX.endAt;
@@ -3420,6 +3673,11 @@ function hxSnap(now){
     return { e: e, done: done, i: i, seg: sg, leftMs: left, secs: Math.ceil(left / 1000), frac: sg.d ? 1 - left / sg.d : 1 };
   }
   if(HX.mode === "amrap"){ var l = HX.total - e; return { e: e, done: done, leftMs: l, secs: Math.ceil(l / 1000) }; }
+  if(HX.mode === "fortime"){     /* v20: a 3-2-1 lead, then a stopwatch that stops at the cap */
+    var raw = hxReal(now), inLead = HX.status !== "done" && raw < HX.lead, n = HX.splits.length, last = n ? HX.splits[n - 1] : 0;
+    return { e: e, done: done, lead: inLead, leadSecs: inLead ? Math.ceil((HX.lead - raw) / 1000) : 0,
+             round: Math.min(HX.rounds, n + 1), roundE: Math.max(0, e - last), leftMs: HX.total - e, secs: Math.floor(e / 1000) };
+  }
   var per = hxPer(HX), left = done ? 0 : per - (e % per);
   return { e: e, done: done, round: done ? HX.rounds : Math.floor(e / per) + 1, leftMs: left, secs: Math.ceil(left / 1000) };
 }
@@ -3439,6 +3697,10 @@ function hxStats(){
   if(HX.mode === "amrap"){
     var splits = HX.taps.map(function(t, i){ return t - (i ? HX.taps[i - 1] : 0); });
     return { e: e, sets: HX.taps.length, splits: splits };
+  }
+  if(HX.mode === "fortime"){
+    var sp = HX.splits.map(function(t, i){ return t - (i ? HX.splits[i - 1] : 0); }), cdone = HX.splits.length >= HX.rounds;
+    return { e: e, done: HX.splits.length, splits: sp, complete: cdone, time: cdone ? HX.splits[HX.rounds - 1] : e };
   }
   var per = hxPer(HX);
   var reached = Math.min(HX.rounds, Math.ceil(e / per)), vals = HX.rest.filter(function(r){ return typeof r === "number"; });
@@ -3466,7 +3728,7 @@ function hxAudioUnlock(){
 function hxBeep(freq, dur, kind){
   hxLog(kind);
   try{
-    if(!hxAC || (HX && HX.mode === "interval" && hxMuted())) return;
+    if(!hxAC || (HX && (HX.mode === "interval" || HX.mode === "fortime") && hxMuted())) return;
     if(hxAC.state === "suspended" && hxAC.resume) hxAC.resume().catch(function(){});
     var o = hxAC.createOscillator(), g = hxAC.createGain(), t = hxAC.currentTime;
     o.type = "square"; o.frequency.value = freq;
@@ -3516,6 +3778,17 @@ function hxStart(){
     hxWakeOn(); fxOpen(); hxRun();
     return;
   }
+  if(HX.mode === "fortime"){
+    HX.opt = c.opt; HX.bar = c.bar; HX.rounds = w.rounds; HX.total = w.capMin * 60000; HX.goal = (w.goalMin || 0) * 60000;
+    HX.lead = 3000; HX.splits = []; HX.tk = []; HX.partial = ""; HX.capped = false;
+    hxPrev = { at: now, lead: 3, e: 0 }; hxPersist();
+    hxSpeechUnlock();
+    hxVoice("3");                          /* inside the tap: unlocks speech on iPhone */
+    hxBeep(880, 0.15, "c3"); hxBuzz(60);
+    hxWakeOn(); hxRun(); hxSay("3, 2, 1, go.");
+    setTimeout(function(){ var b = $("hxFtDone"); if(b && !b.hidden) try{ b.focus({ preventScroll: true }); }catch(e){ b.focus(); } }, 0);
+    return;
+  }
   if(HX.mode === "amrap"){ HX.dur = c.dur; HX.total = c.dur * 60000; HX.taps = []; HX.partial = ""; }
   else {
     HX.opt = c.opt; HX.iv = w.interval || 60; HX.rounds = w.rounds; HX.total = HX.iv * HX.rounds * 1000; HX.rest = [];
@@ -3530,13 +3803,13 @@ function hxPause(){
   if(!HX || HX.status !== "running") return;
   HX.status = "paused"; HX.pAt = Date.now(); hxPersist();
   hxStop(); hxWakeOff(); hxRender(); hxSay("Paused.");
-  if(HX.mode === "interval") hxVoice("Paused.");
+  if(HX.mode === "interval" || HX.mode === "fortime") hxVoice("Paused.");
 }
 function hxResume(){
   if(!HX || HX.status !== "paused") return;
   hxAudioUnlock();
   HX.pTot += Date.now() - HX.pAt; HX.pAt = null; HX.status = "running"; hxPrev = null; hxPersist();
-  if(HX.mode === "interval"){ hxSpeechUnlock(); hxVoice("Go."); }
+  if(HX.mode === "interval" || HX.mode === "fortime"){ hxSpeechUnlock(); hxVoice("Go."); }
   hxWakeOn(); hxRun(); hxSay("Resumed.");
 }
 function hxOnTick(){
@@ -3552,6 +3825,23 @@ function hxOnTick(){
       hxBuzz(60);
     }
     hxPrev = { at: now, i: s.i, secs: s.secs };
+    hxRender(s);
+    return;
+  }
+  if(HX.mode === "fortime"){
+    if(live){
+      if(s.lead){
+        if(s.leadSecs !== hxPrev.lead && s.leadSecs >= 1 && s.leadSecs <= 3){ hxBeep(880, 0.15, "c" + s.leadSecs); hxVoice(String(s.leadSecs)); hxBuzz(60); }
+      } else if(hxPrev.lead){
+        hxBeep(1320, 0.4, "go"); hxBuzz(250); hxVoice("Go!"); hxSay("Go! Round 1 of " + HX.rounds + ".");
+      } else {
+        var gl = HX.goal, wn = HX.total - 60000, msg = "";
+        if(gl && gl < HX.total && hxPrev.e < gl && s.e >= gl){ hxBeep(1100, 0.3, "goal"); hxBuzz([150, 80, 150]); msg = hxPlural(Math.round(gl / 60000), "minute", "minutes") + ". That was the goal time. Keep going."; }
+        if(wn > 0 && hxPrev.e < wn && s.e >= wn){ hxBeep(1100, 0.3, "warn"); hxBuzz([150, 80, 150]); msg = "One minute to the time cap."; }
+        if(msg){ hxVoice(msg); hxSay(msg); }
+      }
+    }
+    hxPrev = { at: now, lead: s.lead ? s.leadSecs : 0, e: s.e };
     hxRender(s);
     return;
   }
@@ -3603,11 +3893,17 @@ function hxSkip(){
   else { hxPrev = null; hxRender(n); hxVoice("Skipped. " + (n.seg.k === "work" ? hxPlanOf().moves[n.seg.mv].n : "Rest") + "."); }
 }
 function hxFinish(withSound){
-  if(HX.status === "running") HX.endAt = HX.t0 + HX.pTot + Math.min(HX.total, Date.now() - HX.t0 - HX.pTot);
+  var ld = HX.lead || 0;
+  if(HX.status === "running") HX.endAt = HX.t0 + HX.pTot + ld + Math.min(HX.total, Date.now() - HX.t0 - HX.pTot - ld);
   else if(HX.status === "paused") HX.endAt = HX.pAt;
   HX.status = "done"; hxStop(); hxWakeOff();
+  if(HX.mode === "fortime") HX.capped = HX.splits.length < HX.rounds && hxElapsed(HX.endAt) >= HX.total;
   if(withSound){ hxBeep(1760, 0.8, "end"); hxBuzz([200, 100, 200, 100, 400]); }
   if(HX.mode === "interval" && withSound) hxVoice("Workout done. Great job!");
+  if(HX.mode === "fortime" && withSound){
+    var fst = hxStats();
+    hxVoice(fst.complete ? "Round " + HX.rounds + ". Done! " + hxSpoken(fst.time) + "." : HX.capped ? "Time cap. " + hxPlural(fst.done, "round", "rounds") + " done." : "Workout saved.");
+  }
   hxSaveSession();
   hxPersist();
   var ae = document.activeElement, t = $("hxTimer");
@@ -3615,6 +3911,7 @@ function hxFinish(withSound){
   if(HX.mode === "interval" && fxIsOpen()){ var fd = $("fxDone"); if(fd) fd.focus(); }
   else if(t && ae && t.contains(ae) && !ae.offsetParent){ var hd = $("hxFinHead"); if(hd) hd.focus(); }
   var st = hxStats();
+  if(HX.mode === "fortime"){ hxSay(st.complete ? "Done. " + HX.rounds + " rounds in " + hxMMSS(st.time) + "." : HX.capped ? "Time cap. " + hxPlural(st.done, "round", "rounds") + " done." : "Workout saved. " + st.done + " of " + HX.rounds + " rounds."); return; }
   hxSay(HX.mode === "amrap" ? "Time. " + hxPlural(st.sets, "set", "sets") + "." : HX.mode === "interval" ? "Workout done. " + st.done + " of " + st.total + " intervals." : "Workout done. " + st.rounds + " rounds.");
 }
 function hxMark(){           /* EMOM: Round done */
@@ -3636,6 +3933,48 @@ function hxUndo(){
   hxRender(); hxSay("Last set removed. " + hxPlural(HX.taps.length, "set", "sets") + ".");
   var u = $("hxUndo"); if(u && u.hidden){ var b = $("hxSetDone"); if(b) b.focus(); }
 }
+/* ----- v20: for time ----- */
+function hxFtRound(){        /* Round done: records the split. Round 5 finishes the workout. */
+  if(!HX || HX.mode !== "fortime" || HX.status !== "running") return;
+  var now = Date.now(), s = hxSnap(now);
+  if(s.lead || s.done) return;
+  var n0 = HX.splits.length, last = n0 ? HX.splits[n0 - 1] : 0;
+  if(s.e - last < 2000) return;          /* a double tap or a held key never counts as two rounds */
+  HX.splits.push(s.e); HX.tk = []; hxPersist(); hxBuzz(40);
+  var n = HX.splits.length;
+  if(n >= HX.rounds){ hxFinish(true); return; }
+  hxBeep(1320, 0.25, "round");
+  var t = "Round " + n + " done. Round " + (n + 1) + (n + 1 === HX.rounds ? ", the last one." : ".");
+  hxVoice(t); hxSay(t + " That round took " + hxMMSS(s.e - last) + ".");
+  hxRender();
+}
+function hxFtUndo(){
+  if(!hxActive() || HX.mode !== "fortime" || !HX.splits.length) return;
+  HX.splits.pop(); HX.tk = []; hxPersist();
+  hxRender(); hxSay("Last round removed. You are on round " + (HX.splits.length + 1) + ".");
+  var u = $("hxUndo"); if(u && u.hidden){ var b = $("hxFtDone"); if(b) b.focus(); }
+}
+function hxFtReopen(){       /* finish screen: round 5 was tapped by mistake. Un-save it and keep the clock going. */
+  if(!HX || HX.mode !== "fortime" || HX.status !== "done" || HX.capped || HX.splits.length < HX.rounds) return;
+  if(HX.savedId){
+    var id = HX.savedId;
+    HIST.sessions = HIST.sessions.filter(function(x){ return x.id !== id; });
+    histDeleted[id] = 1; histWriteNow(true); HX.savedId = null;
+  }
+  HX.splits.pop(); HX.tk = []; HX.status = "running"; HX.endAt = null; hxPrev = null; hxPersist();
+  hxWakeOn(); hxRun(); hxRenderList();
+  hxSay("Round " + HX.rounds + " undone. The clock is still running.");
+  setTimeout(function(){ var b = $("hxFtDone"); if(b) b.focus(); }, 0);
+}
+function hxFtCheck(i){       /* tick a move off in this round's checklist (just a reminder, not saved to history) */
+  if(!hxActive() || HX.mode !== "fortime") return;
+  HX.tk = HX.tk || []; HX.tk[i] = !HX.tk[i]; hxPersist(); hxRender();
+}
+function hxFtMute(){
+  var m = !hxMuted(); try{ localStorage.setItem(HX_MUTE, m ? "1" : "0"); }catch(e){}
+  if(m){ try{ window.speechSynthesis.cancel(); }catch(e){} } else { hxAudioUnlock(); hxSpeechUnlock(); hxVoice("Sound on."); }
+  hxRender();
+}
 function hxResetNow(){
   hxStop(); hxWakeOff(); HX = null; hxPrev = null; hxPersist(); fxClose(true); hxRender(); hxSay("Timer reset.");
 }
@@ -3644,7 +3983,7 @@ function hxAskReset(){
   var saved = HX.status === "done";
   svDialog({ title: saved ? "Clear the timer?" : "Reset the timer?",
     text: saved ? "Your workout is already saved in your history." :
-      "This stops the timer and clears " + (HX.mode === "amrap" ? "the sets you counted" : HX.mode === "interval" ? "your progress" : "the rounds you marked") + ". Nothing is saved.",
+      "This stops the timer and clears " + (HX.mode === "amrap" ? "the sets you counted" : HX.mode === "interval" ? "your progress" : HX.mode === "fortime" ? "the clock and your rounds" : "the rounds you marked") + ". Nothing is saved.",
     buttons: [ { id: "cancel", label: saved ? "Cancel" : "Keep going" }, { id: "reset", label: "Reset timer", cls: "dangerfill" } ],
     onButton: function(id){ if(id === "reset"){ hxResetNow(); setTimeout(function(){ var g = $("hxGo"); if(g) g.focus(); }, 0); } } });
 }
@@ -3653,6 +3992,7 @@ function hxAskSave(){
   var st = hxStats(), what;
   if(HX.mode === "amrap") what = hxPlural(st.sets, "set", "sets") + " in " + hxMMSS(st.e);
   else if(HX.mode === "interval") what = st.done + " of " + st.total + " intervals";
+  else if(HX.mode === "fortime") what = st.done + " of " + HX.rounds + " rounds in " + hxMMSS(st.e);
   else { var o = hxOpt(hxFind(HX.wk), HX.opt); what = hxPlural(st.rounds, "round", "rounds") + (o ? " at " + o.lb + " lb" : ""); }
   svDialog({ title: "End and save?", text: "This stops the timer and saves " + what + " to your history.",
     buttons: [ { id: "save", label: "End and save", cls: "primary" }, { id: "cancel", label: "Keep going" } ],
@@ -3670,6 +4010,13 @@ function hxSaveSession(){
               note: st.done + " of " + st.total + " intervals" + (st.skipped ? ", " + st.skipped + " skipped" : "") };
     hit = { v: 1, mode: "interval", id: w.id, opt: HX.opt || null, done: st.done, total: st.total, skipped: st.skipped,
             rounds: st.rounds, work: w.work, rest: w.rest, secs: st.secs };
+  } else if(HX.mode === "fortime"){
+    var fo = hxOpt(w, HX.opt), fb = hxBarOpt(w, HX.bar), secs = Math.round(st.time / 1000);
+    hit = { v: 1, mode: "fortime", id: w.id, opt: fo ? fo.k : null, lb: fo ? fo.lb : null, bar: fb ? fb.k : null, pull: fb ? fb.short : null,
+            rounds: st.done, total: HX.rounds, secs: secs, splits: st.splits.slice(), capped: !!HX.capped, partial: HX.partial || "",
+            goal: Math.round(HX.goal / 60000), cap: Math.round(HX.total / 60000) };
+    entry = { n: "HIT: " + w.title, i: 0, u: "sec", s: HX.rounds + " rounds for time", w: fo ? String(fo.lb) : "", wn: fo ? fo.lb : null,
+              sets: st.splits.map(function(ms){ return { r: Math.round(ms / 1000), d: true }; }), note: hxFtNote(hit) };
   } else if(HX.mode === "amrap"){
     entry = { n: "HIT: " + w.title, i: 0, u: "reps", s: "AMRAP " + HX.dur + " min", w: "", wn: null,
               sets: st.splits.map(function(ms){ return { r: Math.round(ms / 1000), d: true }; }), note: HX.partial ? "+ " + HX.partial : "" };
@@ -3689,12 +4036,18 @@ function hxSaveSession(){
   hxRenderList();
   return ok;
 }
+function hxFtNote(x){         /* history note for a for-time session, e.g. "22:14, 45 lb, rows" */
+  var d = hxFtDesc(x), t = x.capped ? "Capped at " + hxMMSS(x.cap * 60000) + ", " + x.rounds + " of " + x.total + " rounds" :
+          x.rounds < x.total ? x.rounds + " of " + x.total + " rounds in " + hxMMSS(x.secs * 1000) : hxMMSS(x.secs * 1000);
+  return t + (d ? ", " + d : "") + (x.partial ? " + " + x.partial : "") + ". Seconds per round.";
+}
 function hxSetPartial(v){     /* finish screen: optional "+ partial reps" note, written into the saved session */
-  if(!HX || HX.mode !== "amrap") return;
+  if(!HX || (HX.mode !== "amrap" && HX.mode !== "fortime")) return;
   HX.partial = String(v || "").slice(0, 40); hxPersist();
   var s = null; HIST.sessions.forEach(function(x){ if(x.id === HX.savedId) s = x; });
   if(!s) return;
-  s.hit.partial = HX.partial.trim(); s.ex[0].note = s.hit.partial ? "+ " + s.hit.partial : ""; s.upd = Date.now();
+  s.hit.partial = HX.partial.trim(); s.upd = Date.now();
+  s.ex[0].note = HX.mode === "fortime" ? hxFtNote(s.hit) : s.hit.partial ? "+ " + s.hit.partial : "";
   clearTimeout(hxPartTimer); hxPartTimer = setTimeout(function(){ histWriteNow(true); hxRender(); }, 400);
 }
 
@@ -3703,18 +4056,21 @@ function hxRenderList(){
   var host = $("hitCards"); if(!host) return;
   host.innerHTML = "";
   HITS.forEach(function(w){
-    var last = hxLast(w), running = HX && HX.wk === w.id && hxActive(), am = hxMode(w) === "amrap", iv = hxMode(w) === "interval";
-    var best = am ? hxBest(w, hxCfgFor(w).dur) : null;
+    var last = hxLast(w), running = HX && HX.wk === w.id && hxActive(), am = hxMode(w) === "amrap", iv = hxMode(w) === "interval", ft = hxMode(w) === "fortime";
+    var best = am ? hxBest(w, hxCfgFor(w).dur) : null, ftBest = ft ? hxFtBest(w) : null;
+    var lmv = ft ? hxMovesFor(w, running ? HX.bar : hxCfgFor(w).bar) : w.moves;
     var card = el("button", "wk-card");
     card.type = "button"; card.setAttribute("data-hit", w.id);
     card.innerHTML = '<span class="tag">' + esc(w.tag) + '</span> <span class="hometag ' + esc(w.gearCls || "") + '">' + esc(w.gear) + '</span>' +
       '<h2>' + esc(w.title) + '</h2>' +
       (w.subtitle ? '<div class="hitsub">' + esc(w.subtitle) + '</div>' : '') +
       (iv ? '<div class="hitneed">You need: ' + esc(w.need) + '</div>' : '') +
-      '<div class="list">(' + esc(w.moves.map(function(m){ return (iv ? "" : m.reps + " ") + m.n.toLowerCase(); }).join(", ")) + ')</div>' +
+      '<div class="list">(' + esc(lmv.map(function(m){ return (iv ? "" : m.reps + " ") + m.n.toLowerCase(); }).join(", ")) + ')</div>' +
+      (w.credit && ft ? '<div class="hitby">Workout by ' + esc(w.credit.by) + '</div>' : '') +
       (last ? '<p class="lasttime">' + esc(hxLastText(last)) + '</p>' : '') +
       (best !== null ? '<p class="lasttime">Best: ' + esc(hxPlural(best, "set", "sets")) + '</p>' : '') +
-      '<div class="meta">' + (running ? "Timer running" : iv ? hxMMSS(hxPlan(w, null).workTotal) + " total \u00b7 " + w.rounds + " rounds \u00b7 " + hxIvText(w) :
+      (ftBest !== null ? '<p class="lasttime">Best: ' + esc(hxMMSS(ftBest * 1000)) + '</p>' : '') +
+      '<div class="meta">' + (running ? "Timer running" : ft ? w.rounds + " rounds for time \u00b7 goal " + w.goalMin + " min \u00b7 cap " + w.capMin + " min" : iv ? hxMMSS(hxPlan(w, null).workTotal) + " total \u00b7 " + w.rounds + " rounds \u00b7 " + hxIvText(w) :
         am ? w.defDur + " min \u00b7 as many sets as you can" : w.rounds + " rounds \u00b7 " + Math.round(w.rounds * (w.interval || 60) / 60) + " min") +
       " \u00b7 Tap to open \u2192</div>";
     card.onclick = function(){ hxOpenDetail(w.id); };
@@ -3725,27 +4081,46 @@ function hxOpenDetail(id){
   var w = hxFind(id); if(!w) return;
   hxOpen = id;
   hxCfgFor(w);
-  var am = hxMode(w) === "amrap", iv = hxMode(w) === "interval", pane = $("hitDetailPane"), cfg0 = hxCfgFor(w);
-  var ivOpt = iv ? (HX && HX.wk === w.id && hxActive() ? HX.opt : cfg0.opt) : null;
-  var mlist = iv ? hxMovesFor(w, ivOpt) : w.moves, plan = iv ? hxPlan(w, ivOpt) : null;
+  var am = hxMode(w) === "amrap", iv = hxMode(w) === "interval", ft = hxMode(w) === "fortime", pane = $("hitDetailPane"), cfg0 = hxCfgFor(w);
+  var mineAct = HX && HX.wk === w.id && hxActive();
+  var ivOpt = iv ? (mineAct ? HX.opt : cfg0.opt) : ft ? (mineAct ? HX.bar : cfg0.bar) : null;
+  var mlist = iv || ft ? hxMovesFor(w, ivOpt) : w.moves, plan = iv ? hxPlan(w, ivOpt) : null;
   var moves = mlist.map(function(m){
     return '<li class="hitmove"><canvas class="cardfig" data-a="' + esc(m.anim) + '" role="img" aria-label="' + esc(m.n) + ' demo"></canvas>' +
       '<div class="mt"><div class="mn">' + (iv ? '' : '<span>' + m.reps + '</span>') + esc(m.n) + '</div>' +
       (iv ? '<div class="mtags"><span>' + w.work + ' s</span>' + (m.upper ? '<span class="up">Upper body</span>' : '') + (m.swapped ? '<span>Needs the bar</span>' : '') + '</div>' : '') +
+      (ft && (m.per || m.swapped) ? '<div class="mtags">' + (m.per ? '<span>' + esc(m.per) + '</span>' : '') + (m.swapped ? '<span>Needs the bar</span>' : '') + '</div>' : '') +
       '<p class="mc">' + esc(m.cue) + '</p></div></li>';
   }).join("");
-  var picks = "";
+  var picks = "", barPick = "", wtPick = "";
   if(iv) picks += '<p class="hitneed">You need: ' + esc(w.need) + '</p>' + (w.weightNote ? '<p class="hitnote">' + esc(w.weightNote) + '</p>' : '');
-  if(w.barOpt) picks += '<fieldset class="wpick"><legend>Pull-up bar</legend><div class="wgrid">' + w.barOpt.map(function(o){
+  if(w.barOpt) barPick = '<fieldset class="wpick"><legend>Pull-up bar</legend><div class="wgrid">' + w.barOpt.map(function(o){
     return '<button type="button" class="wopt" data-bar="' + esc(o.k) + '" aria-pressed="false"><b>' + esc(o.label) + '</b><small>' + esc(o.sub) + '</small></button>';
-  }).join("") + '</div></fieldset>';
-  if(w.weights) picks += '<fieldset class="wpick"><legend>Bar weight</legend><div class="wgrid">' + w.weights.map(function(o){
+  }).join("") + '</div>' + (w.swapNote ? '<p class="hitswap">' + esc(w.swapNote) + '</p>' : '') + '</fieldset>';
+  if(w.weights) wtPick = '<fieldset class="wpick"><legend>' + esc(w.weightLabel || "Bar weight") + '</legend><div class="wgrid">' + w.weights.map(function(o){
     return '<button type="button" class="wopt" data-opt="' + esc(o.k) + '" aria-pressed="false"><b>' + esc(o.label) + '</b><small>' + o.lb + ' lb</small></button>';
   }).join("") + '</div></fieldset>';
+  picks += ft ? wtPick + barPick : barPick + wtPick;
   if(am && w.durations.length > 1) picks += '<fieldset class="wpick"><legend>Time on the clock</legend><div class="wgrid g4">' + w.durations.map(function(d){
     return '<button type="button" class="wopt" data-dur="' + d + '" aria-pressed="false"><b>' + d + ' min</b></button>';
   }).join("") + '</div></fieldset>';
-  var runBox = iv ?
+  var runBox = ft ?
+      '<p class="hround" id="hxRound"></p>' +
+      '<div class="hamrap"><div class="htime"><b id="hxTime">0:00</b><small id="hxTimeLbl">total time</small></div>' +
+        '<div class="hcount ftsplit"><b id="hxCount">0:00</b><small id="hxCountLbl">this round</small></div></div>' +
+      '<div class="hbar" aria-hidden="true"><div id="hxFill"></div></div>' +
+      '<div class="hmeta"><span id="hxWeightLine"></span><span id="hxTotalLine"></span></div>' +
+      '<ol class="ftcheck" id="hxCheck" aria-label="This round" hidden></ol>' +
+      '<button type="button" class="hdone hbig" id="hxFtDone" hidden>Round 1 done</button>' +
+      '<div class="hctl">' +
+        '<button type="button" class="minibtn primary" id="hxGo">Start</button>' +
+        '<button type="button" class="minibtn" id="hxUndo" hidden>Undo last round</button>' +
+        '<button type="button" class="minibtn" id="hxMute" aria-pressed="false">Sound on</button>' +
+        '<button type="button" class="minibtn" id="hxReset" hidden>Reset</button>' +
+        '<button type="button" class="minibtn" id="hxSave" hidden>Save &amp; end</button>' +
+      '</div>' +
+      '<p class="hhint" id="hxHint">Start gives you 3, 2, 1, go, then the clock counts up. Tap Round done after each full round (Enter or Space works too). Tapped by mistake? Use Undo. A voice calls each round, the ' + w.goalMin + ' minute goal, 1 minute before the cap, and the cap. Turn your ringer on to hear it.</p>'
+    : iv ?
       '<div class="hivl"><div class="htime"><b id="hxTime">' + hxMMSS(plan.workTotal) + '</b><small id="hxTimeLbl">total time</small></div>' +
         '<div class="hcount"><b id="hxCount">' + plan.works + '</b><small id="hxCountLbl">intervals</small></div></div>' +
       '<p class="hnow" id="hxNow" hidden></p>' +
@@ -3791,22 +4166,25 @@ function hxOpenDetail(id){
       (w.subtitle ? '<p class="hitsub">' + esc(w.subtitle) + '</p>' : '') +
       (w.credit ? '<p class="hitcredit">Workout by <a href="' + esc(w.credit.url) + '" target="_blank" rel="noopener">' + esc(w.credit.by) + '</a></p>' : '') +
       '<p class="lasttime" id="hxLast" hidden></p>' +
-      (am ? '<p class="lasttime" id="hxBest" hidden></p>' : '') +
+      (am || ft ? '<p class="lasttime" id="hxBest" hidden></p>' : '') +
       '<div class="hitformat"><b id="hxFmtHead"></b>' + esc(w.formatText) + '<span class="goal">' + esc(w.goal) + '</span></div>' +
       picks +
-      '<ol class="hitmoves" aria-label="' + (iv ? "Each round" : am ? "One set" : "Every minute") + '">' + moves + '</ol>' +
+      '<ol class="hitmoves" aria-label="' + (iv || ft ? "Each round" : am ? "One set" : "Every minute") + '">' + moves + '</ol>' +
     '</section>' +
     '<section class="hittimer" id="hxTimer" aria-labelledby="hxTimerHead">' +
-      '<h2 class="hh" id="hxTimerHead">' + (iv ? "Follow-along timer" : am ? "AMRAP timer" : "EMOM timer") + '</h2>' +
+      '<h2 class="hh" id="hxTimerHead">' + (iv ? "Follow-along timer" : am ? "AMRAP timer" : ft ? "For time stopwatch" : "EMOM timer") + '</h2>' +
       '<div id="hxRunBox">' + runBox + '</div>' +
       '<div class="hfinish" id="hxFin" hidden>' +
         '<h3 id="hxFinHead" tabindex="-1">Done!</h3>' +
         '<p id="hxFinText"></p>' +
         (am ? '<label class="hpart" for="hxPartial">+ partial reps <span>(optional)</span><input id="hxPartial" type="text" maxlength="40" autocomplete="off" enterkeyhint="done" placeholder="e.g. 10 squats, 4 push-ups"></label>' : '') +
+        (ft ? '<label class="hpart" for="hxPartial" id="hxPartWrap" hidden>+ partial reps <span>(optional)</span><input id="hxPartial" type="text" maxlength="40" autocomplete="off" enterkeyhint="done" placeholder="e.g. 25 snatches, 12 lunges"></label>' : '') +
         '<p class="hsaved" id="hxFinSaved"></p>' +
-        '<div class="hctl"><button type="button" class="minibtn primary" id="hxAgain">Start over</button><button type="button" class="minibtn" id="hxToList">All HIT workouts</button></div>' +
+        '<div class="hctl"><button type="button" class="minibtn primary" id="hxAgain">Start over</button>' +
+          (ft ? '<button type="button" class="minibtn" id="hxReopen" hidden>Undo last round</button>' : '') +
+          '<button type="button" class="minibtn" id="hxToList">All HIT workouts</button></div>' +
       '</div>' +
-      '<ol class="hrest" id="hxRest" aria-label="' + (am ? "Split time per set" : "Rest per round") + '"></ol>' +
+      '<ol class="hrest" id="hxRest" aria-label="' + (am ? "Split time per set" : ft ? "Time per round" : "Rest per round") + '"></ol>' +
       '<p class="vh" id="hxLive" aria-live="polite"></p>' +
     '</section>';
   $("hitListPane").hidden = true; pane.hidden = false;
@@ -3816,7 +4194,9 @@ function hxOpenDetail(id){
   $("hxToList").onclick = hxBackToList;
   pane.querySelectorAll(".wopt[data-opt]").forEach(function(b){
     b.onclick = function(){
+      if(ft && HX && HX.wk === w.id && hxActive()) return;     /* the plate is locked while the clock runs */
       hxCfg[w.id].opt = b.getAttribute("data-opt");
+      if(ft){ hxPickSet(w.id, "opt", hxCfg[w.id].opt); hxRender(); return; }
       if(HX && HX.wk === w.id && HX.status !== "done"){ HX.opt = hxCfg[w.id].opt; hxPersist(); }
       hxRender();
     };
@@ -3824,9 +4204,11 @@ function hxOpenDetail(id){
   pane.querySelectorAll(".wopt[data-bar]").forEach(function(b){
     b.onclick = function(){
       if(HX && HX.wk === w.id && hxActive()) return;
-      hxCfg[w.id].opt = b.getAttribute("data-bar");
+      var bk = ft ? "bar" : "opt";
+      hxCfg[w.id][bk] = b.getAttribute("data-bar");
+      if(ft) hxPickSet(w.id, "bar", hxCfg[w.id].bar);
       var y = window.scrollY; hxOpenDetail(w.id); window.scrollTo(0, y);
-      var nb = document.querySelector('#hitDetailPane .wopt[data-bar="' + hxCfg[w.id].opt + '"]'); if(nb) nb.focus();
+      var nb = document.querySelector('#hitDetailPane .wopt[data-bar="' + hxCfg[w.id][bk] + '"]'); if(nb) nb.focus();
     };
   });
   pane.querySelectorAll(".wopt[data-dur]").forEach(function(b){
@@ -3844,7 +4226,16 @@ function hxOpenDetail(id){
     else if(HX.status === "running") hxPause();
     else hxResume();
   };
-  if(iv){
+  if(ft){
+    $("hxFtDone").onclick = function(){ if($("hxFtDone").getAttribute("aria-disabled") !== "true") hxFtRound(); };
+    $("hxUndo").onclick = hxFtUndo;
+    $("hxMute").onclick = hxFtMute;
+    $("hxReopen").onclick = hxFtReopen;
+    $("hxCheck").onclick = function(e){ var b = e.target.closest("button[data-i]"); if(b) hxFtCheck(+b.getAttribute("data-i")); };
+    var fpi = $("hxPartial");
+    fpi.addEventListener("input", function(){ hxSetPartial(fpi.value); });
+    fpi.addEventListener("keydown", function(e){ if(e.key === "Enter"){ e.preventDefault(); fpi.blur(); } });
+  } else if(iv){
     $("hxFull").onclick = function(){ fxOpen(); };
   } else if(am){
     $("hxSetDone").onclick = hxSetDone;
@@ -3876,7 +4267,8 @@ function hxRender(snap){
   lt.textContent = txt; lt.hidden = !txt;
   $("hxRunBox").hidden = st === "done"; $("hxFin").hidden = st !== "done";
   timer.classList.toggle("is-low", false);
-  if(hxMode(w) === "interval") hxRenderInterval(w, mine, cfg, st, act, snap);
+  if(hxMode(w) === "fortime") hxRenderFortime(w, mine, cfg, st, act, snap);
+  else if(hxMode(w) === "interval") hxRenderInterval(w, mine, cfg, st, act, snap);
   else if(hxMode(w) === "amrap") hxRenderAmrap(w, mine, cfg, st, act, snap); else hxRenderEmom(w, mine, cfg, st, snap);
 }
 function hxRenderInterval(w, mine, cfg, st, act, snap){
@@ -3912,6 +4304,83 @@ function hxRenderInterval(w, mine, cfg, st, act, snap){
     $("hxFull").hidden = fxIsOpen(); $("hxReset").hidden = false; $("hxSave").hidden = st !== "paused"; $("hxHint").hidden = true;
   }
   $("hxRest").innerHTML = "";
+}
+function hxRenderFortime(w, mine, cfg, st, act, snap){
+  var optK = mine ? mine.opt : cfg.opt, barK = mine ? mine.bar : cfg.bar, o = hxOpt(w, optK), bo = hxBarOpt(w, barK);
+  var cap = w.capMin * 60000, goal = (w.goalMin || 0) * 60000, rounds = w.rounds;
+  document.querySelectorAll("#hitDetailPane .wopt[data-opt]").forEach(function(b){
+    b.setAttribute("aria-pressed", b.getAttribute("data-opt") === optK ? "true" : "false"); b.setAttribute("aria-disabled", act ? "true" : "false");
+  });
+  document.querySelectorAll("#hitDetailPane .wopt[data-bar]").forEach(function(b){
+    b.setAttribute("aria-pressed", b.getAttribute("data-bar") === barK ? "true" : "false"); b.setAttribute("aria-disabled", act ? "true" : "false");
+  });
+  var best = hxFtBest(w), bl = $("hxBest");
+  bl.textContent = best !== null ? "Best: " + hxMMSS(best * 1000) : ""; bl.hidden = best === null;
+  $("hxFmtHead").textContent = rounds + " rounds for time \u00b7 goal " + hxMMSS(goal) + " \u00b7 cap " + hxMMSS(cap);
+  var mb = $("hxMute"), muted = hxMuted();
+  mb.setAttribute("aria-pressed", muted ? "true" : "false"); mb.textContent = muted ? "Muted" : "Sound on";
+  $("hxWeightLine").textContent = (o ? o.lb + " lb plate" : "") + (bo ? (o ? ", " : "") + bo.short : "");
+  var mv = hxMovesFor(w, barK), ck = $("hxCheck"), ol = $("hxRest");
+  if(st === "idle"){
+    $("hxRound").innerHTML = rounds + " rounds <span>ready</span>";
+    $("hxTime").textContent = "0:00"; $("hxTimeLbl").textContent = "total time";
+    $("hxCount").textContent = "0:00"; $("hxCountLbl").textContent = "this round";
+    $("hxFill").style.width = "0%"; $("hxTotalLine").textContent = "Goal " + hxMMSS(goal) + " \u00b7 cap " + hxMMSS(cap);
+    ck.hidden = true; ck.innerHTML = "";
+    $("hxFtDone").hidden = true; $("hxUndo").hidden = true; $("hxGo").textContent = "Start"; $("hxReset").hidden = true; $("hxSave").hidden = true; $("hxHint").hidden = false;
+    $("hxTimer").classList.remove("is-lead");
+    ol.innerHTML = "";
+    return;
+  }
+  var s = snap || hxSnap(Date.now()), stats = hxStats();
+  if(st === "done"){
+    var fh = stats.complete ? "Done!" : mine.capped ? "Time cap" : "Workout saved", desc = (o ? " with the " + o.lb + " lb plate" : "") + (bo ? ", " + bo.short : "");
+    $("hxFinHead").textContent = fh;
+    var prevBest = null;
+    hxSessions(w).forEach(function(x){ var h = x.hit; if(x.id !== mine.savedId && h.mode === "fortime" && !h.capped && h.rounds >= h.total && (prevBest === null || h.secs < prevBest)) prevBest = h.secs; });
+    var tSecs = Math.round(stats.time / 1000);
+    $("hxFinText").textContent = stats.complete ?
+      rounds + " rounds in " + hxMMSS(tSecs * 1000) + desc + "." + (prevBest !== null && tSecs < prevBest ? " New best!" : tSecs <= goal / 1000 ? " You beat the " + w.goalMin + " minute goal." : "") :
+      mine.capped ? hxPlural(stats.done, "round", "rounds") + " of " + rounds + " done before the " + hxMMSS(cap) + " cap" + desc + ". Add any extra reps below." :
+      stats.done + " of " + rounds + " rounds in " + hxMMSS(stats.e) + desc + ".";
+    var pw = $("hxPartWrap"), pi = $("hxPartial");
+    pw.hidden = stats.complete; if(document.activeElement !== pi) pi.value = mine.partial || "";
+    $("hxReopen").hidden = !stats.complete;
+    $("hxFinSaved").textContent = mine.savedId ? "\u2713 Saved to your history" : "Could not save to your history.";
+    $("hxTimer").classList.remove("is-lead");
+    ck.hidden = true;
+  } else {
+    var paused = st === "paused";
+    $("hxTimer").classList.toggle("is-lead", !!s.lead);
+    if(s.lead){
+      $("hxRound").innerHTML = (paused ? "Paused \u00b7 " : "") + "Get ready";
+      $("hxTime").textContent = String(s.leadSecs); $("hxTimeLbl").textContent = "starting";
+    } else {
+      $("hxRound").innerHTML = (paused ? "Paused \u00b7 " : "") + "Round <span>" + s.round + "</span> of " + rounds;
+      $("hxTime").textContent = hxMMSS(s.e); $("hxTimeLbl").textContent = s.e >= goal && goal ? "total time \u00b7 past the goal" : "total time";
+    }
+    $("hxCount").textContent = hxMMSS(s.roundE); $("hxCountLbl").textContent = "this round";
+    $("hxTimer").classList.toggle("is-low", st === "running" && s.leftMs <= 60000);
+    $("hxFill").style.width = (100 * s.e / cap).toFixed(1) + "%";
+    $("hxTotalLine").textContent = s.e < goal ? "Goal " + hxMMSS(goal) + " \u00b7 cap " + hxMMSS(cap) : hxMMSS(Math.max(0, cap - s.e)) + " to the cap";
+    var tk = mine.tk || [], html = "";
+    mv.forEach(function(m, i){
+      html += '<li><button type="button" data-i="' + i + '" aria-pressed="' + (tk[i] ? "true" : "false") + '"><b>' + m.reps + '</b><span>' + esc(m.n) + (m.per ? ' <small>' + esc(m.per) + '</small>' : '') + '</span><i aria-hidden="true">' + (tk[i] ? "\u2713" : "") + '</i></button></li>';
+    });
+    if(ck.innerHTML !== html){ var hadF = ck.contains(document.activeElement) ? document.activeElement.getAttribute("data-i") : null; ck.innerHTML = html; if(hadF !== null){ var nf = ck.querySelector('[data-i="' + hadF + '"]'); if(nf) nf.focus(); } }
+    ck.setAttribute("aria-label", "Round " + s.round + " checklist");
+    ck.hidden = false;
+    var bd = $("hxFtDone"), can = st === "running" && !s.lead;
+    bd.hidden = false;
+    bd.textContent = s.lead ? "Get ready" : paused ? "Paused" : "Round " + s.round + " done";
+    bd.setAttribute("aria-disabled", can ? "false" : "true");
+    $("hxUndo").hidden = !stats.done;
+    $("hxGo").textContent = st === "running" ? "Pause" : "Resume";
+    $("hxReset").hidden = false; $("hxSave").hidden = !paused; $("hxHint").hidden = true;
+  }
+  var rh = "";
+  stats.splits.forEach(function(ms, i){ rh += '<li><small>Round ' + (i + 1) + '</small>' + hxMMSS(ms) + ' <span class="hat">at ' + hxMMSS(mine.splits[i]) + '</span></li>'; });
+  if(ol.innerHTML !== rh) ol.innerHTML = rh;
 }
 function hxRenderAmrap(w, mine, cfg, st, act, snap){
   var dur = mine ? mine.dur : cfg.dur, total = dur * 60000;
@@ -4127,6 +4596,17 @@ document.addEventListener("keydown", function(e){
   else if(k === "Escape"){ e.preventDefault(); fxClose(); }
   else if((k === "m" || k === "M") && !done){ e.preventDefault(); $("fxMute").click(); }
 });
+/* v20: on a for-time stopwatch, Enter or Space anywhere on the page (not on a button, link or text box) = Round done */
+document.addEventListener("keydown", function(e){
+  if(!HX || HX.mode !== "fortime" || HX.status !== "running" || hxOpen !== HX.wk || fxIsOpen() || document.querySelector(".pomodal")) return;
+  if(e.key !== "Enter" && e.key !== " " && e.key !== "Spacebar") return;
+  if(e.altKey || e.ctrlKey || e.metaKey) return;
+  var t = e.target, tag = t && t.tagName;
+  if(tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || tag === "BUTTON" || tag === "A" || (t && t.isContentEditable)) return;
+  if(!$("view-hit") || !$("view-hit").classList.contains("on")) return;
+  e.preventDefault();
+  if(!e.repeat) hxFtRound();
+});
 document.addEventListener("keyup", function(e){ if(fxIsOpen() && (e.key === " " || e.key === "Spacebar") && !(HX && HX.status === "done") && !document.querySelector(".pomodal")) e.preventDefault(); });
 
 /* ----- entry points ----- */
@@ -4140,6 +4620,7 @@ function hxValid(r){
   if(!r || r.v !== 3 || !w || r.mode !== hxMode(w) || typeof r.t0 !== "number" || !(r.total > 0) || Date.now() - r.t0 > HX_MAX_AGE) return false;
   if(r.mode === "amrap") return Array.isArray(r.taps) && r.dur > 0;
   if(r.mode === "interval") return Array.isArray(r.skips) && typeof r.skip === "number" && r.total === hxPlan(w, r.opt).total;
+  if(r.mode === "fortime") return Array.isArray(r.splits) && r.rounds === w.rounds && r.total === w.capMin * 60000 && typeof r.lead === "number" && r.splits.length <= r.rounds;
   return Array.isArray(r.rest) && r.iv > 0 && r.rest.length === r.rounds;
 }
 function hxBoot(){
@@ -4168,7 +4649,7 @@ if("serviceWorker" in navigator && location.protocol.indexOf("http") === 0){
 }
 
 /* ============ boot ============ */
-try{ console.log("Progressive Overload build v19"); }catch(e){}
+try{ console.log("Progressive Overload build v20"); }catch(e){}
 storeGet("ft:custom", function(v){
   try{ CUSTOM = v ? JSON.parse(v) : []; }catch(e){ CUSTOM = []; }
   CUSTOM.forEach(function(x){ x.custom = true; if(idx(x.n)<0) LIB.push(x); });
@@ -4306,7 +4787,7 @@ window.__poLoadLeaflet = function(){
       var lib = window.__leafletSrc || (typeof L !== "undefined" ? "ok" : "loading");
       var mEl = document.getElementById("map");
       var size = mEl ? (mEl.clientWidth + "x" + mEl.clientHeight) : "?";
-      d.textContent = "v19 · lib:" + lib + " · " + mapStyle + ":" + p.name + "/" + (lastRouter||"-") + " " + size + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (switched.length ? " · fell back from " + switched.join(",") : "") + (diagNote ? " · " + diagNote : "");
+      d.textContent = "v20 · lib:" + lib + " · " + mapStyle + ":" + p.name + "/" + (lastRouter||"-") + " " + size + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (switched.length ? " · fell back from " + switched.join(",") : "") + (diagNote ? " · " + diagNote : "");
     }
     function mountTiles(){
       if(tiles) map.removeLayer(tiles);   /* not .off(): Leaflet's attribution cleanup hangs on the layer's remove event */
@@ -4785,7 +5266,7 @@ window.__poLoadLeaflet = function(){
       tries++;
       if(tries > 120 || window.__leafletSrc === "none"){
         el.innerHTML = '<div style="padding:24px;font-family:monospace;font-size:12px;color:#7E96A8;line-height:1.7"><b style="color:#E8F0F5">The map library could not be downloaded from either CDN.</b><br>The rest of the site is unaffected. This is usually a connection issue or a content blocker on this device.<br>Try: a different network, disabling ad/content blockers for this site, then reload.</div>';
-        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v19 · lib:none (both CDNs failed)";
+        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v20 · lib:none (both CDNs failed)";
         return;
       }
       setTimeout(waitL, 150);
