@@ -457,6 +457,17 @@
 
   /* ---------- v16: session history, set grid, backup reminder ---------- */
   .lasttime{font-size:15px;line-height:1.4;color:var(--steel);font-weight:700;margin:2px 0 8px;}
+  .proghint{font-size:15px;line-height:1.4;color:var(--cobalt-dk);font-weight:800;margin:-2px 0 10px;}
+  .wrow{flex-wrap:wrap;}
+  .wlab{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--steel);min-width:52px;}
+  .stepbtn{flex:0 0 auto;min-width:44px;min-height:44px;width:44px;height:44px;border:2px solid var(--ink);border-radius:12px;
+    background:#fff;color:var(--ink);font-family:var(--f-display);font-weight:800;font-synthesis:none;font-size:22px;line-height:1;
+    padding:0;cursor:pointer;touch-action:manipulation;-webkit-user-select:none;user-select:none;}
+  .stepbtn:active{background:var(--paper);}
+  .wrow .stepbtn{flex:0 0 44px;}
+  .wrow .weight{width:88px;flex:0 0 88px;}
+  .repstep{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+  .repstep .stepbtn{width:100%;min-width:44px;}
   .sheetresume{margin-top:10px;font-size:13.5px;font-weight:700;color:#7fe0b4;}
   .wrow{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
   .wrow label{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--steel);}
@@ -807,7 +818,7 @@ if (typeof window.storage === "undefined") {
     </div>
     <div class="datamsg" id="dataMsg" role="status" aria-live="polite"></div>
   </section>
-  <p class="buildtag">build v18.1 &middot; map: OpenStreetMap / Esri</p>
+  <p class="buildtag">build v19 &middot; map: OpenStreetMap / Esri</p>
 </div>
 
 <!-- ============ prebuilt ============ -->
@@ -951,7 +962,7 @@ if (typeof window.storage === "undefined") {
       <div class="rm-map" id="map"></div>
       <div class="rm-hint" id="hint">Tap the map to drop your first point</div>
       <div class="rm-status" id="status"></div>
-      <div class="rm-diag" id="diagLine" aria-hidden="true">v18.1 · opening…</div>
+      <div class="rm-diag" id="diagLine" aria-hidden="true">v19 · opening…</div>
     </div>
     <div class="rm-rail">
       <div class="rm-railhead"><span id="railLabel">Distance rail</span><span id="railTotal">0.00 mi</span></div>
@@ -1510,8 +1521,8 @@ var histBlocked = false;        /* disk holds a newer schema: never write over i
 var histDeleted = {};           /* session ids deleted in this tab, so a merge never brings them back */
 var histTimer = null, histDirty = false, prefsTimer = null;
 var CUR = null;                 /* the workout sheet on screen */
-/* Hooks for features that are planned but have no UI yet (progression hint, increments UI, one-tap start on Home). */
-window.__poHooks = window.__poHooks || { progressionHint: null, incrementsUI: null, homeQuickStart: null };
+/* Hooks: progression hint is live in v19; increments settings UI and home quick-start still unused. */
+window.__poHooks = window.__poHooks || { progressionHint: true, incrementsUI: null, homeQuickStart: null };
 
 function hPad(n){ return (n < 10 ? "0" : "") + n; }
 function localDate(ms){ var d = new Date(ms); return d.getFullYear() + "-" + hPad(d.getMonth()+1) + "-" + hPad(d.getDate()); }
@@ -1584,7 +1595,7 @@ function migrateV1toV2(logsStr, histStr, prefsStr, info){
   return out;
 }
 
-/* Hook only (no UI in v16): next weight when every set hit the top of the range. */
+/* next weight when every set hit the top of the range (used by the v19 progression hint and +/- steppers). */
 function stepFor(name){
   if(PREFS.step && PREFS.step[name]) return PREFS.step[name];
   var ex = LIB[idx(name)], e = ex && !ex.custom ? ex.e : "";
@@ -1735,7 +1746,7 @@ window.__poResumeToday = function(){ /* hook for a future Home button; no UI in 
   for(var k = HIST.sessions.length - 1; k >= 0; k--){ var s = HIST.sessions[k]; if(!s.legacy && s.date === today && !s.fin) return s; }
   return null;
 };
-window.__poHist = { parseScheme: parseScheme, parseWeight: parseWeight, localDate: localDate, migrateV1toV2: migrateV1toV2, nextWeight: nextWeight, formatLastTime: formatLastTime };
+window.__poHist = { parseScheme: parseScheme, parseWeight: parseWeight, localDate: localDate, migrateV1toV2: migrateV1toV2, nextWeight: nextWeight, formatLastTime: formatLastTime, stepFor: stepFor };
 window.__poAfterImport = function(){
   /* runs right after a backup restore writes its keys, before the reload */
   try{
@@ -1852,7 +1863,19 @@ function buildGrid(c, keep){
     var btn = el("button", "set"); btn.type = "button";
     var cell = { inp: inp, btn: btn, label: label, r: null, d: false };
     if(old[k]){ cell.r = old[k].r; cell.d = old[k].d; inp.value = old[k].inp.value; }
-    cellEl.appendChild(inp); cellEl.appendChild(btn);
+    cellEl.appendChild(inp);
+    if(c.u !== "time"){
+      var steps = el("div", "repstep");
+      var rm = document.createElement("button"); rm.type = "button"; rm.className = "stepbtn rminus"; rm.textContent = "−";
+      rm.setAttribute("aria-label", "Decrease " + label + " " + unitWord);
+      var rp = document.createElement("button"); rp.type = "button"; rp.className = "stepbtn rplus"; rp.textContent = "+";
+      rp.setAttribute("aria-label", "Increase " + label + " " + unitWord);
+      holdStepFocus(rm); holdStepFocus(rp);
+      steps.appendChild(rm); steps.appendChild(rp);
+      cellEl.appendChild(steps);
+      cell.rm = rm; cell.rp = rp;
+    }
+    cellEl.appendChild(btn);
     c.grid.appendChild(cellEl);
     c.cells.push(cell);
     paintCell(cell);
@@ -1866,13 +1889,31 @@ function buildGrid(c, keep){
         if(e.key === "Enter"){ e.preventDefault(); if(!cell.d) tickCell(c, cell, true); focusNext(c, k); }
       });
       cell.btn.addEventListener("click", function(){ tickCell(c, cell, false); });
+      if(cell.rm){
+        cell.rm.addEventListener("click", function(){ adjustRep(c, cell, -1); });
+        cell.rp.addEventListener("click", function(){ adjustRep(c, cell, 1); });
+      }
     })(cell, k);
   }
+}
+function fmtLb(n){
+  if(n == null || !isFinite(n)) return "";
+  var r = Math.round(n * 2) / 2;
+  return (r % 1 === 0) ? String(r) : String(r);
+}
+function paintHint(c){
+  var line = c.card.querySelector(".proghint");
+  if(!line) return;
+  var nw = (c.u === "lbs" && c.hit) ? nextWeight(c.hit.e, c.n, c.hit.s) : null;
+  if(nw == null){ line.textContent = ""; line.hidden = true; return; }
+  line.textContent = "Try " + fmtLb(nw) + " lb next";
+  line.hidden = false;
 }
 function paintLast(c){
   var line = c.card.querySelector(".lasttime");
   var t = formatLastTime(c.hit);
   line.textContent = t; line.hidden = !t;
+  paintHint(c);
 }
 function refreshName(name){
   if(!CUR) return;
@@ -1883,6 +1924,44 @@ function refreshName(name){
     c.cells.forEach(function(cell, k){ cell.inp.placeholder = targetFor(c.hit, c.plan, k, c.u) || (c.u === "time" ? "m:ss" : ""); });
     if(c.histOpen) paintHist(c);
   });
+}
+function holdStepFocus(btn){
+  btn.addEventListener("mousedown", function(e){ e.preventDefault(); });
+  btn.addEventListener("touchstart", function(e){ /* keep input focus; do not open keyboard via button */ }, { passive: true });
+}
+function adjustWeight(c, dir){
+  if(!c.wEl) return;
+  var step = stepFor(c.n);
+  if(!(step > 0)) step = 5;
+  var raw = c.wEl.value.trim();
+  var cur = parseWeight(raw);
+  var n;
+  if(cur === null){
+    if(dir < 0) return;
+    if(raw) return; /* non-numeric typed weight: do not clobber */
+    n = step;
+  } else {
+    n = Math.max(0, Math.round((cur + dir * step) * 2) / 2);
+  }
+  c.wEl.value = fmtLb(n);
+  recordCard(c);
+}
+function adjustRep(c, cell, dir){
+  if(c.u === "time") return;
+  var raw = cell.inp.value.trim();
+  var n;
+  if(raw === ""){
+    if(dir < 0) return;
+    n = 1;
+  } else {
+    n = parseInt(raw, 10);
+    if(!isFinite(n)) return;
+    n = Math.max(0, n + dir);
+  }
+  cell.inp.value = String(n);
+  var rr = readReps(cell.inp, c.u);
+  cell.inp.classList.toggle("bad", !rr.ok);
+  if(rr.ok){ cell.r = rr.r; recordCard(c); }
 }
 function paintHist(c){
   var box = c.histEl; box.innerHTML = "";
@@ -2003,9 +2082,10 @@ function openWorkout(title, names, editable, opts){
         '<svg class="cardfig" viewBox="0 0 120 120" role="img" aria-label="'+esc(ex.n)+' diagram"><use href="#'+ex.f+'"/></svg>'+
       '</div>'+
       '<p class="lasttime" hidden></p>'+
+      '<p class="proghint" hidden></p>'+
       (missing ? '<p class="missnote">You removed this exercise from your library. It still works in this workout.</p>' : '')+
       '<div class="cue">'+esc(ex.cue)+'</div>'+
-      (c.u === "lbs" ? '<div class="wrow"><label>Weight<input class="weight" type="text" inputmode="decimal" enterkeyhint="next" maxlength="40" autocomplete="off" aria-label="'+esc(ex.n)+' weight in pounds"></label><span class="wunit">lb</span></div>' : '')+
+      (c.u === "lbs" ? '<div class="wrow"><span class="wlab">Weight</span><button type="button" class="stepbtn wminus" aria-label="Decrease '+esc(ex.n)+' weight">−</button><input class="weight" type="text" inputmode="decimal" enterkeyhint="next" maxlength="40" autocomplete="off" aria-label="'+esc(ex.n)+' weight in pounds"><button type="button" class="stepbtn wplus" aria-label="Increase '+esc(ex.n)+' weight">+</button><span class="wunit">lb</span></div>' : '')+
       '<div class="sgrid"></div>'+
       '<div class="cardtools">'+
         '<button type="button" class="minibtn notebtn">+ Note</button>'+
@@ -2046,6 +2126,12 @@ function openWorkout(title, names, editable, opts){
     if(c.wEl){
       c.wEl.addEventListener("input", function(){ recordCard(c); });
       c.wEl.addEventListener("keydown", function(e){ if(e.key === "Enter"){ e.preventDefault(); if(c.cells[0]) c.cells[0].inp.focus(); } });
+      var wm = card.querySelector(".wminus"), wp = card.querySelector(".wplus");
+      if(wm && wp){
+        holdStepFocus(wm); holdStepFocus(wp);
+        wm.addEventListener("click", function(){ adjustWeight(c, -1); });
+        wp.addEventListener("click", function(){ adjustWeight(c, 1); });
+      }
     }
     c.noteEl.addEventListener("input", function(){ recordCard(c); });
     noteBtn.onclick = function(){
@@ -2439,7 +2525,7 @@ $("stopEdit").onclick = function(){
   function buildBackup(){
     var data = {};
     allKeys().forEach(function(k){ data[k] = lsGet(k); });
-    return { app: APP_ID, version: BACKUP_VERSION, build: "v18.1", exportedAt: new Date().toISOString(), data: data };
+    return { app: APP_ID, version: BACKUP_VERSION, build: "v19", exportedAt: new Date().toISOString(), data: data };
   }
   function downloadBlob(blob, name){
     var url = URL.createObjectURL(blob);
@@ -4082,7 +4168,7 @@ if("serviceWorker" in navigator && location.protocol.indexOf("http") === 0){
 }
 
 /* ============ boot ============ */
-try{ console.log("Progressive Overload build v18.1"); }catch(e){}
+try{ console.log("Progressive Overload build v19"); }catch(e){}
 storeGet("ft:custom", function(v){
   try{ CUSTOM = v ? JSON.parse(v) : []; }catch(e){ CUSTOM = []; }
   CUSTOM.forEach(function(x){ x.custom = true; if(idx(x.n)<0) LIB.push(x); });
@@ -4220,7 +4306,7 @@ window.__poLoadLeaflet = function(){
       var lib = window.__leafletSrc || (typeof L !== "undefined" ? "ok" : "loading");
       var mEl = document.getElementById("map");
       var size = mEl ? (mEl.clientWidth + "x" + mEl.clientHeight) : "?";
-      d.textContent = "v18.1 · lib:" + lib + " · " + mapStyle + ":" + p.name + "/" + (lastRouter||"-") + " " + size + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (switched.length ? " · fell back from " + switched.join(",") : "") + (diagNote ? " · " + diagNote : "");
+      d.textContent = "v19 · lib:" + lib + " · " + mapStyle + ":" + p.name + "/" + (lastRouter||"-") + " " + size + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (switched.length ? " · fell back from " + switched.join(",") : "") + (diagNote ? " · " + diagNote : "");
     }
     function mountTiles(){
       if(tiles) map.removeLayer(tiles);   /* not .off(): Leaflet's attribution cleanup hangs on the layer's remove event */
@@ -4699,7 +4785,7 @@ window.__poLoadLeaflet = function(){
       tries++;
       if(tries > 120 || window.__leafletSrc === "none"){
         el.innerHTML = '<div style="padding:24px;font-family:monospace;font-size:12px;color:#7E96A8;line-height:1.7"><b style="color:#E8F0F5">The map library could not be downloaded from either CDN.</b><br>The rest of the site is unaffected. This is usually a connection issue or a content blocker on this device.<br>Try: a different network, disabling ad/content blockers for this site, then reload.</div>';
-        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v18.1 · lib:none (both CDNs failed)";
+        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v19 · lib:none (both CDNs failed)";
         return;
       }
       setTimeout(waitL, 150);
