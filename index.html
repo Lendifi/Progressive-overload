@@ -845,7 +845,7 @@ if (typeof window.storage === "undefined") {
     </div>
     <div class="datamsg" id="dataMsg" role="status" aria-live="polite"></div>
   </section>
-  <p class="buildtag">build v20 &middot; map: OpenStreetMap / Esri</p>
+  <p class="buildtag">build v21 &middot; map: OpenStreetMap / Esri</p>
 </div>
 
 <!-- ============ prebuilt ============ -->
@@ -989,7 +989,7 @@ if (typeof window.storage === "undefined") {
       <div class="rm-map" id="map"></div>
       <div class="rm-hint" id="hint">Tap the map to drop your first point</div>
       <div class="rm-status" id="status"></div>
-      <div class="rm-diag" id="diagLine" aria-hidden="true">v20 · opening…</div>
+      <div class="rm-diag" id="diagLine" aria-hidden="true">v21 · opening…</div>
     </div>
     <div class="rm-rail">
       <div class="rm-railhead"><span id="railLabel">Distance rail</span><span id="railTotal">0.00 mi</span></div>
@@ -2556,7 +2556,7 @@ $("stopEdit").onclick = function(){
   function buildBackup(){
     var data = {};
     allKeys().forEach(function(k){ data[k] = lsGet(k); });
-    return { app: APP_ID, version: BACKUP_VERSION, build: "v20", exportedAt: new Date().toISOString(), data: data };
+    return { app: APP_ID, version: BACKUP_VERSION, build: "v21", exportedAt: new Date().toISOString(), data: data };
   }
   function downloadBlob(blob, name){
     var url = URL.createObjectURL(blob);
@@ -2832,6 +2832,17 @@ var PoAnim = (function(){
       K(0.18, mix(PLANK_TOP, { thF: 44, shF: -96, ftF: 30, pin: { j: "TN", x: -70 }, ik: { a: [56, 5] } })),
       K(0.5,  mix(PLANK_TOP, { thN: 44, shN: -96, ftN: 30, pin: { j: "TF", x: -70 }, ik: { a: [56, 5] } })),
       K(0.68, mix(PLANK_TOP, { thN: 44, shN: -96, ftN: 30, pin: { j: "TF", x: -70 }, ik: { a: [56, 5] } })) ] },
+    /* ----- v21: Dumbbell Legs, Glutes & Core moves ----- */
+    sumosquat: { dur: 2.2, still: 1, eq: "goblet", keys: [
+      K(0,    { t: 180, ua: 16, fa: 158, ab: 14, lab: 24 }),
+      K(0.44, { t: 158, h: 174, ua: 40, fa: 172, ab: 14, th: 100, sh: -22, lab: 30 }),
+      K(0.54, { t: 158, h: 174, ua: 40, fa: 172, ab: 14, th: 100, sh: -22, lab: 30 }),
+      K(0.9,  { t: 180, ua: 16, fa: 158, ab: 14, lab: 24 }) ] },
+    glutebridge: { dur: 2.4, still: 2, eq: "db", keys: gluteBridgeKeys() },
+    deadbug: { dur: 4.0, reps: 2, still: 2, keys: deadBugKeys() },
+    plank: { dur: 3.0, still: 4, keys: [
+      K(0,   mix(PLANK_TOP, { pin: { j: "TN", x: -70 }, ik: { a: [56, 5] } })),
+      K(0.5, mix(PLANK_TOP, { t: 107, h: 112, th: -73, sh: -73, ft: 17, pin: { j: "TN", x: -70 }, ik: { a: [56, 5] } })) ] },
     /* ----- v20: Plate Grinder moves (eq "plate": a 45 lb plate held at 3 and 9 o'clock, or fixed on the floor) ----- */
     platesnatch: { dur: 2.8, still: 6, eq: "plate", keys: plateSnatchKeys() },
     platelunge: { dur: 4.4, reps: 2, still: 3, eq: "plate", keys: plateLungeKeys() },
@@ -2878,6 +2889,21 @@ var PoAnim = (function(){
   }
   /* Straight-leg sit-up: lying flat, legs straight on the floor, arms straight up holding the plate over the chest.
      The arms stay straight and pointing up, so the plate arcs from over the chest to directly overhead. */
+  /* v21 Glute bridge: on your back, knees bent, feet flat, a dumbbell held on the hips. Drive the hips up, squeeze, lower. */
+  function gluteBridgeKeys(){
+    function k(o){ return mix({ ab: 10, lab: 6, ft: 90, ik: { lN: [60, TOE_Y, 1], lF: [60, TOE_Y, 1] } }, o); }
+    function down(){ return k({ t: 268, h: 264, th: 130, sh: 10, ua: 88, fa: 88, pin: { j: "P", x: 0, y: 11 } }); }
+    function up(){ return k({ t: 298, h: 286, th: 100, sh: 10, ua: 118, fa: 118, pin: { j: "P", x: 0, y: 34 } }); }
+    return [ K(0, down()), K(0.12, down()), K(0.45, up()), K(0.6, up()), K(0.92, down()) ];
+  }
+  /* v21 Dead bug: on your back, arms straight up, knees over hips. Reach one arm overhead and the opposite leg long, return, switch. */
+  function deadBugKeys(){
+    var base = { t: 268, h: 266, ua: 178, fa: 178, ab: 10, th: 178, sh: 90, ft: 170, lab: 6, pin: { j: "P", x: 0, y: 11 } };
+    function k(o){ return mix(base, o); }
+    function reach(a, l){ var o = k({}); o["ua" + a] = 250; o["fa" + a] = 252; o["th" + l] = 100; o["sh" + l] = 96; return o; }
+    return [ K(0, k({})), K(0.08, k({})), K(0.3, reach("N", "F")), K(0.38, reach("N", "F")), K(0.5, k({})),
+             K(0.58, k({})), K(0.8, reach("F", "N")), K(0.88, reach("F", "N")) ];
+  }
   function plateSitupKeys(){
     var base = { ab: 12, th: 86, sh: 89, ft: 172, lab: 6, pt: 270, pin: { j: "P", x: 0, y: 11 } };
     function k(o){ return mix(base, o); }
@@ -3525,6 +3551,23 @@ var HITS = [
       { n: "Burpee to plate", reps: 5, anim: "plateburpee", cue: "Stand behind the plate. Do a burpee on the floor behind it, chest to the floor, not the plate. Jump your feet in, then jump forward with both feet onto the plate and land standing. Step back off." }
     ],
     credit: { by: "Graveperformance", url: "https://www.facebook.com/reel/2361333821070969/" } }
+,
+  { id: "db-lgc", mode: "interval", title: "Dumbbell Legs, Glutes & Core", tag: "Intervals", gear: "Dumbbells", gearCls: "tag-gym",
+    subtitle: "Popular lower-body and glute focus", need: "One pair of dumbbells (or just one for the squats and bridge)",
+    weightNote: "Suggested weight: a pair you could squat with about 15 times when fresh. For many people that is 10 to 25 lb in each hand. Go lighter for the row.",
+    work: 40, rest: 20, roundRest: 60, rounds: 3, lead: 10,
+    formatText: "Tap Start and follow along. The app shows each move, counts down, talks you through it and moves on by itself. Work for 40 seconds, rest for 20, and rest 1 minute between rounds. A popular lower-body and glute focus, with core work and one light upper-body move.",
+    goal: "Goal: slow, controlled reps and a hard glute squeeze at the top of every rep.",
+    moves: [
+      { n: "Goblet squat", anim: "gobletsquat", cue: "Hold one dumbbell upright at your chest. Sit down between your heels, chest up, then stand tall. Go easy the first round: it is your warm-up." },
+      { n: "Romanian deadlift", anim: "dbrdl", cue: "Soft knees. Push your hips back and slide the dumbbells down your legs to mid-shin, back flat. Squeeze your glutes to stand up." },
+      { n: "Glute bridge", anim: "glutebridge", cue: "Lie on your back, knees bent, feet flat. Rest a dumbbell on your hips. Push through your heels, lift your hips, squeeze your glutes at the top, then lower slowly." },
+      { n: "Reverse lunge", anim: "dblunge", cue: "Dumbbells at your sides. Step one foot back and lower until both knees bend about 90 degrees. Push through the front heel to stand. Switch legs each rep." },
+      { n: "Sumo squat", anim: "sumosquat", cue: "Feet wide, toes turned out. Hold one dumbbell between your legs. Sit straight down, knees pushing out over your toes, then squeeze your glutes to stand." },
+      { n: "Bent-over row", anim: "dbrow", upper: true, cue: "Light weight. Hinge forward with a flat back and soft knees. Pull both dumbbells to your ribs, squeeze, then lower slowly." },
+      { n: "Dead bug", anim: "deadbug", cue: "Lie on your back, arms straight up, knees bent over your hips. Press your lower back into the floor. Reach one arm back and the opposite leg long, return, then switch." },
+      { n: "Plank", anim: "plank", cue: "Hands under your shoulders, body in one straight line. Squeeze your glutes and belly and hold. Knees down is fine." }
+    ] }
 ];
 var HX_KEY = "po:hitTimer";   /* device-only timer state (like po:lastBackup, not in backups). Finished workouts go to ft:hist. */
 var HX_MAX_AGE = 12 * 3600000;
@@ -4649,7 +4692,7 @@ if("serviceWorker" in navigator && location.protocol.indexOf("http") === 0){
 }
 
 /* ============ boot ============ */
-try{ console.log("Progressive Overload build v20"); }catch(e){}
+try{ console.log("Progressive Overload build v21"); }catch(e){}
 storeGet("ft:custom", function(v){
   try{ CUSTOM = v ? JSON.parse(v) : []; }catch(e){ CUSTOM = []; }
   CUSTOM.forEach(function(x){ x.custom = true; if(idx(x.n)<0) LIB.push(x); });
@@ -4787,7 +4830,7 @@ window.__poLoadLeaflet = function(){
       var lib = window.__leafletSrc || (typeof L !== "undefined" ? "ok" : "loading");
       var mEl = document.getElementById("map");
       var size = mEl ? (mEl.clientWidth + "x" + mEl.clientHeight) : "?";
-      d.textContent = "v20 · lib:" + lib + " · " + mapStyle + ":" + p.name + "/" + (lastRouter||"-") + " " + size + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (switched.length ? " · fell back from " + switched.join(",") : "") + (diagNote ? " · " + diagNote : "");
+      d.textContent = "v21 · lib:" + lib + " · " + mapStyle + ":" + p.name + "/" + (lastRouter||"-") + " " + size + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (switched.length ? " · fell back from " + switched.join(",") : "") + (diagNote ? " · " + diagNote : "");
     }
     function mountTiles(){
       if(tiles) map.removeLayer(tiles);   /* not .off(): Leaflet's attribution cleanup hangs on the layer's remove event */
@@ -5266,7 +5309,7 @@ window.__poLoadLeaflet = function(){
       tries++;
       if(tries > 120 || window.__leafletSrc === "none"){
         el.innerHTML = '<div style="padding:24px;font-family:monospace;font-size:12px;color:#7E96A8;line-height:1.7"><b style="color:#E8F0F5">The map library could not be downloaded from either CDN.</b><br>The rest of the site is unaffected. This is usually a connection issue or a content blocker on this device.<br>Try: a different network, disabling ad/content blockers for this site, then reload.</div>';
-        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v20 · lib:none (both CDNs failed)";
+        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v21 · lib:none (both CDNs failed)";
         return;
       }
       setTimeout(waitL, 150);

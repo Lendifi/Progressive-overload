@@ -1,10 +1,10 @@
-/* Progressive Overload service worker (po-v13, build v20).
+/* Progressive Overload service worker (po-v14, build v21).
    - The page document is network-first (so new deploys always land).
    - Same-origin app files are cache-first; only successful (200) responses are stored.
    - Only the map library and fonts CDNs are cached (network-first, offline fallback).
    - Everything else cross-origin is NOT intercepted at all: map tiles, routing and
      place search always go straight to the network, so a bad tile can never be pinned. */
-var CACHE_V = "po-v13";
+var CACHE_V = "po-v14";
 var SHELL = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./icon-180.png"];
 var CDN = /^(unpkg\.com|cdnjs\.cloudflare\.com|fonts\.googleapis\.com|fonts\.gstatic\.com)$/;
 var TILE_PATH = /\/\d+\/\d+\/\d+(@2x)?(\.(png|jpe?g|webp|pbf|mvt))?$/;
