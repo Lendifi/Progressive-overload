@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Progressive Overload Tracker | Free Workout Log and Run Mapper</title>
+<title>Progressive Overload Tracker | Free Gym Log</title>
 <meta name="description" content="Free workout tracker for your phone. Pick a prebuilt workout or build your own from 172 exercises, log weights, beat them next time, map runs. No account.">
 <link rel="canonical" href="https://progressiveoverloadtracker.app/">
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
@@ -79,8 +79,9 @@
   /* ---------- landing ---------- */
   .hero{background:var(--ink);color:#fff;border-radius:16px;padding:28px 22px 24px;margin-bottom:16px;}
   .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#9aa4b2;font-weight:600;margin-bottom:6px;}
-  .hero h1{font-family:var(--f-display);font-weight:800;font-synthesis:none;font-size:clamp(36px,10vw,52px);line-height:.95;text-transform:uppercase;}
-  .hero h1 span{color:var(--cobalt-lt);}
+  .hero .seoh1{font-size:15px;font-weight:700;color:#e6ebf1;line-height:1.3;margin-bottom:8px;}
+  .hero .tagline{margin-top:0;color:inherit;font-family:var(--f-display);font-weight:800;font-synthesis:none;font-size:clamp(36px,10vw,52px);line-height:.95;text-transform:uppercase;}
+  .hero .tagline span{color:var(--cobalt-lt);}
   .hero p{margin-top:12px;color:#c4ccd6;font-size:14.5px;line-height:1.5;}
   .paths{display:grid;gap:12px;}
   .path{
@@ -99,7 +100,7 @@
 
   /* ---------- section heads ---------- */
   .pagehead{margin:4px 0 14px;}
-  .pagehead h1{font-family:var(--f-display);font-weight:800;font-synthesis:none;font-size:32px;text-transform:uppercase;line-height:1;}
+  .pagehead h2{font-family:var(--f-display);font-weight:800;font-synthesis:none;font-size:32px;text-transform:uppercase;line-height:1;}
   .pagehead p{color:var(--steel);font-size:14px;margin-top:6px;line-height:1.5;}
   .backbtn{
     background:none;border:none;color:var(--cobalt-dk);font-weight:800;font-size:13px;
@@ -160,8 +161,8 @@
 
   /* ---------- workout tracker (replica of the sheets) ---------- */
   .sheethead{background:var(--ink);color:#fff;border-radius:14px;padding:22px 20px 18px;margin-bottom:14px;}
-  .sheethead h1{font-family:var(--f-display);font-weight:800;font-synthesis:none;font-size:clamp(30px,9vw,42px);line-height:1;text-transform:uppercase;}
-  .sheethead h1 span{color:var(--cobalt-lt);}
+  .sheethead h2{font-family:var(--f-display);font-weight:800;font-synthesis:none;font-size:clamp(30px,9vw,42px);line-height:1;text-transform:uppercase;}
+  .sheethead h2 span{color:var(--cobalt-lt);}
   .sheetmeta{display:flex;gap:12px;margin-top:12px;font-size:13px;color:#c4ccd6;font-weight:600;flex-wrap:wrap;}
   .rulebox{background:var(--cobalt);color:#fff;border-radius:14px;padding:14px 16px;font-size:14px;line-height:1.45;margin-bottom:18px;font-weight:600;}
   .rulebox strong{font-weight:800;}
@@ -679,6 +680,32 @@
   #map .leaflet-bar a{width:44px;height:44px;line-height:44px;}
   .rm-field input[type=text],.rm-field input[type=number]{min-height:44px;}
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Progressive Overload Tracker",
+  "url": "https://progressiveoverloadtracker.app/",
+  "applicationCategory": "HealthApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript. Works in modern mobile and desktop browsers.",
+  "description": "Free workout tracker for your phone. Pick a prebuilt workout or build your own from 172 exercises, log weights, beat them next time, and map your runs. No account needed.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "featureList": [
+    "Prebuilt and custom workouts",
+    "HIT and for-time workouts with timers",
+    "Weight and reps logging with last-time and next-weight hints",
+    "Backup and restore on your device",
+    "Run route mapper with shareable links"
+  ],
+  "screenshot": "https://progressiveoverloadtracker.app/icon-512.png",
+  "image": "https://progressiveoverloadtracker.app/icon-512.png"
+}
+</script>
 </head>
 <body>
 <script>
@@ -787,7 +814,8 @@ if (typeof window.storage === "undefined") {
 <div class="view wrap" id="view-home">
   <div class="hero">
     <p class="eyebrow">Free · No account · Works on your phone</p>
-    <h1>Train.<br>Track.<br><span>Repeat.</span></h1>
+    <h1 class="seoh1">Free progressive overload workout tracker</h1>
+    <p class="tagline">Train.<br>Track.<br><span>Repeat.</span></p>
     <p>Pick a ready-made workout for whatever equipment you have, build your own from 170+ exercises, or map out a run. Log your weights, beat them next time. That's the whole program.</p>
   </div>
   <section class="remind" id="backupRemind" hidden aria-labelledby="remindText">
@@ -845,7 +873,7 @@ if (typeof window.storage === "undefined") {
     </div>
     <div class="datamsg" id="dataMsg" role="status" aria-live="polite"></div>
   </section>
-  <p class="buildtag">build v21 &middot; map: OpenStreetMap / Esri</p>
+  <p class="buildtag">build v21.1 &middot; map: OpenStreetMap / Esri</p>
 </div>
 
 <!-- ============ prebuilt ============ -->
@@ -855,7 +883,7 @@ if (typeof window.storage === "undefined") {
     <div class="cat" id="mySavedHead">My workouts</div>
     <div id="mySavedList"></div>
   </section>
-  <div class="pagehead"><h1>Prebuilt Workouts</h1><p>Fifteen ready-made sessions - a push day, a pull day, and a total-body day at every equipment level. Filter to the gear you have, then run the same workout again and beat your numbers. That repetition is the whole method.</p></div>
+  <div class="pagehead"><h2>Prebuilt Workouts</h2><p>Fifteen ready-made sessions - a push day, a pull day, and a total-body day at every equipment level. Filter to the gear you have, then run the same workout again and beat your numbers. That repetition is the whole method.</p></div>
   <p class="eqlabel">What equipment do you have?</p>
   <div class="chips" id="pbChips"></div>
   <p class="searchcount" id="pbCount"></p>
@@ -866,7 +894,7 @@ if (typeof window.storage === "undefined") {
 <div class="view wrap" id="view-hit">
   <div id="hitListPane">
     <button class="backbtn" data-nav="home">← Home</button>
-    <div class="pagehead"><h1>HIT Workouts</h1><p>Short, hard workouts with a built-in timer. Pick one and tap Start. The interval workouts play by themselves, like a video, with a demo of every move.</p></div>
+    <div class="pagehead"><h2>HIT Workouts</h2><p>Short, hard workouts with a built-in timer. Pick one and tap Start. The interval workouts play by themselves, like a video, with a demo of every move.</p></div>
     <div class="hitlist" id="hitCards"></div>
   </div>
   <div id="hitDetailPane" hidden></div>
@@ -879,7 +907,7 @@ if (typeof window.storage === "undefined") {
     <p><span id="editBannerText">Editing</span><small id="editBannerSub">Change the exercises, then tap Save.</small></p>
     <button type="button" class="minibtn" id="stopEdit">Stop editing</button>
   </div>
-  <div class="pagehead"><h1>Build a Workout</h1><p>Tap the exercises you want. 5–8 is a solid session; more than that and you're sightseeing, not training.</p></div>
+  <div class="pagehead"><h2>Build a Workout</h2><p>Tap the exercises you want. 5–8 is a solid session; more than that and you're sightseeing, not training.</p></div>
   <div class="searchwrap">
     <input id="exSearch" type="search" placeholder="Search 172 exercises - squat, curl, cable…" aria-label="Search exercises" autocomplete="off">
     <button id="exSearchX" aria-label="Clear search">✕</button>
@@ -926,7 +954,7 @@ if (typeof window.storage === "undefined") {
   <aside class="rm-panel" id="rmPanel">
     <div class="rm-head">
       <p class="rm-eyebrow">Route measuring</p>
-      <h1 class="rm-title">Route <em>Rail</em></h1>
+      <h2 class="rm-title">Route <em>Rail</em></h2>
     </div>
     <div class="rm-readout">
       <div class="rm-big" id="bigDist">0.00</div>
@@ -989,7 +1017,7 @@ if (typeof window.storage === "undefined") {
       <div class="rm-map" id="map"></div>
       <div class="rm-hint" id="hint">Tap the map to drop your first point</div>
       <div class="rm-status" id="status"></div>
-      <div class="rm-diag" id="diagLine" aria-hidden="true">v21 · opening…</div>
+      <div class="rm-diag" id="diagLine" aria-hidden="true">v21.1 · opening…</div>
     </div>
     <div class="rm-rail">
       <div class="rm-railhead"><span id="railLabel">Distance rail</span><span id="railTotal">0.00 mi</span></div>
@@ -2055,7 +2083,7 @@ function openWorkout(title, names, editable, opts){
   CUR = { wid: wid, title: parts[1] ? parts[0] + " / " + parts[1] : parts[0], sess: findResume(wid), cards: [] };
   var h = el("div","sheethead");
   h.innerHTML = '<p class="eyebrow" style="color:#9aa4b2;margin-bottom:6px">'+esc(parts[0])+' · '+names.length+' exercises · Rest 60–90s</p>'+
-    '<h1><span>'+esc(parts[1]||parts[0])+'</span></h1>'+
+    '<h2><span>'+esc(parts[1]||parts[0])+'</span></h2>'+
     '<div class="sheetmeta"><span>'+(editable ? "Reps are suggestions - tap them to change. " : "")+'Enter your reps and tap Done after each set. Everything saves as you go.</span></div>'+
     (CUR.sess ? '<p class="sheetresume">Picked up where you left off today.</p>' : '');
   if(editable){
@@ -2345,7 +2373,7 @@ function svAfterSheetSave(w){
       '<button type="button" class="minibtn" data-sv="asnew">Save as new</button>'+
       '<span class="svnote">Saved as \u201c'+esc(w.name)+'\u201d. Find it under Workouts, My workouts.</span>';
   } else if(bar){ var nt = bar.querySelector(".svnote"); if(nt) nt.textContent = "Saved as \u201c" + w.name + "\u201d."; }
-  var h1 = document.querySelector("#sheet .sheethead h1 span"); if(h1) h1.textContent = w.name;
+  var h1 = document.querySelector("#sheet .sheethead h2 span"); if(h1) h1.textContent = w.name;
   if(svEditing && svEditing !== w.id && lastView === "builder"){ svEditing = w.id; svPaintBanner(); }
 }
 
@@ -2556,7 +2584,7 @@ $("stopEdit").onclick = function(){
   function buildBackup(){
     var data = {};
     allKeys().forEach(function(k){ data[k] = lsGet(k); });
-    return { app: APP_ID, version: BACKUP_VERSION, build: "v21", exportedAt: new Date().toISOString(), data: data };
+    return { app: APP_ID, version: BACKUP_VERSION, build: "v21.1", exportedAt: new Date().toISOString(), data: data };
   }
   function downloadBlob(blob, name){
     var url = URL.createObjectURL(blob);
@@ -4692,7 +4720,7 @@ if("serviceWorker" in navigator && location.protocol.indexOf("http") === 0){
 }
 
 /* ============ boot ============ */
-try{ console.log("Progressive Overload build v21"); }catch(e){}
+try{ console.log("Progressive Overload build v21.1"); }catch(e){}
 storeGet("ft:custom", function(v){
   try{ CUSTOM = v ? JSON.parse(v) : []; }catch(e){ CUSTOM = []; }
   CUSTOM.forEach(function(x){ x.custom = true; if(idx(x.n)<0) LIB.push(x); });
@@ -4830,7 +4858,7 @@ window.__poLoadLeaflet = function(){
       var lib = window.__leafletSrc || (typeof L !== "undefined" ? "ok" : "loading");
       var mEl = document.getElementById("map");
       var size = mEl ? (mEl.clientWidth + "x" + mEl.clientHeight) : "?";
-      d.textContent = "v21 · lib:" + lib + " · " + mapStyle + ":" + p.name + "/" + (lastRouter||"-") + " " + size + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (switched.length ? " · fell back from " + switched.join(",") : "") + (diagNote ? " · " + diagNote : "");
+      d.textContent = "v21.1 · lib:" + lib + " · " + mapStyle + ":" + p.name + "/" + (lastRouter||"-") + " " + size + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (switched.length ? " · fell back from " + switched.join(",") : "") + (diagNote ? " · " + diagNote : "");
     }
     function mountTiles(){
       if(tiles) map.removeLayer(tiles);   /* not .off(): Leaflet's attribution cleanup hangs on the layer's remove event */
@@ -5309,7 +5337,7 @@ window.__poLoadLeaflet = function(){
       tries++;
       if(tries > 120 || window.__leafletSrc === "none"){
         el.innerHTML = '<div style="padding:24px;font-family:monospace;font-size:12px;color:#7E96A8;line-height:1.7"><b style="color:#E8F0F5">The map library could not be downloaded from either CDN.</b><br>The rest of the site is unaffected. This is usually a connection issue or a content blocker on this device.<br>Try: a different network, disabling ad/content blockers for this site, then reload.</div>';
-        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v21 · lib:none (both CDNs failed)";
+        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v21.1 · lib:none (both CDNs failed)";
         return;
       }
       setTimeout(waitL, 150);
