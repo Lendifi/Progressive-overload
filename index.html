@@ -243,6 +243,25 @@
   .hd{fill:#14181f;}
   .gnd{stroke:#d7dade;stroke-width:4;stroke-linecap:round;fill:none;}
   .prop{fill:#d7dade;}
+  /* ---------- v22: tap Last time to fill, top-weight chart, first-workout button ---------- */
+  button.lastfill{display:flex;align-items:center;gap:8px;width:100%;min-height:44px;text-align:left;background:#eef3ff;border:1px solid #c9d6fb;border-radius:10px;padding:8px 10px;cursor:pointer;font:inherit;font-size:15px;font-weight:700;color:var(--ink);}
+  button.lastfill[hidden]{display:none;}
+  button.lastfill .lt{flex:1;min-width:0;}
+  button.lastfill .lfgo{flex:0 0 auto;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:#fff;background:var(--cobalt);border-radius:999px;padding:6px 10px;}
+  button.lastfill:active{transform:scale(.99);}
+  .tchart{margin:4px 0 10px;}
+  .tchart h3{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--steel);margin-bottom:4px;}
+  .tchart svg{display:block;width:100%;height:auto;}
+  .tchart .tcnote{font-size:13px;color:var(--steel);}
+  .firstwk{display:flex;align-items:center;gap:14px;width:100%;min-height:44px;text-align:left;border-radius:16px;cursor:pointer;font:inherit;margin-bottom:12px;}
+  .firstwk.big{background:var(--cobalt);color:#fff;border:0;padding:20px 18px;box-shadow:0 6px 18px rgba(30,70,200,.25);}
+  .firstwk.big h2{font-family:var(--f-display);font-weight:800;font-synthesis:none;font-size:24px;text-transform:uppercase;line-height:1.05;}
+  .firstwk.big p{font-size:14px;opacity:.92;margin-top:4px;line-height:1.4;}
+  .firstwk.big .go{margin-left:auto;font-size:26px;font-weight:800;}
+  .firstwk.small{background:transparent;border:1px dashed var(--line);padding:10px 14px;color:var(--steel);font-size:14px;font-weight:700;}
+  .firstwk.small h2{font-size:14px;font-weight:700;color:var(--ink);}
+  .firstwk.small p{display:none;}
+  .firstwk.small .go{margin-left:auto;color:var(--cobalt);font-weight:800;}
 </style>
 <style>
   /* ---------- run section (Route Rail, restyled to brand) ---------- */
@@ -826,6 +845,10 @@ if (typeof window.storage === "undefined") {
       <button type="button" class="minibtn" id="remindDismiss">Not now</button>
     </div>
   </section>
+  <button type="button" class="firstwk big" id="firstWk">
+    <span><h2 id="firstWkH">Start your first workout</h2><p id="firstWkP">Full Body, no equipment: 6 simple moves like squats, push-ups and a plank. The app shows every move and logs your sets.</p></span>
+    <span class="go" aria-hidden="true">→</span>
+  </button>
   <div class="paths">
     <button class="path" data-nav="prebuilt" id="homeSaved" hidden>
       <span class="glyph"><svg width="34" height="34" viewBox="0 0 120 120"><use href="#f-curl"/></svg></span>
@@ -873,7 +896,7 @@ if (typeof window.storage === "undefined") {
     </div>
     <div class="datamsg" id="dataMsg" role="status" aria-live="polite"></div>
   </section>
-  <p class="buildtag">build v21.1 &middot; map: OpenStreetMap / Esri</p>
+  <p class="buildtag">build v22 &middot; map: OpenStreetMap / Esri</p>
 </div>
 
 <!-- ============ prebuilt ============ -->
@@ -1017,7 +1040,7 @@ if (typeof window.storage === "undefined") {
       <div class="rm-map" id="map"></div>
       <div class="rm-hint" id="hint">Tap the map to drop your first point</div>
       <div class="rm-status" id="status"></div>
-      <div class="rm-diag" id="diagLine" aria-hidden="true">v21.1 · opening…</div>
+      <div class="rm-diag" id="diagLine" aria-hidden="true">v22 · opening…</div>
     </div>
     <div class="rm-rail">
       <div class="rm-railhead"><span id="railLabel">Distance rail</span><span id="railTotal">0.00 mi</span></div>
@@ -1359,6 +1382,7 @@ function show(view){
     window.__bootRunMapper();
   }
   if(view==="home" && window.__poRefreshReminder) window.__poRefreshReminder();
+  if(view==="home" && window.__poPaintFirst) window.__poPaintFirst();   /* v22 */
   if(view==="hit" && window.__poHitShow) window.__poHitShow();   /* v17 */
   if(view==="run" && window.__rmResize) setTimeout(window.__rmResize, 80);
   window.scrollTo(0,0);
@@ -1416,6 +1440,11 @@ $("brandBtn").onclick = function(){ show("home"); };
     if(scroll && host.scrollIntoView) host.scrollIntoView({behavior:"smooth", block:"start"});
   }
   renderPrebuilt(false);
+  /* v22: open one prebuilt by id (used by the home "Start your first workout" button) */
+  window.__poOpenPrebuilt = function(id){
+    var w = null; PREBUILT.forEach(function(x){ if(x.id === id) w = x; }); if(!w) return false;
+    var L = WLEVEL[w.lvl]; openWorkout(L.label+" "+w.tag+"|"+w.title, w.list, false, { wid: "pb:" + w.id }); return true;
+  };
 })();
 
 /* ============ builder ============ */
@@ -1796,6 +1825,15 @@ function targetFor(hit, plan, k, u){
   if(plan.kind === "max") return "";
   return plan.lo !== null ? String(plan.lo) : "";
 }
+/* v22: home "Start your first workout": big when there is no history yet, a small link after that */
+window.__poFirstId = "bw-total";
+window.__poPaintFirst = function(){
+  var b = $("firstWk"); if(!b) return;
+  var none = !(HIST && HIST.sessions && HIST.sessions.length);
+  b.className = "firstwk " + (none ? "big" : "small");
+  $("firstWkH").textContent = none ? "Start your first workout" : "Beginner workout: Full Body, no equipment";
+  if(!b.__po){ b.__po = true; b.onclick = function(){ if(window.__poOpenPrebuilt) window.__poOpenPrebuilt(window.__poFirstId); }; }
+};
 window.__poResumeToday = function(){ /* hook for a future Home button; no UI in v16 */
   var today = localDate(Date.now());
   for(var k = HIST.sessions.length - 1; k >= 0; k--){ var s = HIST.sessions[k]; if(!s.legacy && s.date === today && !s.fin) return s; }
@@ -1967,8 +2005,30 @@ function paintHint(c){
 function paintLast(c){
   var line = c.card.querySelector(".lasttime");
   var t = formatLastTime(c.hit);
-  line.textContent = t; line.hidden = !t;
+  var lt = line.querySelector(".lt");
+  if(lt){ lt.textContent = t; line.setAttribute("aria-label", t + ". Tap to fill in these numbers."); } else line.textContent = t;
+  line.hidden = !t;
+  if(lt && !line.__poFill){ line.__poFill = true; line.addEventListener("click", function(){ fillFromLast(c); }); }
   paintHint(c);
+}
+/* v22: tap the Last time line = copy last time's weight and reps into today's boxes (sets are not ticked) */
+function fillFromLast(c){
+  var h = c.hit; if(!h || !h.e) return;
+  var e = h.e, n = 0;
+  if(c.wEl && c.u === "lbs"){
+    var wv = (e.wn != null && isFinite(e.wn)) ? fmtLb(e.wn) : String(e.w || "").trim();
+    if(wv){ c.wEl.value = wv; n++; }
+  }
+  if(!e.legacy && !(h.s && h.s.legacy) && e.sets){
+    c.cells.forEach(function(cell, k){
+      var p = e.sets[k]; if(!p || p.r === null || p.r === undefined || p.r === "" || cell.d) return;
+      cell.inp.value = String(p.r);
+      var rr = readReps(cell.inp, c.u);
+      cell.inp.classList.toggle("bad", !rr.ok);
+      if(rr.ok){ cell.r = rr.r; n++; }
+    });
+  }
+  if(n){ recordCard(c); try{ svToast("Filled in from last time."); }catch(x){} }
 }
 function refreshName(name){
   if(!CUR) return;
@@ -2021,6 +2081,7 @@ function adjustRep(c, cell, dir){
 function paintHist(c){
   var box = c.histEl; box.innerHTML = "";
   var rows = entriesFor(c.n, CUR.sess ? CUR.sess.id : null);
+  if(c.u === "lbs") box.appendChild(topChart(rows));
   if(!rows.length){ box.appendChild(el("p", "histempty", "No earlier entries for this exercise yet.")); return; }
   var shown = rows.slice(0, c.histLimit);
   var ul = el("ul", "histlist");
@@ -2042,6 +2103,39 @@ function paintHist(c){
     more.onclick = function(){ c.histLimit += 20; paintHist(c); };
     box.appendChild(more);
   }
+}
+/* v22: one plain line of the top weight per session (oldest left), inline SVG, no library */
+function topChart(rows){
+  var wrap = el("div", "tchart"), byDay = {}, pts = [];
+  rows.forEach(function(r){
+    var w = r.e && r.e.wn; if(w == null || !isFinite(w) || w <= 0) return;
+    var key = r.s.date || ("x" + (r.s.start || 0)), t = r.s.start || 0;
+    if(!byDay[key] || w > byDay[key].w) byDay[key] = { w: w, t: t, d: r.s.date || "" };
+  });
+  for(var k in byDay) pts.push(byDay[k]);
+  pts.sort(function(a, b){ return a.t - b.t; });
+  wrap.setAttribute("data-points", String(pts.length));
+  wrap.appendChild(el("h3", "", "Top weight"));
+  if(!pts.length){ wrap.appendChild(el("p", "tcnote", "Log a weight and your chart starts here.")); return wrap; }
+  if(pts.length === 1){ wrap.appendChild(el("p", "tcnote", fmtLb(pts[0].w) + " lb so far. Your line appears after your next session.")); }
+  var W = 320, H = 120, L = 40, R = 10, T = 10, B = 22;
+  var lo = pts[0].w, hi = lo; pts.forEach(function(p){ lo = Math.min(lo, p.w); hi = Math.max(hi, p.w); });
+  if(hi - lo < 5){ var mid = (hi + lo) / 2; lo = mid - 5; hi = mid + 5; }
+  lo = Math.max(0, lo);
+  var x = function(i){ return pts.length === 1 ? (L + (W - L - R) / 2) : L + i * (W - L - R) / (pts.length - 1); };
+  var y = function(w){ return T + (hi - w) * (H - T - B) / (hi - lo); };
+  var d = pts.map(function(p, i){ return (i ? "L" : "M") + x(i).toFixed(1) + " " + y(p.w).toFixed(1); }).join(" ");
+  var last = pts[pts.length - 1];
+  var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Top weight chart: ' + pts.length + ' sessions, from ' + fmtLb(pts[0].w) + ' to ' + fmtLb(last.w) + ' lb">' +
+    '<line x1="' + L + '" y1="' + (H - B) + '" x2="' + (W - R) + '" y2="' + (H - B) + '" stroke="#d5dae1" stroke-width="1"/>' +
+    '<text x="' + (L - 6) + '" y="' + (y(hi) + 4).toFixed(1) + '" text-anchor="end" font-size="11" fill="#6b7480">' + fmtLb(hi) + '</text>' +
+    '<text x="' + (L - 6) + '" y="' + (y(lo) + 4).toFixed(1) + '" text-anchor="end" font-size="11" fill="#6b7480">' + fmtLb(lo) + '</text>' +
+    (pts.length > 1 ? '<path class="tcline" d="' + d + '" fill="none" stroke="#2f5fe0" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>' : '') +
+    '<circle class="tcdot" cx="' + x(pts.length - 1).toFixed(1) + '" cy="' + y(last.w).toFixed(1) + '" r="4" fill="#2f5fe0"/>' +
+    '<text x="' + L + '" y="' + (H - 6) + '" font-size="11" fill="#6b7480">' + esc(pts.length > 1 && pts[0].d ? fmtDay(pts[0].d) : "") + '</text>' +
+    '<text x="' + (W - R) + '" y="' + (H - 6) + '" text-anchor="end" font-size="11" fill="#6b7480">' + esc(last.d ? fmtDay(last.d) : "") + ' \u00b7 ' + fmtLb(last.w) + ' lb</text></svg>';
+  wrap.insertAdjacentHTML("beforeend", svg);
+  return wrap;
 }
 function deleteEntry(c, s, e){
   var pos = s.ex.indexOf(e); if(pos < 0) return;
@@ -2136,7 +2230,7 @@ function openWorkout(title, names, editable, opts){
         '<div class="head-text"><div class="name">'+esc(ex.n)+'</div>'+schemeHtml+'</div>'+
         '<svg class="cardfig" viewBox="0 0 120 120" role="img" aria-label="'+esc(ex.n)+' diagram"><use href="#'+ex.f+'"/></svg>'+
       '</div>'+
-      '<p class="lasttime" hidden></p>'+
+      '<button type="button" class="lasttime lastfill" hidden aria-label="Fill in last time"><span class="lt"></span><span class="lfgo" aria-hidden="true">Use</span></button>'+
       '<p class="proghint" hidden></p>'+
       (missing ? '<p class="missnote">You removed this exercise from your library. It still works in this workout.</p>' : '')+
       '<div class="cue">'+esc(ex.cue)+'</div>'+
@@ -2584,7 +2678,7 @@ $("stopEdit").onclick = function(){
   function buildBackup(){
     var data = {};
     allKeys().forEach(function(k){ data[k] = lsGet(k); });
-    return { app: APP_ID, version: BACKUP_VERSION, build: "v21.1", exportedAt: new Date().toISOString(), data: data };
+    return { app: APP_ID, version: BACKUP_VERSION, build: "v22", exportedAt: new Date().toISOString(), data: data };
   }
   function downloadBlob(blob, name){
     var url = URL.createObjectURL(blob);
@@ -4720,7 +4814,7 @@ if("serviceWorker" in navigator && location.protocol.indexOf("http") === 0){
 }
 
 /* ============ boot ============ */
-try{ console.log("Progressive Overload build v21.1"); }catch(e){}
+try{ console.log("Progressive Overload build v22"); }catch(e){}
 storeGet("ft:custom", function(v){
   try{ CUSTOM = v ? JSON.parse(v) : []; }catch(e){ CUSTOM = []; }
   CUSTOM.forEach(function(x){ x.custom = true; if(idx(x.n)<0) LIB.push(x); });
@@ -4732,6 +4826,7 @@ storeGet("ft:custom", function(v){
     renderLibrary();
     show("home");
     hxBoot();   /* v17: HIT list + restore a timer that was running */
+    try{ window.__poPaintFirst(); }catch(e){}
   });
 });
 /* v16: a shared route link goes straight to Run (after every script has loaded) */
@@ -4858,7 +4953,7 @@ window.__poLoadLeaflet = function(){
       var lib = window.__leafletSrc || (typeof L !== "undefined" ? "ok" : "loading");
       var mEl = document.getElementById("map");
       var size = mEl ? (mEl.clientWidth + "x" + mEl.clientHeight) : "?";
-      d.textContent = "v21.1 · lib:" + lib + " · " + mapStyle + ":" + p.name + "/" + (lastRouter||"-") + " " + size + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (switched.length ? " · fell back from " + switched.join(",") : "") + (diagNote ? " · " + diagNote : "");
+      d.textContent = "v22 · lib:" + lib + " · " + mapStyle + ":" + p.name + "/" + (lastRouter||"-") + " " + size + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (switched.length ? " · fell back from " + switched.join(",") : "") + (diagNote ? " · " + diagNote : "");
     }
     function mountTiles(){
       if(tiles) map.removeLayer(tiles);   /* not .off(): Leaflet's attribution cleanup hangs on the layer's remove event */
@@ -5337,7 +5432,7 @@ window.__poLoadLeaflet = function(){
       tries++;
       if(tries > 120 || window.__leafletSrc === "none"){
         el.innerHTML = '<div style="padding:24px;font-family:monospace;font-size:12px;color:#7E96A8;line-height:1.7"><b style="color:#E8F0F5">The map library could not be downloaded from either CDN.</b><br>The rest of the site is unaffected. This is usually a connection issue or a content blocker on this device.<br>Try: a different network, disabling ad/content blockers for this site, then reload.</div>';
-        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v21.1 · lib:none (both CDNs failed)";
+        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v22 · lib:none (both CDNs failed)";
         return;
       }
       setTimeout(waitL, 150);
