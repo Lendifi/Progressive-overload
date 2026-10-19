@@ -262,6 +262,11 @@
   .firstwk.small h2{font-size:14px;font-weight:700;color:var(--ink);}
   .firstwk.small p{display:none;}
   .firstwk.small .go{margin-left:auto;color:var(--cobalt);font-weight:800;}
+  /* ---------- v23: after a set is ticked, point at the next set ---------- */
+  .exercise .scell, .exercise .wrow, #finishBtn{scroll-margin-top:72px;scroll-margin-bottom:96px;}
+  .repin.upnext, .weight.upnext{border-color:var(--cobalt);border-style:solid;box-shadow:0 0 0 3px rgba(47,95,224,.28);}
+  .set.upnext{box-shadow:0 0 0 3px rgba(47,95,224,.28);}
+  @media (prefers-reduced-motion:reduce){ .repin.upnext, .weight.upnext, .set.upnext{transition:none;} }
 </style>
 <style>
   /* ---------- run section (Route Rail, restyled to brand) ---------- */
@@ -896,7 +901,7 @@ if (typeof window.storage === "undefined") {
     </div>
     <div class="datamsg" id="dataMsg" role="status" aria-live="polite"></div>
   </section>
-  <p class="buildtag">build v22 &middot; map: OpenStreetMap / Esri</p>
+  <p class="buildtag">build v23 &middot; map: OpenStreetMap / Esri</p>
 </div>
 
 <!-- ============ prebuilt ============ -->
@@ -1040,7 +1045,7 @@ if (typeof window.storage === "undefined") {
       <div class="rm-map" id="map"></div>
       <div class="rm-hint" id="hint">Tap the map to drop your first point</div>
       <div class="rm-status" id="status"></div>
-      <div class="rm-diag" id="diagLine" aria-hidden="true">v22 · opening…</div>
+      <div class="rm-diag" id="diagLine" aria-hidden="true">v23 · opening…</div>
     </div>
     <div class="rm-rail">
       <div class="rm-railhead"><span id="railLabel">Distance rail</span><span id="railTotal">0.00 mi</span></div>
@@ -1376,6 +1381,7 @@ function show(view){
     b.classList.toggle("on", b.getAttribute("data-nav")===view);
   });
   $("buildbar").classList.toggle("on", view==="builder" && sel.length>0);
+  if(view!=="workout" && window.__poLiftLeave) window.__poLiftLeave();   /* v23 */
   if(view==="run" && !mapBooted && window.__bootRunMapper){
     mapBooted = true;
     if(window.__poLoadLeaflet) window.__poLoadLeaflet();   /* v16: map library loads on first Run only */
@@ -1869,6 +1875,7 @@ function ensureSession(){
   CUR.sess = { id: "s_" + now.toString(36) + "_" + hRand(), date: localDate(now), start: now, upd: now, fin: null, wid: CUR.wid, title: CUR.title, ex: [] };
   HIST.sessions.push(CUR.sess);
   delete histDeleted[CUR.sess.id];
+  liftWakeStart();   /* v23: the session has started, keep the screen on */
   return CUR.sess;
 }
 function readReps(inp, u){
@@ -1911,18 +1918,75 @@ function paintCell(cell){
   cell.btn.setAttribute("aria-pressed", cell.d ? "true" : "false");
   cell.btn.setAttribute("aria-label", cell.label + (cell.d ? ", done" : ", not done"));
 }
-function focusNext(c, k){
-  var cards = CUR.cards;
-  if(k + 1 < c.cells.length){ c.cells[k+1].inp.focus(); return; }
+/* ----- v23: after a set is ticked, move to the next set that is not done yet ----- */
+function liftReduced(){ try{ return window.matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(e){ return false; } }
+function liftTextFocus(el){ return !!(el && el.tagName && (el.tagName === "TEXTAREA" || (el.tagName === "INPUT" && /^(text|search|number|tel|)$/i.test(el.type || "")))); }
+/* where to go after set k of card c: the next set in this card that is not done, else the next exercise, else Finish */
+function nextTarget(c, k){
+  var cards = CUR ? CUR.cards : [];
+  for(var i = k + 1; i < c.cells.length; i++) if(!c.cells[i].d) return { c: c, cell: c.cells[i], inp: c.cells[i].inp, btn: c.cells[i].btn, box: c.cells[i].inp.parentNode };
   var at = cards.indexOf(c);
   for(var j = at + 1; j < cards.length; j++){
-    var n = cards[j];
-    if(n.wEl){ n.wEl.focus(); return; }
-    if(n.cells.length){ n.cells[0].inp.focus(); return; }
+    var n = cards[j], open = null;
+    for(var q = 0; q < n.cells.length; q++) if(!n.cells[q].d){ open = n.cells[q]; break; }
+    if(!open) continue;
+    if(n.wEl) return { c: n, cell: open, inp: n.wEl, btn: open.btn, box: n.wEl.parentNode, card: true };
+    return { c: n, cell: open, inp: open.inp, btn: open.btn, box: open.inp.parentNode, card: true };
   }
-  var fin = $("finishBtn"); if(fin) fin.focus();
+  var fin = $("finishBtn");
+  return fin ? { fin: fin, btn: fin, box: fin } : null;
 }
-function tickCell(c, cell, forceOn){
+function liftScrollTo(el){
+  if(!el || !el.getBoundingClientRect) return;
+  var r = el.getBoundingClientRect(), top = 64, bot = (window.innerHeight || document.documentElement.clientHeight) - 90;
+  if(r.top >= top && r.bottom <= bot) return;           /* already in view: do not jiggle the page */
+  try{ el.scrollIntoView({ block: "center", behavior: liftReduced() ? "auto" : "smooth" }); }catch(e){ try{ el.scrollIntoView(); }catch(e2){} }
+}
+var liftMarked = null;
+function liftMark(el){
+  if(liftMarked && liftMarked !== el) liftMarked.classList.remove("upnext");
+  liftMarked = el || null;
+  if(el) el.classList.add("upnext");
+}
+/* typing = the keyboard was already up (Enter key, or the tap came straight from a number box):
+   then the next box gets focus so the keyboard stays. Otherwise focus goes to the next Done button,
+   which never opens the iPhone keyboard. */
+function advanceAfterTick(c, k, typing){
+  var t = nextTarget(c, k); if(!t) return;
+  liftMark(t.fin ? null : t.inp);
+  liftScrollTo(t.box);
+  var f = (typing && t.inp) ? t.inp : t.btn;
+  try{ f.focus({ preventScroll: true }); }catch(e){ try{ f.focus(); }catch(e2){} }
+  if(window.__poLiftLog) window.__poLiftLog.push({ from: c.n + "#" + (k + 1), to: t.fin ? "finish" : (t.c.n + (t.card ? ":card" : "#" + (t.c.cells.indexOf(t.cell) + 1))), focus: f === t.inp ? "input" : "button" });
+}
+function focusNext(c, k){ advanceAfterTick(c, k, true); }
+
+/* ----- v23: keep the screen on while lifting (same approach as the HIT timers) ----- */
+var liftWL = null, liftWant = false, liftAsking = false;
+function liftWakeOn(){
+  try{
+    if(!liftWant || liftWL || liftAsking || !navigator.wakeLock || document.visibilityState !== "visible") return;
+    liftAsking = true;   /* one request at a time, so a lock can never be left behind */
+    navigator.wakeLock.request("screen").then(function(s){
+      liftAsking = false;
+      if(!liftWant || liftWL){ try{ s.release().catch(function(){}); }catch(e){} return; }
+      liftWL = s;
+      try{ s.addEventListener("release", function(){ if(liftWL === s) liftWL = null; }); }catch(e){}
+    }).catch(function(){ liftAsking = false; });
+  }catch(e){ liftAsking = false; }
+}
+function liftWakeOff(){ liftWant = false; try{ if(liftWL) liftWL.release().catch(function(){}); }catch(e){} liftWL = null; }
+function liftWakeStart(){ liftWant = true; liftWakeOn(); }
+window.__poLiftLeave = function(){ liftWakeOff(); liftMark(null); };
+window.__poLiftWake = function(){ return { want: liftWant, held: !!liftWL }; };   /* read-only, for the regression suite */
+document.addEventListener("visibilitychange", function(){
+  if(document.visibilityState !== "visible"){ liftWL = null; return; }   /* the browser drops the lock when hidden */
+  if(liftWant && $("view-workout").classList.contains("on")) liftWakeOn();
+});
+window.addEventListener("pagehide", function(){ if(liftWL){ try{ liftWL.release().catch(function(){}); }catch(e){} liftWL = null; } });
+
+function tickCell(c, cell, forceOn, typing){
+  var was = cell.d;
   if(cell.d && !forceOn){ cell.d = false; }
   else {
     if(!cell.inp.value.trim() && cell.inp.placeholder && readReps({ value: cell.inp.placeholder }, c.u).ok && /\d/.test(cell.inp.placeholder)){
@@ -1934,6 +1998,8 @@ function tickCell(c, cell, forceOn){
   }
   paintCell(cell);
   recordCard(c);
+  if(cell.d){ liftWakeStart(); if(liftMarked === cell.inp) liftMark(null); }
+  if(cell.d && !was && !forceOn) advanceAfterTick(c, c.cells.indexOf(cell), !!typing);   /* v23 */
 }
 function buildGrid(c, keep){
   var plan = parseScheme(c.scheme), old = keep ? c.cells : [];
@@ -1981,7 +2047,10 @@ function buildGrid(c, keep){
       cell.inp.addEventListener("keydown", function(e){
         if(e.key === "Enter"){ e.preventDefault(); if(!cell.d) tickCell(c, cell, true); focusNext(c, k); }
       });
-      cell.btn.addEventListener("click", function(){ tickCell(c, cell, false); });
+      /* v23: remember whether the keyboard was up when the Done tap started */
+      var typed = false;
+      cell.btn.addEventListener("pointerdown", function(){ typed = liftTextFocus(document.activeElement) && !!document.activeElement.closest && !!document.activeElement.closest("#sheet"); });
+      cell.btn.addEventListener("click", function(){ var t = typed; typed = false; tickCell(c, cell, false, t); });
       if(cell.rm){
         cell.rm.addEventListener("click", function(){ adjustRep(c, cell, -1); });
         cell.rp.addEventListener("click", function(){ adjustRep(c, cell, 1); });
@@ -2175,6 +2244,7 @@ function openWorkout(title, names, editable, opts){
   var parts = opts.saved ? [(opts.fromBuilder ? "Editing" : "My workout"), opts.saved.name] : title.split("|");
   var wid = opts.wid || (opts.saved && !opts.fromBuilder ? "sv:" + opts.saved.id : "b:" + names.join("|"));
   CUR = { wid: wid, title: parts[1] ? parts[0] + " / " + parts[1] : parts[0], sess: findResume(wid), cards: [] };
+  liftWakeOff(); liftMark(null);   /* v23 */
   var h = el("div","sheethead");
   h.innerHTML = '<p class="eyebrow" style="color:#9aa4b2;margin-bottom:6px">'+esc(parts[0])+' · '+names.length+' exercises · Rest 60–90s</p>'+
     '<h2><span>'+esc(parts[1]||parts[0])+'</span></h2>'+
@@ -2319,8 +2389,10 @@ function openWorkout(title, names, editable, opts){
   host.appendChild(foot);
   $("finishBtn").onclick = finishWorkout;
   show("workout");
+  if(CUR.sess) liftWakeStart();   /* v23: picked up today's session */
 }
 function finishWorkout(){
+  liftWakeOff(); liftMark(null);   /* v23 */
   var s = CUR && CUR.sess;
   if(s){
     s.fin = Date.now(); s.upd = s.fin;
@@ -2335,7 +2407,7 @@ function finishWorkout(){
   }
   show(lastView);
 }
-$("wkBack").onclick = function(){ histFlush(); show(lastView); };
+$("wkBack").onclick = function(){ histFlush(); liftWakeOff(); show(lastView); };
 
 /* ============ v15: saved workouts (ft:saved) ============ */
 var SV_KEY = "ft:saved", SV_VERSION = 1, SV_MAXNAME = 40;
@@ -2678,7 +2750,7 @@ $("stopEdit").onclick = function(){
   function buildBackup(){
     var data = {};
     allKeys().forEach(function(k){ data[k] = lsGet(k); });
-    return { app: APP_ID, version: BACKUP_VERSION, build: "v22", exportedAt: new Date().toISOString(), data: data };
+    return { app: APP_ID, version: BACKUP_VERSION, build: "v23", exportedAt: new Date().toISOString(), data: data };
   }
   function downloadBlob(blob, name){
     var url = URL.createObjectURL(blob);
@@ -4814,7 +4886,7 @@ if("serviceWorker" in navigator && location.protocol.indexOf("http") === 0){
 }
 
 /* ============ boot ============ */
-try{ console.log("Progressive Overload build v22"); }catch(e){}
+try{ console.log("Progressive Overload build v23"); }catch(e){}
 storeGet("ft:custom", function(v){
   try{ CUSTOM = v ? JSON.parse(v) : []; }catch(e){ CUSTOM = []; }
   CUSTOM.forEach(function(x){ x.custom = true; if(idx(x.n)<0) LIB.push(x); });
@@ -4953,7 +5025,7 @@ window.__poLoadLeaflet = function(){
       var lib = window.__leafletSrc || (typeof L !== "undefined" ? "ok" : "loading");
       var mEl = document.getElementById("map");
       var size = mEl ? (mEl.clientWidth + "x" + mEl.clientHeight) : "?";
-      d.textContent = "v22 · lib:" + lib + " · " + mapStyle + ":" + p.name + "/" + (lastRouter||"-") + " " + size + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (switched.length ? " · fell back from " + switched.join(",") : "") + (diagNote ? " · " + diagNote : "");
+      d.textContent = "v23 · lib:" + lib + " · " + mapStyle + ":" + p.name + "/" + (lastRouter||"-") + " " + size + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (switched.length ? " · fell back from " + switched.join(",") : "") + (diagNote ? " · " + diagNote : "");
     }
     function mountTiles(){
       if(tiles) map.removeLayer(tiles);   /* not .off(): Leaflet's attribution cleanup hangs on the layer's remove event */
@@ -5432,7 +5504,7 @@ window.__poLoadLeaflet = function(){
       tries++;
       if(tries > 120 || window.__leafletSrc === "none"){
         el.innerHTML = '<div style="padding:24px;font-family:monospace;font-size:12px;color:#7E96A8;line-height:1.7"><b style="color:#E8F0F5">The map library could not be downloaded from either CDN.</b><br>The rest of the site is unaffected. This is usually a connection issue or a content blocker on this device.<br>Try: a different network, disabling ad/content blockers for this site, then reload.</div>';
-        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v22 · lib:none (both CDNs failed)";
+        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v23 · lib:none (both CDNs failed)";
         return;
       }
       setTimeout(waitL, 150);
