@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Progressive Overload Tracker | Free Gym Log</title>
-<meta name="description" content="Free workout tracker for your phone. Pick a prebuilt workout or build your own from 172 exercises, log weights, beat them next time, map runs. No account.">
+<meta name="description" content="Free workout tracker for your phone. Pick a prebuilt workout or build your own from 182 exercises, log weights, beat them next time, map runs. No account.">
 <link rel="canonical" href="https://progressiveoverloadtracker.app/">
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Progressive Overload">
 <meta property="og:title" content="Progressive Overload Tracker | Free Workout Log and Run Mapper">
-<meta property="og:description" content="Pick a prebuilt workout or build your own from 172 exercises, log your weights, and beat them next time. Free, no account, works on your phone.">
+<meta property="og:description" content="Pick a prebuilt workout or build your own from 182 exercises, log your weights, and beat them next time. Free, no account, works on your phone.">
 <meta property="og:url" content="https://progressiveoverloadtracker.app/">
 <meta property="og:image" content="https://progressiveoverloadtracker.app/icon-512.png">
 <meta property="og:image:width" content="512">
@@ -18,7 +18,7 @@
 <meta property="og:image:alt" content="Progressive Overload app icon">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Progressive Overload Tracker | Free Workout Log and Run Mapper">
-<meta name="twitter:description" content="Pick a prebuilt workout or build your own from 172 exercises, log your weights, and beat them next time. Free, no account.">
+<meta name="twitter:description" content="Pick a prebuilt workout or build your own from 182 exercises, log your weights, and beat them next time. Free, no account.">
 <meta name="twitter:image" content="https://progressiveoverloadtracker.app/icon-512.png">
 <meta name="theme-color" content="#14181f">
 <link rel="manifest" href="./manifest.webmanifest">
@@ -534,6 +534,7 @@
   .remind span{display:block;font-size:13.5px;color:#5c4a1e;line-height:1.45;margin-top:4px;}
   .remindbtns{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
   .remindbtns .minibtn{flex:1 1 130px;}
+  .hitpart{list-style:none;font-weight:800;font-size:15px;line-height:1.4;margin:16px 0 6px;color:var(--ink);}   /* v26 */
 
   /* ---------- v17: HIT workouts + EMOM timer ---------- */
   .nav button{min-height:44px;margin:-5px 0;}
@@ -719,7 +720,7 @@
   "applicationCategory": "HealthApplication",
   "operatingSystem": "Any",
   "browserRequirements": "Requires JavaScript. Works in modern mobile and desktop browsers.",
-  "description": "Free workout tracker for your phone. Pick a prebuilt workout or build your own from 172 exercises, log weights, beat them next time, and map your runs. No account needed.",
+  "description": "Free workout tracker for your phone. Pick a prebuilt workout or build your own from 182 exercises, log weights, beat them next time, and map your runs. No account needed.",
   "offers": {
     "@type": "Offer",
     "price": "0",
@@ -907,7 +908,7 @@ if (typeof window.storage === "undefined") {
     </div>
     <div class="datamsg" id="dataMsg" role="status" aria-live="polite"></div>
   </section>
-  <p class="buildtag">build v25 &middot; map: OpenStreetMap / Esri</p>
+  <p class="buildtag">build v26 &middot; map: OpenStreetMap / Esri</p>
 </div>
 
 <!-- ============ prebuilt ============ -->
@@ -943,7 +944,7 @@ if (typeof window.storage === "undefined") {
   </div>
   <div class="pagehead"><h2>Build a Workout</h2><p>Tap the exercises you want. 5–8 is a solid session; more than that and you're sightseeing, not training.</p></div>
   <div class="searchwrap">
-    <input id="exSearch" type="search" placeholder="Search 172 exercises - squat, curl, cable…" aria-label="Search exercises" autocomplete="off">
+    <input id="exSearch" type="search" placeholder="Search 182 exercises - squat, curl, cable…" aria-label="Search exercises" autocomplete="off">
     <button id="exSearchX" aria-label="Clear search">✕</button>
   </div>
   <p class="eqlabel">What equipment do you have?</p>
@@ -1051,7 +1052,7 @@ if (typeof window.storage === "undefined") {
       <div class="rm-map" id="map"></div>
       <div class="rm-hint" id="hint">Tap the map to drop your first point</div>
       <div class="rm-status" id="status"></div>
-      <div class="rm-diag" id="diagLine" aria-hidden="true">v25 · opening…</div>
+      <div class="rm-diag" id="diagLine" aria-hidden="true">v26 · opening…</div>
     </div>
     <div class="rm-rail">
       <div class="rm-railhead"><span id="railLabel">Distance rail</span><span id="railTotal">0.00 mi</span></div>
@@ -1222,6 +1223,17 @@ var GYM = [
  {n:"Box Jump",c:"Conditioning",e:"gym",f:"f-stepup",s:"3 × 5–8",u:"reps",cue:"Jump onto the box, land soft and quiet, STEP down. Jumping down is how ankles get hurt."},
  {n:"GHD Sit-Up",c:"Core & Carries",e:"gym",f:"f-situp",s:"3 × 8–12",u:"reps",cue:"On the GHD, controlled range only - this one bites beginners who go too deep too soon."},
  {n:"Landmine Rotation",c:"Core & Carries",e:"gym",f:"f-twist",s:"3 × 8–10 / side",u:"lbs",cue:"Hold the bar end at arm's length, sweep it side to side in an arc, hips driving."},
+/* v26: landmine power + abs (barbell anchored in a landmine or a corner, a plate on the sleeve). Full gym. a = canvas demo. */
+ {n:"Landmine 180 Jump Switch",c:"Conditioning",e:"gym",f:"f-squat",a:"mine180",s:"3 × 5 / side",u:"lbs",cue:"Light load, move fast. Hold the bar end at your chest with one hand. Dip, jump and turn 180 degrees, and switch hands as you land. Land soft."},
+ {n:"Landmine Goblet Jump Squat",c:"Conditioning",e:"gym",f:"f-squat",a:"minejumpsquat",s:"3 × 5–6",u:"lbs",cue:"Light load, move fast. Both hands on the bar end at your chest. Squat, then jump as high as you can. Land soft and reset each rep."},
+ {n:"Landmine Alternating Jumping Lunge",c:"Conditioning",e:"gym",f:"f-lunge",a:"minejumplunge",s:"3 × 5 / side",u:"lbs",cue:"Light load, move fast. One hand on the bar end at your chest, in a lunge. Jump, switch legs and hands in the air, and land in a lunge on the other side."},
+ {n:"Landmine Rotational Swing",c:"Conditioning",e:"gym",f:"f-twist",a:"mineswing",s:"3 × 5 / side",u:"lbs",cue:"Light load, move fast. Both hands on the bar end by one hip. Pivot your feet and swing the bar across your body up high on the other side. Drive it with your hips."},
+ {n:"Landmine Single-Arm Jumping Thruster",c:"Conditioning",e:"gym",f:"f-thruster",a:"minethruster",s:"3 × 5 / side",u:"lbs",cue:"Light load, move fast. Bar end at one shoulder. Squat, then jump and press the bar overhead in one move. Do all your reps, then switch sides."},
+ {n:"Landmine Skater Jump",c:"Conditioning",e:"gym",f:"f-lunge",a:"mineskater",s:"3 × 5 / side",u:"lbs",cue:"Light load, move fast. Both hands on the bar end at your chest. Bound to one side and land on one leg, then bound back to the other. Stick each landing."},
+ {n:"Landmine Sit-Up",c:"Core & Carries",e:"gym",f:"f-situp",a:"minesitup",s:"3 × 10–12",u:"lbs",cue:"Lie on your back, knees bent, the loaded end of the bar held at your chest with both hands. Do a full sit-up, keep the bar tight to your chest, then lower slowly."},
+ {n:"Single-Arm Landmine Rollout",c:"Core & Carries",e:"gym",f:"f-plank",a:"minerollout",s:"3 × 6–8 / arm",u:"lbs",cue:"High plank, one hand on the floor and the other on the bar sleeve, the plate on the floor. Roll the plate forward as far as you can control, then pull it back. Hips stay level."},
+ {n:"Plank Lateral Landmine Roll",c:"Core & Carries",e:"gym",f:"f-plank",a:"minelateral",s:"3 × 8–10 / side",u:"lbs",cue:"High plank. Reach under your body with one hand, take the bar sleeve and roll the plate side to side under your chest. Keep your hips square to the floor."},
+ {n:"Landmine Russian Twist",c:"Core & Carries",e:"gym",f:"f-twist",a:"minetwist",s:"3 × 16–20 total",u:"lbs",cue:"Sit in a V, feet up, both hands on the end of the bar. Turn your chest and take the bar to one hip, then the other. Move from your ribs, not just your arms."},
  {n:"Med Ball Slam",c:"Conditioning",e:"gym",f:"f-thruster",s:"3 × 10–15",u:"reps",cue:"Ball overhead, slam it through the floor with your whole body. Great angry-day exercise."},
  {n:"Battle Ropes",c:"Conditioning",e:"gym",f:"f-cablecol",s:"3 × 20–30s",u:"sec",cue:"Alternating waves, athletic stance, hips low. All-out for the interval, rest, repeat."},
  {n:"Sled Push",c:"Conditioning",e:"gym",f:"f-sled",s:"3 × 20–30 yd",u:"lbs",cue:"Low lean, arms locked on the posts, drive with your legs. No eccentric = little soreness, big work."},
@@ -2808,7 +2820,7 @@ $("stopEdit").onclick = function(){
   function buildBackup(){
     var data = {};
     allKeys().forEach(function(k){ data[k] = lsGet(k); });
-    return { app: APP_ID, version: BACKUP_VERSION, build: "v25", exportedAt: new Date().toISOString(), data: data };
+    return { app: APP_ID, version: BACKUP_VERSION, build: "v26", exportedAt: new Date().toISOString(), data: data };
   }
   function downloadBlob(blob, name){
     var url = URL.createObjectURL(blob);
@@ -2975,6 +2987,9 @@ var PoAnim = (function(){
   /* v20: 45 lb plate prop. pt = plate tilt: the direction (same angle rule as the limbs) of the plate face line
      that runs across the hands. 90 = plate flat like a table, 180 = plate standing up, face to the front. */
   var PL = { r: 22, t: 5 };
+  var MINE_R = 14;   /* v26: landmine plate radius (a 25 lb bumper-size plate on the sleeve) */
+  var MSTAND = { t: 180, h: 180, th: 2, sh: -2, ft: 90, lab: 10 }, MSQUAT = { t: 150, h: 170, th: 100, sh: -34, ft: 90, lab: 12 };
+  var MAIR = { t: 178, h: 180, th: 6, sh: -6, ft: 40, lab: 8 };   /* v26: landmine power poses */
 
   /* ---------- pose tables ---------- */
   var STAND = { t: 180, ua: 4, fa: 7 };
@@ -3127,7 +3142,19 @@ var PoAnim = (function(){
     lungetwist: { dur: 4.4, still: 2, keys: lungeChopKeys(false) },
     kbhalo: { dur: 3.0, still: 0, eq: "db1", bellDir: 1, keys: haloKeys() },
     kbwoodchop: { dur: 2.6, still: 0, eq: "db1", keys: woodChopKeys(true) },
-    bwwoodchop: { dur: 2.4, still: 0, keys: woodChopKeys(false) }
+    bwwoodchop: { dur: 2.4, still: 0, keys: woodChopKeys(false) },
+    /* ----- v26: landmine abs (eq "mine": bar from a floor anchor to the hands, a plate on the sleeve) ----- */
+    minesitup: { dur: 3.0, still: 2, eq: "mine", mineAt: [150, 3, 0], keys: mineSitupKeys() },
+    minerollout: { dur: 3.4, still: 0, eq: "mine", mineAt: [70, 3, -175], mineHand: "F", keys: mineRolloutKeys() },
+    minelateral: { dur: 3.2, still: 0, eq: "mine", mineAt: [175, 3, 0], mineHand: "F", keys: mineLateralKeys() },
+    minetwist: { dur: 2.8, still: 1, eq: "mine", mineAt: [160, 3, 0], keys: mineTwistKeys() },
+    /* v26: landmine power moves (standing, the anchor out in front) */
+    mine180: { dur: 3.2, still: 0, eq: "mine", mineAt: [150, 3, 0], keys: mine180Keys() },
+    minejumpsquat: { dur: 2.2, still: 0, eq: "mine", mineAt: [150, 3, 0], keys: mineJumpSquatKeys() },
+    minejumplunge: { dur: 2.8, still: 0, eq: "mine", mineAt: [150, 3, 0], keys: mineJumpLungeKeys() },
+    mineswing: { dur: 3.8, still: 0, eq: "mine", mineAt: [150, 3, 0], keys: mineSwingKeys() },
+    minethruster: { dur: 3.2, still: 0, eq: "mine", mineAt: [150, 3, 0], mineHand: "N", keys: mineThrusterKeys() },
+    mineskater: { dur: 2.8, still: 0, eq: "mine", mineAt: [150, 3, 0], keys: mineSkaterKeys() }
   };
   /* Plate snatch: plate flat on the floor between wide feet, sumo squat, straight arms to the edges.
      Drive with the legs, the plate rises close to the body and turns, punch it overhead, stand tall, then lower. */
@@ -3345,6 +3372,88 @@ var PoAnim = (function(){
     var mid = hands(base(0), [-8, 26, 0], 4), tn = hands(base(42), [6, lowY, 26], 4), tf = hands(base(-42), [6, lowY, -26], 4);
     return [ KC5(0, mid), KC5(0.2, tn), KC5(0.3, tn), KC5(0.5, mid), KC5(0.7, tf), KC5(0.8, tf) ];
   }
+  /* ----- v26: landmine abs. The bar end rides in the hands; the plate (r 14) sits just inboard of them. ----- */
+  /* Landmine sit-up: on the back, knees bent, feet flat, the bar end held at the chest. Full sit-up and back down. */
+  function mineSitupKeys(){
+    function at(t){
+      var o = { t: t, h: t - 2, th: 136, sh: 42, ft: 90, lab: 6, pin: { j: "P", x: 0, y: 11 }, ik: { l: [46, TOE_Y, 1] } };
+      var a = d2(t), f = d2(t - 90);
+      return hands(o, [a[0] * 34 + f[0] * 14, a[1] * 34 + f[1] * 14, 0], 4, 1);
+    }
+    var down = at(262), up = at(196);
+    return [ KC5(0, down), KC5(0.1, down), KC5(0.26, at(236)), KC5(0.42, up), KC5(0.52, up), KC5(0.7, at(232)), KC5(0.88, down) ];
+  }
+  /* Single-arm rollout: high plank, near hand on the floor, far hand on the sleeve rolls the plate forward and back. */
+  function mineRolloutKeys(){
+    function at(x, py){ return mix(PLANK_TOP, { pin: { j: "P", x: 0, y: py }, ik: { aN: [43, 5], aF: [x, MINE_R + 5], l: [-83, TOE_Y, 1] } }); }
+    var home = at(46, 45), out = at(80, 40);
+    return [ KC5(0, home), KC5(0.1, home), KC5(0.45, out), KC5(0.55, out), KC5(0.9, home) ];
+  }
+  /* Plank lateral roll: high plank, far hand reaches under the chest and rolls the sleeve side to side. */
+  function mineLateralKeys(){
+    function plank(){ return mix(PLANK_TOP, { pin: { j: "P", x: 0, y: 45 }, ik: { aN: [43, 5], l: [-83, TOE_Y, 1] } }); }
+    function roll(z){ return armTo(plank(), "F", [36, MINE_R + 10 - 45, z], -1); }
+    var nr = roll(20), fr = roll(-30);
+    return [ KC5(0, fr), KC5(0.1, fr), KC5(0.42, nr), KC5(0.58, nr), KC5(0.9, fr) ];
+  }
+  /* Landmine Russian twist: V-sit, feet up, both hands on the bar end, turn it to one hip then the other. */
+  function mineTwistKeys(){
+    function base(ty){ return { t: 216, h: 202, th: 122, sh: 70, ft: 125, lab: 6, ty: ty, pin: { j: "P", x: 0, y: 11 } }; }
+    var mid = hands(base(0), [30, 36, 0], 4), tn = hands(base(38), [18, 22, 30], 4), tf = hands(base(-38), [18, 22, -30], 4);
+    return [ KC5(0, mid), KC5(0.08, mid), KC5(0.28, tn), KC5(0.36, tn), KC5(0.58, mid), KC5(0.78, tf), KC5(0.86, tf) ];
+  }
+  /* ----- v26: landmine power. Feet pinned at the toes on landings; air keys lift the pin. ----- */
+  function chestT(t, k){ var a = d2(t), f = d2(t - 90); return [a[0] * 36 + f[0] * (k || 16), a[1] * 36 + f[1] * (k || 16), 0]; }
+  function onFloor(o){ return mix(o, { pin: { j: "TN", x: 0 } }); }
+  function inAir(o, y){ return mix(o, { pin: { j: "TN", x: 0, y: y } }); }
+  function chest(o, gap){ return hands(o, chestT(o.t, 16), gap || 4, -1, true); }
+  function mineJumpSquatKeys(){
+    var st = chest(onFloor(MSTAND)), sq = chest(onFloor(MSQUAT)), air = chest(inAir(MAIR, 18));
+    return [ KC5(0, st), KC5(0.08, st), KC5(0.34, sq), KC5(0.42, sq), KC5(0.56, st), KC5(0.68, air), KC5(0.82, st) ];
+  }
+  function mine180Keys(){
+    function turn(o, ty){ o = mix(o, { ty: ty, ly: ty }); return chest(o, 3); }
+    var sq1 = turn(onFloor(MSQUAT), 60), sq2 = turn(onFloor(MSQUAT), -60);
+    var a1 = turn(inAir(MAIR, 16), 0), st1 = turn(onFloor(MSTAND), 60), st2 = turn(onFloor(MSTAND), -60);
+    return [ KC5(0, st1), KC5(0.12, sq1), KC5(0.26, a1), KC5(0.4, sq2), KC5(0.5, st2), KC5(0.62, sq2), KC5(0.76, a1), KC5(0.9, sq1) ];
+  }
+  function mineJumpLungeKeys(){
+    function lunge(front, back){
+      var o = { t: 172, h: 176, lab: 6, pin: { j: "P", x: 0, y: 56 } }, ik = {};
+      o["th" + front] = 84; o["sh" + front] = -6; o["ft" + front] = 90; o["ft" + back] = 36; o["th" + back] = -30; o["sh" + back] = -100;
+      ik["l" + front] = [32, TOE_Y, 1]; ik["l" + back] = [-42, TOE_Y, 1]; o.ik = ik;
+      return chest(o, 3);
+    }
+    var air = chest({ t: 176, h: 178, th: 20, sh: -30, ft: 50, lab: 8, pin: { j: "P", x: 0, y: 100 } }, 3);
+    var ln = lunge("N", "F"), lf = lunge("F", "N");
+    return [ KC5(0, ln), KC5(0.12, ln), KC5(0.3, air), KC5(0.48, lf), KC5(0.62, lf), KC5(0.8, air) ];
+  }
+  function mineSwingKeys(){
+    function pos(ty, T){ var o = { t: 176, h: 178, th: 8, sh: -14, ft: 90, lab: 16, ty: ty, pin: { j: "P", x: 0, y: 90 } }; return hands(o, T, 3, -1); }
+    var lowN = pos(40, [14, -6, 24]), highF = pos(-40, [26, 58, -26]), lowF = pos(-40, [14, -6, -24]), highN = pos(40, [26, 58, 26]);
+    return [ KC5(0, lowN), KC5(0.08, lowN), KC5(0.32, highF), KC5(0.42, highF), KC5(0.58, lowF), KC5(0.66, lowF), KC5(0.82, highN), KC5(0.92, highN) ];
+  }
+  function mineThrusterKeys(){
+    function sh(o){ o = armTo(o, "N", [chestT(o.t, 10)[0], chestT(o.t, 10)[1] + 10, 12], -1, true); return armTo(o, "F", [6, -8, -18], 1, true); }
+    function up(o){ o = armTo(o, "N", [22, 92, 10], -1, true); return armTo(o, "F", [6, -8, -18], 1, true); }
+    var st = sh(onFloor(MSTAND)), sq = sh(onFloor(MSQUAT)), air = up(inAir(MAIR, 16)), lnd = up(onFloor(MSTAND));
+    return [ KC5(0, st), KC5(0.08, st), KC5(0.32, sq), KC5(0.4, sq), KC5(0.56, air), KC5(0.7, lnd), KC5(0.78, lnd) ];
+  }
+  function mineSkaterKeys(){
+    function land(s, x){ var o = s === "N" ? { thN: 70, shN: -30, ftN: 90, thF: 4, shF: -100, ftF: 20 } : { thF: 70, shF: -30, ftF: 90, thN: 4, shN: -100, ftN: 20 };
+      o = mix(o, { t: 150, h: 168, lab: 4, ty: 90, ly: 90, pin: { j: "T" + s, x: x } }); return chest(o, 4); }
+    function air(){ return chest({ t: 168, h: 176, th: 30, sh: -40, ft: 50, lab: 10, ty: 90, ly: 90, pin: { j: "P", x: 0, y: 92 } }, 4); }
+    var a = land("N", -34), b = land("F", 34), m = air();
+    return [ KC5(0, a), KC5(0.14, a), KC5(0.32, m), KC5(0.5, b), KC5(0.64, b), KC5(0.82, m) ];
+  }
+  function mineAt(P){
+    var J = P.J, m = P.m, S = m.mineHand ? J["G" + m.mineHand].slice(0, 3) : lerp3(J.GN, J.GF, 0.5), A = m.mineAt;
+    var u = [S[0] - A[0], S[1] - A[1], S[2] - A[2]], n = Math.sqrt(u[0] * u[0] + u[1] * u[1] + u[2] * u[2]) || 1;
+    u = [u[0] / n, u[1] / n, u[2] / n];
+    return { A: A, S: S, u: u, E: add(S, u, 9), C: add(S, u, -7) };
+  }
+  function cross3(a, b){ return [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]]; }
+  function norm3(a){ var n = Math.sqrt(a[0] * a[0] + a[1] * a[1] + a[2] * a[2]) || 1; return [a[0] / n, a[1] / n, a[2] / n]; }
   /* Tridents: balanced on the glutes, legs cycling, the bell passes under the bent thigh in a figure 8. */
   function tridentKeys(){
     function seat(o){ return mix({ t: 206, h: 194, lab: 6, pin: { j: "P", x: 0, y: 11 } }, o); }
@@ -3742,6 +3851,27 @@ var PoAnim = (function(){
         capsule(g, [bb[0], bb[1] + 3 * V.s], [bb[0], bb[1] - 3 * V.s], 7, 7, PAL.db, V, 1);
         capsule(g, [bt[0], bt[1] + 3 * V.s], [bt[0], bt[1] - 3 * V.s], 7.5, 7.5, PAL.db, V, 1.05);
       });
+    } else if(eq === "mine"){
+      var MN = mineAt(P), ax = norm3(cross3(MN.u, Math.abs(MN.u[1]) > 0.9 ? [1, 0, 0] : [0, 1, 0])), bx = cross3(MN.u, ax);
+      for(var q = 0; q < 8; q++){
+        (function(q){
+          var a3 = lerp3(MN.A, MN.E, q / 8), b3 = lerp3(MN.A, MN.E, (q + 1) / 8), pa = proj(a3, V), pb = proj(b3, V);
+          push((pa[2] + pb[2]) / 2 - (q === 7 ? 0 : 0.5), function(g){ g.lineCap = "round"; g.strokeStyle = PAL.steel; g.lineWidth = (q >= 6 ? 3.6 : 2.6) * V.s; g.beginPath(); g.moveTo(pa[0], pa[1]); g.lineTo(pb[0], pb[1]); g.stroke(); });
+        })(q);
+      }
+      var pA = proj(MN.A, V);
+      push(pA[2] - 1, function(g){ disc(g, pA, 7 * V.s, 3.5 * V.s, PAL.db, V, 1); });
+      [-2.2, 2.2].forEach(function(off, k){
+        var c3 = add(MN.C, MN.u, off), pts = [];
+        for(var i2 = 0; i2 < 24; i2++){ var th2 = i2 / 24 * Math.PI * 2, cs = Math.cos(th2) * MINE_R, sn = Math.sin(th2) * MINE_R;
+          pts.push(proj([c3[0] + ax[0] * cs + bx[0] * sn, c3[1] + ax[1] * cs + bx[1] * sn, c3[2] + ax[2] * cs + bx[2] * sn], V)); }
+        var pc = proj(c3, V);
+        push(pc[2] + 0.2 + k * 0.1, function(g){
+          poly(g, pts); g.fillStyle = tone(k ? PAL.plate : PAL.plateRim, k ? 1.1 : 0.8); g.fill();
+          if(V.rim){ g.strokeStyle = V.rim; g.lineWidth = 1; g.stroke(); }
+          if(k){ g.beginPath(); g.arc(pc[0], pc[1], 2.6 * V.s, 0, Math.PI * 2); g.fillStyle = PAL.steel; g.fill(); }
+        });
+      });
     } else if(eq === "plate"){
       plateItem(items, P, V);
     } else if(eq === "pullbar"){
@@ -3819,6 +3949,7 @@ var PoAnim = (function(){
         var p = proj([F.C[0] + (F.u[0] * q[0] + F.v[0] * q[1]) * PL.r, F.C[1] + (F.u[1] * q[0] + F.v[1] * q[1]) * PL.r, F.C[2] + (F.u[2] * q[0] + F.v[2] * q[1]) * PL.r], V);
         b.x0 = Math.min(b.x0, p[0] - 4); b.x1 = Math.max(b.x1, p[0] + 4); b.y0 = Math.min(b.y0, p[1] - 5); b.y1 = Math.max(b.y1, p[1] + 5); }); }
       if(m.eq === "db1"){ var B1 = bellAt(P); [B1.top, B1.bot].forEach(function(q){ var p = proj(q, V); b.x0 = Math.min(b.x0, p[0] - 9); b.x1 = Math.max(b.x1, p[0] + 9); b.y0 = Math.min(b.y0, p[1] - 9); b.y1 = Math.max(b.y1, p[1] + 9); }); }
+      if(m.eq === "mine"){ var MB = mineAt(P); [MB.A, MB.E, add(MB.C, [0, 1, 0], MINE_R), add(MB.C, [0, 1, 0], -MINE_R)].forEach(function(q){ var p = proj(q, V); b.x0 = Math.min(b.x0, p[0] - 8); b.x1 = Math.max(b.x1, p[0] + 8); b.y0 = Math.min(b.y0, p[1] - 8); b.y1 = Math.max(b.y1, p[1] + 8); }); }
       if(m.eq === "pullbar"){ var pn = m.keys[0].pin; [-70, 70].forEach(function(z){ var p = proj([pn.x, pn.y + 30, z], V); b.x0 = Math.min(b.x0, p[0] - 4); b.x1 = Math.max(b.x1, p[0] + 4); b.y0 = Math.min(b.y0, p[1] - 4); }); }
     }
     [[b.x0, 0], [b.x1, 0]].forEach(function(){ });
@@ -3927,7 +4058,7 @@ var PoAnim = (function(){
     window.addEventListener("resize", function(){ list.forEach(function(it){ if(it.cv.isConnected) drawOne(it, now()); }); });
   }
   var api = {
-    MOVES: MOVES, mount: mount, render: render, poseAt: poseAt, prep: prep, bellAt: bellAt, stats: stats, reduced: reduced, onFrame: null,
+    MOVES: MOVES, mineAt: mineAt, mount: mount, render: render, poseAt: poseAt, prep: prep, bellAt: bellAt, stats: stats, reduced: reduced, onFrame: null,
     has: function(k){ return !!MOVES[k]; },
     pause: function(root, on){ list.forEach(function(it){ if(root.contains(it.cv)){ it.paused = !!on; } }); if(!on) kick(); },
     redraw: function(cv){ var it = find(cv); if(it){ it.w = 0; drawOne(it, now()); } },
@@ -4059,6 +4190,27 @@ var HITS = [
       { n: "Plank", anim: "plank", cue: "Hands under your shoulders, body in one straight line. Squeeze your glutes and belly and hold. Knees down is fine." }
     ] }
 ,
+  { id: "landmine-athlete", mode: "interval", title: "Landmine Athlete: Power + Abs", tag: "Intervals", gear: "Barbell + landmine", gearCls: "tag-bar",
+    subtitle: "Part A: 6 power moves. Part B: 4 landmine abs moves.", need: "A barbell in a landmine (or wedged in a corner), a plate on the free end, and a mat",
+    weightNote: "Light load, move fast. For Part A, the empty bar or one 10 lb plate is plenty: every rep should be quick and explosive. For Part B, one 10 to 25 lb plate. It also lets the sleeve roll on the floor.",
+    work: 45, rest: 15, roundRest: 60, rounds: 3, lead: 10, blockRest: 90,
+    blocks: [ { name: "Part A: Power", short: "Power", from: 0, to: 6, rounds: 3, work: 30, rest: 15, roundRest: 75 },
+              { name: "Part B: Abs", short: "Abs", from: 6, to: 10, rounds: 3, work: 45, rest: 15, roundRest: 60 } ],
+    formatText: "Tap Start and follow along. The app shows each move, counts down, talks you through it and moves on by itself. Part A is power: 6 moves, 30 seconds each, 15 seconds between moves, 3 rounds with 75 seconds between rounds. Light load, move fast, and stop each set when the reps slow down. Then 90 seconds rest. Part B is abs: 4 moves, 45 seconds each, 15 seconds between moves, 3 rounds with 1 minute between rounds. Each move has a rep target.",
+    goal: "Goal: fast, crisp reps in Part A and a braced core with still hips in Part B.",
+    moves: [
+      { n: "Landmine 180 jump switch", anim: "mine180", part: 0, work: 30, per: "5 per side", say: "5 per side", cue: "Light load, move fast. Bar end at your chest in one hand. Dip, jump and turn 180 degrees, and switch hands as you land." },
+      { n: "Landmine goblet jump squat", anim: "minejumpsquat", part: 0, work: 30, per: "5-6 reps", say: "5 to 6 reps", cue: "Light load, move fast. Both hands on the bar end at your chest. Squat, then jump as high as you can. Land soft and reset each rep." },
+      { n: "Landmine alternating jumping lunge", anim: "minejumplunge", part: 0, work: 30, per: "5 per side", say: "5 per side", cue: "Light load, move fast. One hand on the bar end, in a lunge. Jump, switch legs and hands in the air, land in a lunge on the other side." },
+      { n: "Landmine rotational swing", anim: "mineswing", part: 0, work: 30, per: "5 per side", say: "5 per side", cue: "Light load, move fast. Both hands on the bar end by one hip. Pivot your feet and swing it across your body up high on the other side." },
+      { n: "Landmine single-arm jumping thruster", anim: "minethruster", part: 0, work: 30, per: "5 per side", say: "5 per side", cue: "Light load, move fast. Bar end at one shoulder. Squat, then jump and press it overhead in one move. Switch sides halfway." },
+      { n: "Landmine skater jump", anim: "mineskater", part: 0, work: 30, per: "5 per side", say: "5 per side", cue: "Light load, move fast. Both hands on the bar end at your chest. Bound to one side onto one leg, stick it, then bound back." },
+      { n: "Landmine sit-up", anim: "minesitup", part: 1, work: 45, per: "10-12 reps", say: "10 to 12 reps", cue: "Lie on your back, knees bent, the loaded end of the bar held at your chest with both hands. Do a full sit-up, keep the bar tight to your chest, then lower slowly." },
+      { n: "Single-arm landmine rollout", anim: "minerollout", part: 1, work: 45, per: "6-8 per arm", say: "6 to 8 per arm", cue: "High plank, one hand on the floor and the other on the bar sleeve. Roll the plate forward as far as you can control, then pull it back. Switch arms halfway." },
+      { n: "Plank lateral landmine roll", anim: "minelateral", part: 1, work: 45, per: "8-10 per side", say: "8 to 10 per side", cue: "High plank. Reach under your body with one hand, take the sleeve and roll the plate side to side under your chest. Hips stay square. Switch hands halfway." },
+      { n: "Landmine Russian twist", anim: "minetwist", part: 1, work: 45, per: "16-20 total", say: "16 to 20 total", cue: "Sit in a V, feet up, both hands on the end of the bar. Turn your chest and take the bar to one hip, then the other. Feet down is fine if your back rounds." }
+    ] }
+,
   { id: "hotel-300", mode: "fortime", perMove: true, title: "300-Rep Hotel Room", tag: "For time", gear: "No equipment", gearCls: "tag-none",
     subtitle: "No equipment, for time. Great for travel.", rounds: 7, goalMin: 20, capMin: 30,
     formatText: "300 reps for time, one round. Start the clock and do the moves below in order. Tap Done after each move, then go straight to the next one. The clock stops at the 30 minute time cap.",
@@ -4098,7 +4250,20 @@ function hxPlan(w, opt){
   var mv = hxMovesFor(w, opt), segs = [], t = 0, n = mv.length, r, i;
   function add(k, sec, m, rd){ segs.push({ k: k, at: t, d: sec * 1000, mv: m, r: rd }); t += sec * 1000; }
   add("lead", w.lead || 10, 0, 1);
-  for(r = 1; r <= w.rounds; r++){
+  if(w.blocks){   /* v26: two-part interval workout (each part has its own rounds, work and rest) */
+    w.blocks.forEach(function(b, bi){
+      if(bi > 0){ add("rrest", w.blockRest || b.roundRest, b.from, 1); segs[segs.length - 1].bstart = bi; }
+      for(r = 1; r <= b.rounds; r++){
+        for(i = b.from; i < b.to; i++){
+          add("work", b.work, i, r); segs[segs.length - 1].b = bi;
+          if(i < b.to - 1){ add("rest", b.rest, i + 1, r); segs[segs.length - 1].b = bi; }
+          else if(r < b.rounds){ add("rrest", b.roundRest || b.rest, b.from, r + 1); segs[segs.length - 1].b = bi; }
+        }
+      }
+    });
+    r = w.rounds + 1; n = 0;
+  }
+  for(r = r || 1; r <= w.rounds; r++){
     for(i = 0; i < n; i++){
       add("work", w.work, i, r);
       if(i < n - 1) add("rest", w.rest, i + 1, r);
@@ -4112,7 +4277,10 @@ function hxPlan(w, opt){
            upper: segs.filter(function(s){ return s.k === "work" && mv[s.mv].upper; }).length };
 }
 window.__poPlan = function(id, opt){ var w = hxFind(id); return w && w.mode === "interval" ? hxPlan(w, opt) : null; };
-function hxIvText(w){ return w.work + " s on / " + w.rest + " s off"; }
+function hxBlk(w, sg){ return w.blocks && sg && w.blocks[sg.bstart !== undefined ? sg.bstart : sg.b || 0]; }   /* v26 */
+function hxRd(w, sg){ var b = hxBlk(w, sg); return (b ? b.short + " \u00b7 " : "") + "Round " + sg.r + " of " + (b ? b.rounds : w.rounds); }
+function hxIvText(w){ if(w.blocks) return w.blocks.map(function(b){ return b.short.toLowerCase() + " " + b.work + " s on / " + b.rest + " s off"; }).join(", ");
+  return w.work + " s on / " + w.rest + " s off"; }
 function hxMuted(){ try{ return localStorage.getItem(HX_MUTE) === "1"; }catch(e){ return false; } }
 function hxWid(w){ return "hit:" + w.id; }
 function hxOpt(w, k){
@@ -4423,16 +4591,19 @@ function hxOnTick(){
 function hxSegCue(i){
   var P = hxPlanOf(), sg = P.segs[i], w = hxFind(HX.wk), nm = P.moves[sg.mv].n, t;
   if(sg.k === "work"){
-    var firstOfLast = sg.r === w.rounds && sg.mv === 0 && w.rounds > 1;
+    var bk = hxBlk(w, sg), firstOfLast = bk ? sg.r === bk.rounds && sg.mv === bk.from && bk.rounds > 1 : sg.r === w.rounds && sg.mv === 0 && w.rounds > 1;
     hxBeep(1320, 0.4, "go"); hxBuzz(300);
-    t = (firstOfLast ? "Last round. " : "") + "Go! " + nm + ".";
+    t = (firstOfLast ? "Last round. " : "") + "Go! " + nm + (P.moves[sg.mv].say ? ", " + P.moves[sg.mv].say : "") + ".";   /* v26: rep target */
   } else if(sg.k === "rest"){
     hxBeep(660, 0.35, "rest"); hxBuzz([120, 60, 120]);
     t = (i === P.half ? "Halfway there. " : "") + "Rest. Next: " + nm + ".";
+  } else if(sg.k === "rrest" && sg.bstart !== undefined){
+    hxBeep(660, 0.35, "rest"); hxBuzz([120, 60, 120]);
+    t = w.blocks[sg.bstart - 1].name + " done. Rest for " + Math.round(sg.d / 1000) + " seconds. " + w.blocks[sg.bstart].name + " next. First up: " + nm + ".";
   } else if(sg.k === "rrest"){
     hxBeep(660, 0.35, "rest"); hxBuzz([120, 60, 120]);
     t = (i === P.half ? "Halfway there. " : "") + "Round " + (sg.r - 1) + " done. Rest for " + Math.round(sg.d / 1000) + " seconds." +
-        (sg.r === w.rounds ? " Last round next." : "") + " Next: " + nm + ".";
+        (sg.r === (hxBlk(w, sg) || w).rounds ? " Last round next." : "") + " Next: " + nm + ".";
   } else t = "Get ready. First up: " + nm + ".";
   hxVoice(t); hxSay(t);
 }
@@ -4649,10 +4820,11 @@ function hxOpenDetail(id){
   var mineAct = HX && HX.wk === w.id && hxActive();
   var ivOpt = iv ? (mineAct ? HX.opt : cfg0.opt) : ft ? (mineAct ? HX.bar : cfg0.bar) : null;
   var mlist = iv || ft ? hxMovesFor(w, ivOpt) : w.moves, plan = iv ? hxPlan(w, ivOpt) : null;
-  var moves = mlist.map(function(m){
-    return '<li class="hitmove"><canvas class="cardfig" data-a="' + esc(m.anim) + '" role="img" aria-label="' + esc(m.n) + ' demo"></canvas>' +
+  var moves = mlist.map(function(m, mi){
+    var bh = w.blocks ? w.blocks.filter(function(b){ return b.from === mi; })[0] : null;   /* v26: part header */
+    return (bh ? '<li class="hitpart">' + esc(bh.name) + ' \u00b7 ' + bh.rounds + ' rounds \u00b7 ' + bh.work + ' s on, ' + bh.rest + ' s off, ' + bh.roundRest + ' s between rounds</li>' : '') + '<li class="hitmove"><canvas class="cardfig" data-a="' + esc(m.anim) + '" role="img" aria-label="' + esc(m.n) + ' demo"></canvas>' +
       '<div class="mt"><div class="mn">' + (iv ? '' : '<span>' + m.reps + '</span>') + esc(m.n) + '</div>' +
-      (iv ? '<div class="mtags"><span>' + w.work + ' s</span>' + (m.upper ? '<span class="up">Upper body</span>' : '') + (m.swapped ? '<span>Needs the bar</span>' : '') + '</div>' : '') +
+      (iv ? '<div class="mtags"><span>' + (m.work || w.work) + ' s</span>' + (m.per ? '<span>' + esc(m.per) + '</span>' : '') + (m.upper ? '<span class="up">Upper body</span>' : '') + (m.swapped ? '<span>Needs the bar</span>' : '') + '</div>' : '') +
       (ft && (m.per || m.swapped) ? '<div class="mtags">' + (m.per ? '<span>' + esc(m.per) + '</span>' : '') + (m.swapped ? '<span>Needs the bar</span>' : '') + '</div>' : '') +
       '<p class="mc">' + esc(m.cue) + '</p></div></li>';
   }).join("");
@@ -4846,7 +5018,7 @@ function hxRenderInterval(w, mine, cfg, st, act, snap){
     $("hxTime").textContent = hxMMSS(plan.workTotal); $("hxTimeLbl").textContent = "total time";
     $("hxCount").textContent = String(plan.works); $("hxCountLbl").textContent = "intervals";
     $("hxNow").hidden = true; $("hxFill").style.width = "0%";
-    $("hxTotalLine").textContent = w.rounds + " rounds of " + plan.moves.length + " moves, " + hxIvText(w) + ", " + Math.round((w.roundRest || w.rest)) + " s between rounds";
+    $("hxTotalLine").textContent = w.blocks ? w.blocks.map(function(b){ return b.name + ": " + b.rounds + " rounds of " + (b.to - b.from) + " moves, " + b.work + " s on, " + b.rest + " s off, " + b.roundRest + " s between rounds"; }).join(". ") + ". " + w.blockRest + " s rest between parts" : w.rounds + " rounds of " + plan.moves.length + " moves, " + hxIvText(w) + ", " + Math.round((w.roundRest || w.rest)) + " s between rounds";
     $("hxGo").textContent = "Start"; $("hxFull").hidden = true; $("hxReset").hidden = true; $("hxSave").hidden = true; $("hxHint").hidden = false;
     $("hxRest").innerHTML = "";
     return;
@@ -4861,7 +5033,7 @@ function hxRenderInterval(w, mine, cfg, st, act, snap){
     $("hxTime").textContent = hxMMSSup(s.leftMs); $("hxTimeLbl").textContent = sg.k === "work" ? "work left" : sg.k === "lead" ? "to get ready" : "rest left";
     $("hxCount").textContent = String(stats.done); $("hxCountLbl").textContent = "of " + stats.total + " done";
     $("hxNow").hidden = false;
-    $("hxNow").textContent = (st === "paused" ? "Paused \u00b7 " : "") + (sg.k === "work" ? "Round " + sg.r + " of " + w.rounds + " \u00b7 " + mv.n : sg.k === "lead" ? "Get ready \u00b7 first up: " + mv.n : "Rest \u00b7 next up: " + mv.n);
+    $("hxNow").textContent = (st === "paused" ? "Paused \u00b7 " : "") + (sg.k === "work" ? hxRd(w, sg) + " \u00b7 " + mv.n : sg.k === "lead" ? "Get ready \u00b7 first up: " + mv.n : "Rest \u00b7 next up: " + mv.n);
     $("hxFill").style.width = (100 * s.e / plan.total).toFixed(1) + "%";
     $("hxTotalLine").textContent = hxMMSS(Math.max(0, s.e - plan.lead)) + " of " + hxMMSS(plan.workTotal);
     $("hxGo").textContent = st === "running" ? "Pause" : "Resume";
@@ -5120,9 +5292,9 @@ function fxRender(snap){
   }
   var s = snap || hxSnap(Date.now()), sg = s.seg, mv = P.moves[sg.mv], work = sg.k === "work", paused = st === "paused";
   var mvIdx = sg.mv + 1, nMv = P.moves.length;
-  $("fxPos").textContent = sg.k === "lead" ? "Get ready" : "Round " + sg.r + " of " + w.rounds;
+  $("fxPos").textContent = sg.k === "lead" ? "Get ready" : hxRd(w, sg);
   $("fxMove").textContent = work ? mv.n : sg.k === "lead" ? "Get ready" : "Rest";
-  $("fxCue").textContent = work ? mv.cue : "Next up: " + mv.n + ". " + mv.cue;
+  $("fxCue").textContent = (mv.per ? "Target: " + mv.per + ". " : "") + (work ? mv.cue : "Next up: " + mv.n + ". " + mv.cue);   /* v26: rep target */
   var bd = $("fxBadge");
   bd.hidden = !(paused || !work); bd.textContent = paused ? "Paused" : sg.k === "lead" ? "First up" : "Up next";
   PoAnim.mount($("fxCv"), mv.anim, { dark: true, pad: 0.05 });
@@ -5135,8 +5307,8 @@ function fxRender(snap){
   if(!work){ nm = mv.n; anim = mv.anim; }
   else { var nw = fxNextWork(P, s.i); if(nw){ nm = P.moves[nw.mv].n; anim = P.moves[nw.mv].anim; } else nm = "Finish! Last one."; }
   nx.classList.toggle("on", showNext);
-  $("fxNextHd").textContent = showNext ? (work && !anim ? "Almost done" : "Next up") : "Round " + sg.r + " of " + w.rounds;
-  $("fxNextName").textContent = showNext ? (anim ? nm : nm) : "Move " + mvIdx + " of " + nMv + " \u00b7 " + (w.work) + " s";
+  $("fxNextHd").textContent = showNext ? (work && !anim ? "Almost done" : "Next up") : hxRd(w, sg);
+  $("fxNextName").textContent = showNext ? (anim ? nm : nm) : "Move " + mvIdx + " of " + nMv + " \u00b7 " + (mv.work || w.work) + " s";
   var nc = $("fxNextCv"); nc.hidden = !(showNext && anim);
   if(showNext && anim) PoAnim.mount(nc, anim, { dark: true, pad: 0.06 });
   $("fxPause").textContent = paused ? "Resume" : "Pause";
@@ -5214,7 +5386,7 @@ if("serviceWorker" in navigator && location.protocol.indexOf("http") === 0){
 }
 
 /* ============ boot ============ */
-try{ console.log("Progressive Overload build v25"); }catch(e){}
+try{ console.log("Progressive Overload build v26"); }catch(e){}
 storeGet("ft:custom", function(v){
   try{ CUSTOM = v ? JSON.parse(v) : []; }catch(e){ CUSTOM = []; }
   CUSTOM.forEach(function(x){ x.custom = true; if(idx(x.n)<0) LIB.push(x); });
@@ -5353,7 +5525,7 @@ window.__poLoadLeaflet = function(){
       var lib = window.__leafletSrc || (typeof L !== "undefined" ? "ok" : "loading");
       var mEl = document.getElementById("map");
       var size = mEl ? (mEl.clientWidth + "x" + mEl.clientHeight) : "?";
-      d.textContent = "v25 · lib:" + lib + " · " + mapStyle + ":" + p.name + "/" + (lastRouter||"-") + " " + size + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (switched.length ? " · fell back from " + switched.join(",") : "") + (diagNote ? " · " + diagNote : "");
+      d.textContent = "v26 · lib:" + lib + " · " + mapStyle + ":" + p.name + "/" + (lastRouter||"-") + " " + size + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (switched.length ? " · fell back from " + switched.join(",") : "") + (diagNote ? " · " + diagNote : "");
     }
     function mountTiles(){
       if(tiles) map.removeLayer(tiles);   /* not .off(): Leaflet's attribution cleanup hangs on the layer's remove event */
@@ -5832,7 +6004,7 @@ window.__poLoadLeaflet = function(){
       tries++;
       if(tries > 120 || window.__leafletSrc === "none"){
         el.innerHTML = '<div style="padding:24px;font-family:monospace;font-size:12px;color:#7E96A8;line-height:1.7"><b style="color:#E8F0F5">The map library could not be downloaded from either CDN.</b><br>The rest of the site is unaffected. This is usually a connection issue or a content blocker on this device.<br>Try: a different network, disabling ad/content blockers for this site, then reload.</div>';
-        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v25 · lib:none (both CDNs failed)";
+        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v26 · lib:none (both CDNs failed)";
         return;
       }
       setTimeout(waitL, 150);
