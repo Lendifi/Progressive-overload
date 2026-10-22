@@ -174,6 +174,12 @@
   .name{font-family:var(--f-display);font-weight:800;font-synthesis:none;font-size:20px;text-transform:uppercase;letter-spacing:.01em;margin-bottom:2px;}
   .scheme{font-size:13px;font-weight:800;color:var(--cobalt-dk);}
   .cardfig{width:82px;height:82px;flex-shrink:0;background:var(--paper);border-radius:10px;}
+  /* v25: core finisher */
+  .corehead{margin:22px 2px 10px;padding:12px 14px;border-left:4px solid var(--cobalt);background:var(--paper);border-radius:10px;}
+  .corehead .coreh{margin:0;font-weight:800;text-transform:uppercase;letter-spacing:.04em;font-size:15px;color:var(--cobalt-dk);}
+  .corehead .corenote{margin:4px 0 0;font-size:14px;color:#4a5361;}
+  .pbcore{margin-top:6px;font-size:14px;color:#4a5361;}
+  .pbcore b{color:var(--cobalt-dk);}
   .cue{font-size:14px;line-height:1.5;color:var(--steel);margin-bottom:12px;}
   .track{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
   .set{min-width:74px;height:44px;border:2px solid var(--ink);border-radius:999px;background:#fff;
@@ -901,7 +907,7 @@ if (typeof window.storage === "undefined") {
     </div>
     <div class="datamsg" id="dataMsg" role="status" aria-live="polite"></div>
   </section>
-  <p class="buildtag">build v24 &middot; map: OpenStreetMap / Esri</p>
+  <p class="buildtag">build v25 &middot; map: OpenStreetMap / Esri</p>
 </div>
 
 <!-- ============ prebuilt ============ -->
@@ -1045,7 +1051,7 @@ if (typeof window.storage === "undefined") {
       <div class="rm-map" id="map"></div>
       <div class="rm-hint" id="hint">Tap the map to drop your first point</div>
       <div class="rm-status" id="status"></div>
-      <div class="rm-diag" id="diagLine" aria-hidden="true">v24 · opening…</div>
+      <div class="rm-diag" id="diagLine" aria-hidden="true">v25 · opening…</div>
     </div>
     <div class="rm-rail">
       <div class="rm-railhead"><span id="railLabel">Distance rail</span><span id="railTotal">0.00 mi</span></div>
@@ -1267,6 +1273,26 @@ LIB.forEach(function(x){
   else if(x.e === "home") x.lvl = "dumbbell";
   else x.lvl = x.e;   // barbell | machine | cable | gym
 });
+/* ============ v25: core finisher moves ============
+   Added to the end of every prebuilt. One dumbbell held by one end works the same as a kettlebell.
+   a = canvas demo (PoAnim), core = finisher move, hide = not listed in the builder. They log like any exercise. */
+var CORE = [
+ {n:"Russian Twist (dumbbell or kettlebell)",lvl:"dumbbell",s:"3 × 16–24 total",u:"lbs",a:"kbtwist",f:"f-twist",cue:"Sit, lean back about 45 degrees and lift your feet. Hold the bell by its ends (a dumbbell by one end). Turn and tap it on the floor beside one hip, then the other."},
+ {n:"Trident (dumbbell or kettlebell)",lvl:"dumbbell",s:"3 × 12–20 total",u:"lbs",a:"kbtrident",f:"f-twist",cue:"Balance on your glutes, feet off the floor. Cycle your legs and pass the bell under the bent thigh from hand to hand, in a figure 8."},
+ {n:"Leg Raise Over the Bell (dumbbell or kettlebell)",lvl:"dumbbell",s:"3 × 12–20 total",u:"reps",a:"kblegover",f:"f-legraise",cue:"Stand the bell upright in front of you. Sit tall, hands on the floor behind you. Keep your legs straight and together, lift them over the bell and tap your heels down on the other side."},
+ {n:"Pass Through (dumbbell or kettlebell)",lvl:"dumbbell",s:"3 × 12–20 total",u:"lbs",a:"kbpass",f:"f-plank",cue:"High plank, bell on the floor beside one hand. Reach under your chest with the other hand and drag it across. Switch hands each rep. Keep your hips square."},
+ {n:"180° Lunge Chop (dumbbell or kettlebell)",lvl:"dumbbell",s:"3 × 8–12 total",u:"lbs",a:"kblungechop",f:"f-lunge",cue:"Hold the bell at your chest. Pivot 180 degrees on your feet into a lunge and chop the bell down to the outside of your front hip. Stand, turn back, and switch sides."},
+ {n:"Halo (dumbbell or kettlebell)",lvl:"dumbbell",s:"3 × 8–12 total",u:"lbs",a:"kbhalo",f:"f-ohp",cue:"Kneel tall. Hold the bell upside down by its ends at your chest. Circle it slowly around your head, close to it. Switch direction every rep. Ribs down, no arching."},
+ {n:"Wood Chop (dumbbell or kettlebell)",lvl:"dumbbell",s:"3 × 8–12 / side",u:"lbs",a:"kbwoodchop",f:"f-twist",cue:"Half kneeling. Hold the bell by your hip on the down-knee side, then chop it up across your body to above the opposite shoulder. Lower slowly."},
+ {n:"Russian Twist (hands clasped)",lvl:"none",s:"3 × 16–24 total",u:"reps",a:"bwtwist",f:"f-twist",cue:"Sit, lean back about 45 degrees and lift your feet. Clasp your hands. Turn and tap the floor beside one hip, then the other."},
+ {n:"Seated Leg Cycle",lvl:"none",s:"3 × 20–40s",u:"sec",a:"legcycle",f:"f-legraise",cue:"Balance on your glutes, feet off the floor. Cycle your legs in and out, and clap your hands under each knee as it comes in. The tridents, without the bell."},
+ {n:"Side-to-Side Leg Raise",lvl:"none",s:"3 × 12–20 total",u:"reps",a:"legside",f:"f-legraise",cue:"Sit tall, hands on the floor behind you. Keep your legs straight and together, arc them up and over an imaginary box, and tap your heels down on the other side."},
+ {n:"180° Lunge Twist",lvl:"none",s:"3 × 8–12 total",u:"reps",a:"lungetwist",f:"f-lunge",cue:"Hands clasped at your chest. Pivot 180 degrees on your feet into a lunge and reach both hands to the outside of your front hip. Stand, turn back, and switch sides."},
+ {n:"Wood Chop (hands clasped)",lvl:"none",s:"3 × 10–15 / side",u:"reps",a:"bwwoodchop",f:"f-twist",cue:"Half kneeling, hands clasped. Chop from beside your hip on the down-knee side up across your body to above the opposite shoulder. Turn through your ribs."}
+];
+CORE.forEach(function(x){ x.c = "Core & Carries"; x.e = "home"; x.core = true; x.hide = true; });
+LIB = LIB.concat(CORE);
+(function(){ var i = idx("Plank Shoulder Tap"); if(i >= 0){ LIB[i].a = "shouldertap"; LIB[i].core = true; } })();
 
 
 
@@ -1308,6 +1334,27 @@ var PREBUILT = [
  {id:"g-total",lvl:"full",tag:"Total Body",title:"Full Body Strength",
   list:["Back Squat","Bench Press","Barbell Row","Barbell Overhead Press","Barbell RDL","Face Pull"]}
 ];
+/* v25: core finisher picks for each prebuilt (3-4 moves, varied, matched to the equipment) */
+var CORE_PICKS = {
+  "bw-push":  ["Russian Twist (hands clasped)", "Side-to-Side Leg Raise", "Seated Leg Cycle"],
+  "bw-pull":  ["Plank Shoulder Tap", "180° Lunge Twist", "Wood Chop (hands clasped)"],
+  "bw-total": ["Russian Twist (hands clasped)", "Seated Leg Cycle", "Plank Shoulder Tap", "Side-to-Side Leg Raise"],
+  "a":        ["Russian Twist (dumbbell or kettlebell)", "Pass Through (dumbbell or kettlebell)", "Halo (dumbbell or kettlebell)"],
+  "b":        ["Trident (dumbbell or kettlebell)", "Leg Raise Over the Bell (dumbbell or kettlebell)", "Wood Chop (dumbbell or kettlebell)"],
+  "c":        ["180° Lunge Chop (dumbbell or kettlebell)", "Halo (dumbbell or kettlebell)", "Russian Twist (dumbbell or kettlebell)", "Leg Raise Over the Bell (dumbbell or kettlebell)"],
+  "m-push":   ["Pass Through (dumbbell or kettlebell)", "Trident (dumbbell or kettlebell)", "Wood Chop (dumbbell or kettlebell)"],
+  "m-pull":   ["Halo (dumbbell or kettlebell)", "Russian Twist (dumbbell or kettlebell)", "Leg Raise Over the Bell (dumbbell or kettlebell)"],
+  "m-total":  ["180° Lunge Chop (dumbbell or kettlebell)", "Pass Through (dumbbell or kettlebell)", "Trident (dumbbell or kettlebell)"],
+  "bb-push":  ["Trident (dumbbell or kettlebell)", "Halo (dumbbell or kettlebell)", "Pass Through (dumbbell or kettlebell)"],
+  "bb-pull":  ["Wood Chop (dumbbell or kettlebell)", "Russian Twist (dumbbell or kettlebell)", "180° Lunge Chop (dumbbell or kettlebell)"],
+  "bb-total": ["Leg Raise Over the Bell (dumbbell or kettlebell)", "Pass Through (dumbbell or kettlebell)", "Wood Chop (dumbbell or kettlebell)", "Halo (dumbbell or kettlebell)"],
+  "g-push":   ["180° Lunge Chop (dumbbell or kettlebell)", "Leg Raise Over the Bell (dumbbell or kettlebell)", "Russian Twist (dumbbell or kettlebell)"],
+  "g-pull":   ["Halo (dumbbell or kettlebell)", "Trident (dumbbell or kettlebell)", "Wood Chop (dumbbell or kettlebell)"],
+  "g-total":  ["Pass Through (dumbbell or kettlebell)", "Russian Twist (dumbbell or kettlebell)", "180° Lunge Chop (dumbbell or kettlebell)", "Trident (dumbbell or kettlebell)"]
+};
+PREBUILT.forEach(function(w){ w.core = CORE_PICKS[w.id] || []; });
+function pbNames(w){ return w.list.concat(w.core || []); }
+window.__poLib = function(){ return LIB; }; window.__poPrebuilt = function(){ return PREBUILT; };   /* read-only hooks for the regression suite */
 var WLEVEL = {
   none:     { label:"No equipment",      badge:"No equipment · anywhere",     bcls:"tag-none", note:"Nothing but you and a doorframe." },
   dumbbell: { label:"Dumbbells",         badge:"At home · dumbbells",         bcls:"tag-home", note:"A pair of dumbbells and floor space." },
@@ -1433,8 +1480,9 @@ $("brandBtn").onclick = function(){ show("home"); };
           '<span class="tag">'+esc(w.tag)+'</span> <span class="hometag '+L.bcls+'">'+esc(L.badge)+'</span>'+
           '<h2>'+esc(w.title)+'</h2>'+
           '<div class="list">('+esc(w.list.join(", "))+')</div>'+
-          '<div class="meta">'+w.list.length+' exercises · ~40 min · Tap to start →</div>');
-        card.onclick = function(){ openWorkout(L.label+" "+w.tag+"|"+w.title, w.list, false, { wid: "pb:" + w.id }); };
+          (w.core && w.core.length ? '<div class="pbcore"><b>+ Core finisher:</b> '+esc(w.core.map(function(n){ return n.replace(/ \((dumbbell or kettlebell|hands clasped)\)$/, ""); }).join(", "))+'</div>' : '')+
+          '<div class="meta">'+w.list.length+' exercises'+(w.core && w.core.length ? ' + '+w.core.length+'-move core finisher' : '')+' · ~40 min · Tap to start →</div>');
+        card.onclick = function(){ openWorkout(L.label+" "+w.tag+"|"+w.title, pbNames(w), false, { wid: "pb:" + w.id, coreFrom: w.list.length }); };
         host.appendChild(card);
       });
     });
@@ -1449,7 +1497,7 @@ $("brandBtn").onclick = function(){ show("home"); };
   /* v22: open one prebuilt by id (used by the home "Start your first workout" button) */
   window.__poOpenPrebuilt = function(id){
     var w = null; PREBUILT.forEach(function(x){ if(x.id === id) w = x; }); if(!w) return false;
-    var L = WLEVEL[w.lvl]; openWorkout(L.label+" "+w.tag+"|"+w.title, w.list, false, { wid: "pb:" + w.id }); return true;
+    var L = WLEVEL[w.lvl]; openWorkout(L.label+" "+w.tag+"|"+w.title, pbNames(w), false, { wid: "pb:" + w.id, coreFrom: w.list.length }); return true;
   };
 })();
 
@@ -1490,7 +1538,7 @@ function renderLibrary(){
   var host = $("library");
   host.innerHTML = "";
   CATS.forEach(function(cat){
-    var inCat = LIB.filter(function(x){ return x.c===cat && (x.custom || levelAllows(x)) && matchQ(x); });
+    var inCat = LIB.filter(function(x){ return x.c===cat && !x.hide && (x.custom || levelAllows(x)) && matchQ(x); });
     if(!inCat.length) return;
     host.appendChild(el("div","cat",esc(cat)));
     var grid = el("div","lib");
@@ -1515,7 +1563,7 @@ function renderLibrary(){
   });
   var shown = host.querySelectorAll(".ex").length;
   var cEl = $("searchCount");
-  cEl.textContent = (q || eq !== "full") ? (shown + " of " + LIB.length + " exercises") : "";
+  cEl.textContent = (q || eq !== "full") ? (shown + " of " + LIB.filter(function(x){ return !x.hide; }).length + " exercises") : "";
   if(!shown){
     host.appendChild(el("div","noresults",
       "<b>Nothing matches</b>No exercise here fits &ldquo;" + esc(q) + "&rdquo;" +
@@ -2246,7 +2294,7 @@ function openWorkout(title, names, editable, opts){
   CUR = { wid: wid, title: parts[1] ? parts[0] + " / " + parts[1] : parts[0], sess: findResume(wid), cards: [] };
   liftWakeOff(); liftMark(null);   /* v23 */
   var h = el("div","sheethead");
-  h.innerHTML = '<p class="eyebrow" style="color:#9aa4b2;margin-bottom:6px">'+esc(parts[0])+' · '+names.length+' exercises · Rest 60–90s</p>'+
+  h.innerHTML = '<p class="eyebrow" style="color:#9aa4b2;margin-bottom:6px">'+esc(parts[0])+' · '+(opts.coreFrom && opts.coreFrom < names.length ? opts.coreFrom+' exercises + core finisher' : names.length+' exercises')+' · Rest 60–90s</p>'+
     '<h2><span>'+esc(parts[1]||parts[0])+'</span></h2>'+
     '<div class="sheetmeta"><span>'+(editable ? "Reps are suggestions - tap them to change. " : "")+'Enter your reps and tap Done after each set. Everything saves as you go.</span></div>'+
     (CUR.sess ? '<p class="sheetresume">Picked up where you left off today.</p>' : '');
@@ -2276,6 +2324,11 @@ function openWorkout(title, names, editable, opts){
     (opts.saved.custom || []).forEach(function(c){ svFall[c.n] = c; });
   }
   names.forEach(function(nm, k){
+    if(opts.coreFrom && k === opts.coreFrom && k < names.length){   /* v25: core finisher label */
+      var ch = el("div", "corehead");
+      ch.innerHTML = '<p class="coreh" id="coreHead">Core finisher</p><p class="corenote">'+(names.length - k)+' quick core moves. Short on time? Skip them: the workout saves either way.</p>';
+      host.appendChild(ch);
+    }
     var ex = LIB[idx(nm)], missing = false;
     if(!ex && svFall[nm]){ ex = svFall[nm]; missing = true; }
     if(!ex){
@@ -2298,7 +2351,9 @@ function openWorkout(title, names, editable, opts){
       '<div class="card-head">'+
         '<div class="num">'+(k<9?"0":"")+(k+1)+'</div>'+
         '<div class="head-text"><div class="name">'+esc(ex.n)+'</div>'+schemeHtml+'</div>'+
-        '<svg class="cardfig" viewBox="0 0 120 120" role="img" aria-label="'+esc(ex.n)+' diagram"><use href="#'+ex.f+'"/></svg>'+
+        (ex.a && window.PoAnim && PoAnim.has(ex.a)
+          ? '<canvas class="cardfig" data-a="'+esc(ex.a)+'" role="img" aria-label="'+esc(ex.n)+' demo"></canvas>'
+          : '<svg class="cardfig" viewBox="0 0 120 120" role="img" aria-label="'+esc(ex.n)+' diagram"><use href="#'+ex.f+'"/></svg>')+
       '</div>'+
       '<button type="button" class="lasttime lastfill" hidden aria-label="Fill in last time"><span class="lt"></span><span class="lfgo" aria-hidden="true">Use</span></button>'+
       '<p class="proghint" hidden></p>'+
@@ -2313,6 +2368,7 @@ function openWorkout(title, names, editable, opts){
       '<div class="notebox" hidden><textarea maxlength="200" rows="2" aria-label="Note for '+esc(ex.n)+'" placeholder="How did it feel? (optional)"></textarea></div>'+
       '<div class="histpanel" hidden></div>';
     c.card = card;
+    if(opts.coreFrom && k >= opts.coreFrom) card.classList.add("corecard");
     c.grid = card.querySelector(".sgrid");
     c.wEl = card.querySelector(".weight");
     c.noteEl = card.querySelector(".notebox textarea");
@@ -2380,6 +2436,8 @@ function openWorkout(title, names, editable, opts){
     }
     CUR.cards.push(c);
     host.appendChild(card);
+    var dcv = card.querySelector("canvas.cardfig[data-a]");   /* v25: animated demo */
+    if(dcv && window.PoAnim) PoAnim.mount(dcv, dcv.getAttribute("data-a"));
   });
 
   var foot = el("div","sheetfoot",
@@ -2750,7 +2808,7 @@ $("stopEdit").onclick = function(){
   function buildBackup(){
     var data = {};
     allKeys().forEach(function(k){ data[k] = lsGet(k); });
-    return { app: APP_ID, version: BACKUP_VERSION, build: "v24", exportedAt: new Date().toISOString(), data: data };
+    return { app: APP_ID, version: BACKUP_VERSION, build: "v25", exportedAt: new Date().toISOString(), data: data };
   }
   function downloadBlob(blob, name){
     var url = URL.createObjectURL(blob);
@@ -2909,8 +2967,11 @@ var PoAnim = (function(){
   var ZS = 16, ZH = 8.5;                         /* half shoulder width, half hip width */
   var TOE_Y = 3.5, CPH = Math.cos(34 * D2R), SPH = Math.sin(34 * D2R), CTH = Math.cos(11 * D2R), STH = Math.sin(11 * D2R);
   var PLATE_R = 18, BAR_Y = 18;
-  var CH = ["t","h","uaN","faN","abN","uaF","faF","abF","thN","shN","ftN","thF","shF","ftF","lab","pt"];
-  var DEF = { t: 180, h: null, ua: 4, fa: 7, ab: 6, th: 0, sh: 0, ft: 90, lab: 3, pt: 90 };
+  var CH = ["t","h","uaN","faN","abN","uaF","faF","abF","thN","shN","ftN","thF","shF","ftF","lab","pt","fzN","fzF","ty","ly"];
+  var DEF = { t: 180, h: null, ua: 4, fa: 7, ab: 6, th: 0, sh: 0, ft: 90, lab: 3, pt: 90, fz: 0, ty: 0, ly: 0 };
+  /* v25: fz = forearm tilt out of the side view (same rule as ab), ty = upper-body turn, ly = legs turn,
+     both about the vertical axis through the pelvis (positive turns the front toward the viewer). All default 0,
+     and at 0 every older move computes exactly as before. */
   /* v20: 45 lb plate prop. pt = plate tilt: the direction (same angle rule as the limbs) of the plate face line
      that runs across the hands. 90 = plate flat like a table, 180 = plate standing up, face to the front. */
   var PL = { r: 22, t: 5 };
@@ -3051,7 +3112,22 @@ var PoAnim = (function(){
     kneein: { dur: 3.2, reps: 2, still: 0, keys: kneeInKeys() },
     tablekick: { dur: 3.4, still: 0, keys: tableKickKeys() },
     hipkick: { dur: 4.4, reps: 2, still: 0, keys: hipKickKeys() },
-    squatfold: { dur: 5.0, still: 0, keys: squatFoldKeys() }
+    squatfold: { dur: 5.0, still: 0, keys: squatFoldKeys() },
+
+    /* ----- v25: core finisher moves (one dumbbell or kettlebell held by one end, or bodyweight) ----- */
+    kbtwist: { dur: 2.6, still: 1, eq: "db1", keys: twistKeys(true) },
+    bwtwist: { dur: 2.4, still: 1, keys: twistKeys(false) },
+    kbtrident: { dur: 3.2, still: 0, eq: "db1", bellDir: 1, keys: tridentKeys() },
+    legcycle: { dur: 2.8, still: 0, keys: tridentKeys() },
+    kblegover: { dur: 3.2, still: 0, eq: "db1", bellPath: [[0, 64, 10, 0]], keys: legOverKeys() },
+    legside: { dur: 3.0, still: 0, keys: legOverKeys() },
+    kbpass: { dur: 3.4, still: 0, eq: "db1", bellPath: passBell(), keys: passKeys() },
+    shouldertap: { dur: 2.6, still: 0, keys: tapKeys() },
+    kblungechop: { dur: 4.6, still: 2, eq: "db1", keys: lungeChopKeys(true) },
+    lungetwist: { dur: 4.4, still: 2, keys: lungeChopKeys(false) },
+    kbhalo: { dur: 3.0, still: 0, eq: "db1", bellDir: 1, keys: haloKeys() },
+    kbwoodchop: { dur: 2.6, still: 0, eq: "db1", keys: woodChopKeys(true) },
+    bwwoodchop: { dur: 2.4, still: 0, keys: woodChopKeys(false) }
   };
   /* Plate snatch: plate flat on the floor between wide feet, sumo squat, straight arms to the edges.
      Drive with the legs, the plate rises close to the body and turns, punch it overhead, stand tall, then lower. */
@@ -3239,6 +3315,107 @@ var PoAnim = (function(){
     return [ KC(0, stand), KC(0.05, stand), KC(0.16, squat), KC(0.22, squat), KC(0.275, mix(squat, { th: 74, sh: -104, ft: -40, pin: { j: "P", x: -18, y: 40 }, ik: undefined })), KC(0.33, kneelLow), KC(0.42, tall), KC(0.48, tall),
              KC(0.55, stepN), KC(0.62, half), KC(0.69, stepF), KC(0.77, squat), KC(0.82, squat), KC(0.95, stand) ];
   }
+  /* ----- v25: core finisher. armTo aims a wrist at a point given relative to the pelvis (y up, x forward,
+     z toward the viewer) in full 3D: the upper arm and forearm share one tilt out of the side view (ab = fz). ----- */
+  function KC5(t, o){ return K(t, mix(o, {})); }
+  function armTo(o, s, T, bend, bodyFrame){
+    var sd = s === "N" ? 1 : -1, a = bodyFrame ? 0 : (o.ty || 0) * D2R, cs = Math.cos(a), sn = Math.sin(a);
+    var x = T[0] * cs + T[2] * sn, z = -T[0] * sn + T[2] * cs, y = T[1];
+    var tv = d2(o.t === undefined ? 180 : o.t), Sx = tv[0] * L.sh, Sy = tv[1] * L.sh;
+    var Lt = L.ua + L.fa, dz = (z - sd * ZS) * sd, phi = Math.asin(Math.max(-0.97, Math.min(0.97, dz / Lt))), cp = Math.cos(phi);
+    var px = (x - Sx) / cp, py = (y - Sy) / cp, m = ik2([0, 0], [px, py], L.ua, L.fa, bend || -1);
+    o["ua" + s] = unwrap(ang(m[0], m[1]), o["ua" + s] !== undefined ? o["ua" + s] : 90);
+    o["fa" + s] = unwrap(ang(px - m[0], py - m[1]), o["fa" + s] !== undefined ? o["fa" + s] : 90);
+    o["ab" + s] = phi / D2R; o["fz" + s] = phi / D2R;
+    return o;
+  }
+  function hands(o, T, gap, bend, bodyFrame){   /* both wrists together around T (gap = half the space between them, along z) */
+    armTo(o, "N", [T[0], T[1], T[2] + (gap || 3)], bend, bodyFrame); armTo(o, "F", [T[0], T[1], T[2] - (gap || 3)], bend, bodyFrame); return o;
+  }
+  /* solve a key's IK once in the plain side view, then hand back its channels (used before turning the figure) */
+  function solvedKey(o){
+    var m = { keys: [K(0, mix(o, {})), K(0.5, mix(o, {}))] }; prep(m);
+    var c = {}, i; for(i = 0; i < CH.length; i++) c[CH[i]] = m.C[0][CH[i]];
+    return { c: c, o: m.O[0] };
+  }
+  /* Russian twist: seated, leaning back about 45 degrees, feet hovering. Turn and tap the floor beside each hip. */
+  function twistKeys(bell){
+    function base(ty){ return { t: 222, h: 204, th: 122, sh: 70, ft: 125, lab: 6, ty: ty, pin: { j: "P", x: 0, y: 11 } }; }
+    var lowY = bell ? 19 : -4;
+    var mid = hands(base(0), [-8, 26, 0], 4), tn = hands(base(42), [6, lowY, 26], 4), tf = hands(base(-42), [6, lowY, -26], 4);
+    return [ KC5(0, mid), KC5(0.2, tn), KC5(0.3, tn), KC5(0.5, mid), KC5(0.7, tf), KC5(0.8, tf) ];
+  }
+  /* Tridents: balanced on the glutes, legs cycling, the bell passes under the bent thigh in a figure 8. */
+  function tridentKeys(){
+    function seat(o){ return mix({ t: 206, h: 194, lab: 6, pin: { j: "P", x: 0, y: 11 } }, o); }
+    var a = hands(seat({ thN: 140, shN: 62, ftN: 120, thF: 100, shF: 94, ftF: 140 }), [18, 2, 9], 3);
+    var b = hands(seat({ thF: 140, shF: 62, ftF: 120, thN: 100, shN: 94, ftN: 140 }), [18, 2, -9], 3);
+    var m1 = hands(seat({ thN: 120, shN: 78, ftN: 130, thF: 120, shF: 78, ftF: 130 }), [6, 30, -4], 3);
+    var m2 = hands(seat({ thN: 120, shN: 78, ftN: 130, thF: 120, shF: 78, ftF: 130 }), [6, 30, 4], 3);
+    return [ KC5(0, a), KC5(0.12, a), KC5(0.25, m1), KC5(0.5, b), KC5(0.62, b), KC5(0.75, m2) ];
+  }
+  /* Leg raises over the bell: seated, hands on the floor behind, straight legs arc over the bell, heels tap each side. */
+  function legOverKeys(){
+    function seat(o){ var k = mix({ t: 200, h: 192, lab: 2, ft: 168, pin: { j: "P", x: 0, y: 11 } }, o);
+      armTo(k, "N", [-26, -6, 15], 1); armTo(k, "F", [-26, -6, -15], 1); return k; }
+    var up = seat({ th: 118, sh: 118 }), sn = seat({ th: 87, sh: 87, ly: 48 }), sf = seat({ th: 87, sh: 87, ly: -48 });
+    return [ KC5(0, up), KC5(0.22, sn), KC5(0.3, sn), KC5(0.5, up), KC5(0.72, sf), KC5(0.8, sf) ];
+  }
+  /* Pass throughs: high plank, one hand reaches under the chest and drags the bell to the other side, then the other hand. */
+  function passBell(){ var X = 35, Z = 17; return [[0, X, 10, -Z], [0.14, X, 10, -Z], [0.32, X, 10, Z], [0.64, X, 10, Z], [0.82, X, 10, -Z]]; }
+  function passKeys(){
+    var PASS_X = 35, PASS_Z = 17;
+    function plank(ik){ return mix(PLANK_TOP, { pin: { j: "P", x: 0, y: 45 }, ik: ik }); }
+    var both = { aN: [43, 5], aF: [43, 5], l: [-83, TOE_Y, 1] };
+    var base = plank(both);
+    function reach(s, z){ var o = plank(s === "N" ? { aF: [43, 5], l: [-83, TOE_Y, 1] } : { aN: [43, 5], l: [-83, TOE_Y, 1] });
+      return armTo(o, s, [PASS_X - 1, 10 + 18 + 9 - 45, z], -1); }
+    return [ KC5(0, base), KC5(0.05, base), KC5(0.14, reach("N", -PASS_Z)), KC5(0.32, reach("N", PASS_Z)), KC5(0.44, base),
+             KC5(0.55, base), KC5(0.64, reach("F", PASS_Z)), KC5(0.82, reach("F", -PASS_Z)), KC5(0.94, base) ];
+  }
+  /* Plank shoulder taps: high plank, one hand taps the opposite shoulder. Hips stay still. */
+  function tapKeys(){
+    function plank(ik){ return mix(PLANK_TOP, { pin: { j: "P", x: 0, y: 45 }, ik: ik }); }
+    var base = plank({ aN: [43, 5], aF: [43, 5], l: [-83, TOE_Y, 1] });
+    var tn = armTo(plank({ aF: [43, 5], l: [-83, TOE_Y, 1] }), "N", [38, 19, -11], -1);
+    var tf = armTo(plank({ aN: [43, 5], l: [-83, TOE_Y, 1] }), "F", [38, 19, 11], -1);
+    return [ KC5(0, base), KC5(0.08, base), KC5(0.22, tn), KC5(0.3, tn), KC5(0.44, base), KC5(0.58, base), KC5(0.72, tf), KC5(0.8, tf), KC5(0.94, base) ];
+  }
+  /* 180-degree lunge chops: bell at the chest, pivot all the way round into a lunge and chop to the outside of the front hip. */
+  function lungeChopKeys(bell){
+    var chest = [22, 30, 0];
+    var stand = hands(mix(STAND, { pin: { j: "P", x: 0, y: 95 }, ik: { l: [12, TOE_Y, 1] } }), chest, 4, -1);
+    function lungeAt(front, back, turn){
+      var o = { t: 170, h: 178, lab: 6 };
+      o["th" + front] = 84; o["sh" + front] = -8; o["ft" + front] = 90; o["ft" + back] = 36;
+      var ik = {}; ik["l" + front] = [34, TOE_Y, 1]; ik["l" + back] = [-40, TOE_Y, 1]; o.ik = ik; o.pin = { j: "P", x: 0, y: 58 };
+      var r = solvedKey(o), k = r.c;
+      var sd = front === "N" ? 1 : -1;
+      hands(k, [12, -4, sd * 26], 4, -1, true);
+      k.ty = turn; k.ly = turn; k.pin = { j: "P", x: r.o[0], y: r.o[1] };
+      if(!bell){ hands(k, [16, 2, sd * 22], 4, -1, true); }
+      return k;
+    }
+    var ln = lungeAt("N", "F", 180), lf = lungeAt("F", "N", -180);
+    var s0 = solvedKey(stand), st = s0.c; st.pin = { j: "P", x: s0.o[0], y: s0.o[1] };
+    function midOf(a, b, y){ var c = {}, i; for(i = 0; i < CH.length; i++) c[CH[i]] = (a[CH[i]] + b[CH[i]]) / 2;
+      c.pin = { j: "P", x: (a.pin.x + b.pin.x) / 2, y: y }; return c; }
+    var mn = midOf(ln, st, 88), mf = midOf(lf, st, 88);
+    return [ KC5(0, st), KC5(0.06, st), KC5(0.16, mn), KC5(0.26, ln), KC5(0.34, ln), KC5(0.43, mn), KC5(0.5, st),
+             KC5(0.56, st), KC5(0.66, mf), KC5(0.76, lf), KC5(0.84, lf), KC5(0.93, mf) ];
+  }
+  /* Halos: tall kneeling, circle the upside-down bell around the head. */
+  function haloKeys(){
+    function tall(T){ return hands({ t: 180, h: 182, th: 4, sh: -88, ft: -92, lab: 8, pin: { j: "P", x: 0, y: 51 } }, T, 3, -1); }
+    var R = 19, Y = 62;
+    return [ KC5(0, tall([R + 2, Y - 4, 0])), KC5(0.25, tall([0, Y, R + 2])), KC5(0.5, tall([-R + 2, Y + 4, 0])), KC5(0.75, tall([0, Y, -R - 2])) ];
+  }
+  /* Wood choppers: half kneeling, chop from low by one hip to high over the opposite shoulder. */
+  function woodChopKeys(bell){
+    function kneel(ty, T){ return hands({ t: 178, h: 182, thN: 8, shN: -90, ftN: -92, thF: 96, shF: 0, ftF: 90, lab: 6, ty: ty, pin: { j: "P", x: 0, y: 48 } }, T, 3, -1); }
+    var low = kneel(36, [6, bell ? 22 : 4, 30]), high = kneel(-28, [26, 76, -24]);
+    return [ KC5(0, low), KC5(0.1, low), KC5(0.44, high), KC5(0.54, high) ];
+  }
   function lungeKeys(db){
     var arms = db ? { ua: 0, fa: 0, ab: 8 } : { ua: 0, fa: 6, ab: 6 };
     var low = function(front, back, pinJ, toe){
@@ -3275,14 +3452,18 @@ var PoAnim = (function(){
     ["N", "F"].forEach(function(s){
       var sd = s === "N" ? 1 : -1;
       var S = [J.Sc[0], J.Sc[1], sd * ZS], E = add(S, dir3(c["ua" + s], c["ab" + s], sd), L.ua);
-      var fd = d2(c["fa" + s]), W = add(E, fd, L.fa), G = add(W, fd, L.grip);
+      var fd = c["fz" + s] ? dir3(c["fa" + s], c["fz" + s], sd) : d2(c["fa" + s]), W = add(E, fd, L.fa), G = add(W, fd, L.grip);
       var Hp = [0, 0, sd * ZH], Kn = add(Hp, dir3(c["th" + s], c.lab, sd), L.th), A = add(Kn, d2(c["sh" + s]), L.shin);
       var f = footPts(A, c["ft" + s]);
       J["S" + s] = S; J["E" + s] = E; J["W" + s] = W; J["G" + s] = G; J["Hp" + s] = Hp; J["K" + s] = Kn; J["A" + s] = A;
       J["T" + s] = f.toe; J["L" + s] = f.heel;
     });
+    if(c.ty) yawJ(J, ["NK", "Sc", "H", "SN", "SF", "EN", "EF", "WN", "WF", "GN", "GF"], c.ty);
+    if(c.ly) yawJ(J, ["HpN", "HpF", "KN", "KF", "AN", "AF", "TN", "TF", "LN", "LF"], c.ly);
     return J;
   }
+  function yawV(v, a){ var r = a * D2R, cs = Math.cos(r), sn = Math.sin(r); return [v[0] * cs - v[2] * sn, v[1], v[0] * sn + v[2] * cs]; }
+  function yawJ(J, ks, a){ ks.forEach(function(k){ J[k] = yawV(J[k], a); }); }
   function shift(J, o){ var R = {}; for(var k in J) R[k] = [J[k][0] + o[0], J[k][1] + o[1], J[k][2]]; return R; }
   function pinOffset(J, pin){
     var p = pin || { j: "TN", x: 0 }, q = J[p.j];
@@ -3398,7 +3579,7 @@ var PoAnim = (function(){
       });
       applyIK(c, J, live); J = fk(c);
     }
-    return { c: c, J: shift(J, o), m: m, flat: !!(ka.ik && kb.ik && (ka.ik.a || ka.ik.aN) && (kb.ik.a || kb.ik.aN)) };
+    return { c: c, J: shift(J, o), m: m, ph: ph, flat: !!(ka.ik && kb.ik && (ka.ik.a || ka.ik.aN) && (kb.ik.a || kb.ik.aN)) };
   }
 
   /* ---------- drawing ---------- */
@@ -3472,18 +3653,22 @@ var PoAnim = (function(){
       seg(S, lerp3(S, E, 0.42), 7, 6.1, PAL.shirt, 0.5);
       seg(E, W, 4.6, 3.5, PAL.skin, 0.6);
       if(P.flat) seg(W, add(W, [1, 0, 0], 7), 3.6, 2.9, PAL.skin, 0.7);
+      else if(c.ty || c["fz" + s]) sphere(lerp3(W, J["G" + s], 0.5), 4.1, PAL.skin, 0.7);
       else sphere(add(W, d2(c["fa" + s]), 2.5), 4.1, PAL.skin, 0.7);
     });
     /* torso, hips, shoulders, neck, head */
     var P0 = J.P, Sc = J.Sc;
-    seg([P0[0], P0[1], -ZH], [P0[0], P0[1], ZH], 10.5, 10.5, PAL.shorts, 0);
+    if(c.ly) seg(J.HpF, J.HpN, 10.5, 10.5, PAL.shorts, 0);
+    else seg([P0[0], P0[1], -ZH], [P0[0], P0[1], ZH], 10.5, 10.5, PAL.shorts, 0);
     seg(P0, lerp3(P0, Sc, 0.28), 11.8, 12.2, PAL.shorts, 0.2);
     seg(lerp3(P0, Sc, 0.18), Sc, 11.2, 13.2, PAL.shirt, 0.1);
-    seg([Sc[0], Sc[1], -ZS + 3], [Sc[0], Sc[1], ZS - 3], 7.5, 7.5, PAL.shirt, 0.15);
+    if(c.ty) seg(lerp3(J.SF, J.SN, 3 / (2 * ZS)), lerp3(J.SN, J.SF, 3 / (2 * ZS)), 7.5, 7.5, PAL.shirt, 0.15);
+    else seg([Sc[0], Sc[1], -ZS + 3], [Sc[0], Sc[1], ZS - 3], 7.5, 7.5, PAL.shirt, 0.15);
     seg(J.NK, J.H, 4.4, 4.4, PAL.skin, -0.5);
     (function(){
       var h = proj(J.H, V), r = L.head * V.s, up = d2(c.h), fw = d2(c.h - 90);
       var au = Math.atan2(-up[1] * CTH, up[0] * CPH), af = Math.atan2(-fw[1] * CTH, fw[0] * CPH);
+      if(c.ty){ var fy = yawV([fw[0], fw[1], 0], c.ty); af = Math.atan2(-fy[1] * CTH, fy[0] * CPH - fy[2] * SPH); }
       push(h[2] + 0.6, function(g){
         ball(g, h, r, PAL.skin, V, 1);
         /* hair on the top and back of the head, an ear, an eye and a nose so you can see which way the head faces */
@@ -3499,6 +3684,21 @@ var PoAnim = (function(){
   }
 
   function gripMid(J){ return [(J.GN[0] + J.GF[0]) / 2, (J.GN[1] + J.GF[1]) / 2]; }
+  /* v25: one dumbbell (or kettlebell) held by one end. top = the end in the hands, bot = the free end (18 away).
+     m.bellDir 1 = free end up (upside-down halo), else down. m.bellPath [[ph, x, y, z], ...] = resting on the floor (pass-throughs). */
+  function bellAt(P){
+    var J = P.J, m = P.m, top, held = true, dir = m.bellDir === 1 ? 1 : -1;
+    if(m.bellPath){
+      var bp = m.bellPath, ph = P.ph || 0, i = 0;
+      for(var j = 0; j < bp.length; j++) if(bp[j][0] <= ph) i = j;
+      var a = bp[i], b = bp[(i + 1) % bp.length], tb = b[0] + (b[0] <= a[0] ? 1 : 0), u = Math.max(0, Math.min(1, (ph - a[0]) / Math.max(1e-6, tb - a[0])));
+      u = u * u * (3 - 2 * u);
+      var bot = [a[1] + (b[1] - a[1]) * u, a[2] + (b[2] - a[2]) * u, a[3] + (b[3] - a[3]) * u];
+      return { bot: bot, top: [bot[0], bot[1] + 18, bot[2]], held: false };
+    }
+    top = lerp3(J.GN, J.GF, 0.5);
+    return { top: top, bot: [top[0], top[1] + 18 * dir, top[2]], held: held };
+  }
   function equipment(items, P, V){
     var J = P.J, m = P.m, eq = m.eq;
     function push(d, f){ items.push({ d: d, f: f }); }
@@ -3534,6 +3734,13 @@ var PoAnim = (function(){
         g.strokeStyle = PAL.steel; g.lineWidth = 3 * V.s; g.lineCap = "round"; g.beginPath(); g.moveTo(top[0], top[1]); g.lineTo(bot[0], bot[1]); g.stroke();
         capsule(g, [bot[0], bot[1] + 3 * V.s], [bot[0], bot[1] - 3 * V.s], 7, 7, PAL.db, V, 1);
         capsule(g, [top[0], top[1] + 3 * V.s], [top[0], top[1] - 3 * V.s], 7.5, 7.5, PAL.db, V, 1.05);
+      });
+    } else if(eq === "db1"){
+      var B = bellAt(P), bt = proj(B.top, V), bb = proj(B.bot, V), bm = proj(lerp3(B.top, B.bot, 0.5), V);
+      push(bm[2] + (B.held ? 6 : 0), function(g){
+        g.strokeStyle = PAL.steel; g.lineWidth = 3 * V.s; g.lineCap = "round"; g.beginPath(); g.moveTo(bt[0], bt[1]); g.lineTo(bb[0], bb[1]); g.stroke();
+        capsule(g, [bb[0], bb[1] + 3 * V.s], [bb[0], bb[1] - 3 * V.s], 7, 7, PAL.db, V, 1);
+        capsule(g, [bt[0], bt[1] + 3 * V.s], [bt[0], bt[1] - 3 * V.s], 7.5, 7.5, PAL.db, V, 1.05);
       });
     } else if(eq === "plate"){
       plateItem(items, P, V);
@@ -3611,6 +3818,7 @@ var PoAnim = (function(){
       if(m.eq === "plate"){ var F = plateFrame(P); [[1, 0], [-1, 0], [0, 1], [0, -1], [0.7, 0.7], [-0.7, 0.7], [0.7, -0.7], [-0.7, -0.7]].forEach(function(q){
         var p = proj([F.C[0] + (F.u[0] * q[0] + F.v[0] * q[1]) * PL.r, F.C[1] + (F.u[1] * q[0] + F.v[1] * q[1]) * PL.r, F.C[2] + (F.u[2] * q[0] + F.v[2] * q[1]) * PL.r], V);
         b.x0 = Math.min(b.x0, p[0] - 4); b.x1 = Math.max(b.x1, p[0] + 4); b.y0 = Math.min(b.y0, p[1] - 5); b.y1 = Math.max(b.y1, p[1] + 5); }); }
+      if(m.eq === "db1"){ var B1 = bellAt(P); [B1.top, B1.bot].forEach(function(q){ var p = proj(q, V); b.x0 = Math.min(b.x0, p[0] - 9); b.x1 = Math.max(b.x1, p[0] + 9); b.y0 = Math.min(b.y0, p[1] - 9); b.y1 = Math.max(b.y1, p[1] + 9); }); }
       if(m.eq === "pullbar"){ var pn = m.keys[0].pin; [-70, 70].forEach(function(z){ var p = proj([pn.x, pn.y + 30, z], V); b.x0 = Math.min(b.x0, p[0] - 4); b.x1 = Math.max(b.x1, p[0] + 4); b.y0 = Math.min(b.y0, p[1] - 4); }); }
     }
     [[b.x0, 0], [b.x1, 0]].forEach(function(){ });
@@ -3719,7 +3927,7 @@ var PoAnim = (function(){
     window.addEventListener("resize", function(){ list.forEach(function(it){ if(it.cv.isConnected) drawOne(it, now()); }); });
   }
   var api = {
-    MOVES: MOVES, mount: mount, render: render, poseAt: poseAt, prep: prep, stats: stats, reduced: reduced, onFrame: null,
+    MOVES: MOVES, mount: mount, render: render, poseAt: poseAt, prep: prep, bellAt: bellAt, stats: stats, reduced: reduced, onFrame: null,
     has: function(k){ return !!MOVES[k]; },
     pause: function(root, on){ list.forEach(function(it){ if(root.contains(it.cv)){ it.paused = !!on; } }); if(!on) kick(); },
     redraw: function(cv){ var it = find(cv); if(it){ it.w = 0; drawOne(it, now()); } },
@@ -5006,7 +5214,7 @@ if("serviceWorker" in navigator && location.protocol.indexOf("http") === 0){
 }
 
 /* ============ boot ============ */
-try{ console.log("Progressive Overload build v24"); }catch(e){}
+try{ console.log("Progressive Overload build v25"); }catch(e){}
 storeGet("ft:custom", function(v){
   try{ CUSTOM = v ? JSON.parse(v) : []; }catch(e){ CUSTOM = []; }
   CUSTOM.forEach(function(x){ x.custom = true; if(idx(x.n)<0) LIB.push(x); });
@@ -5145,7 +5353,7 @@ window.__poLoadLeaflet = function(){
       var lib = window.__leafletSrc || (typeof L !== "undefined" ? "ok" : "loading");
       var mEl = document.getElementById("map");
       var size = mEl ? (mEl.clientWidth + "x" + mEl.clientHeight) : "?";
-      d.textContent = "v24 · lib:" + lib + " · " + mapStyle + ":" + p.name + "/" + (lastRouter||"-") + " " + size + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (switched.length ? " · fell back from " + switched.join(",") : "") + (diagNote ? " · " + diagNote : "");
+      d.textContent = "v25 · lib:" + lib + " · " + mapStyle + ":" + p.name + "/" + (lastRouter||"-") + " " + size + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (switched.length ? " · fell back from " + switched.join(",") : "") + (diagNote ? " · " + diagNote : "");
     }
     function mountTiles(){
       if(tiles) map.removeLayer(tiles);   /* not .off(): Leaflet's attribution cleanup hangs on the layer's remove event */
@@ -5624,7 +5832,7 @@ window.__poLoadLeaflet = function(){
       tries++;
       if(tries > 120 || window.__leafletSrc === "none"){
         el.innerHTML = '<div style="padding:24px;font-family:monospace;font-size:12px;color:#7E96A8;line-height:1.7"><b style="color:#E8F0F5">The map library could not be downloaded from either CDN.</b><br>The rest of the site is unaffected. This is usually a connection issue or a content blocker on this device.<br>Try: a different network, disabling ad/content blockers for this site, then reload.</div>';
-        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v24 · lib:none (both CDNs failed)";
+        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v25 · lib:none (both CDNs failed)";
         return;
       }
       setTimeout(waitL, 150);
