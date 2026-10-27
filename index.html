@@ -249,6 +249,28 @@
   .hd{fill:#14181f;}
   .gnd{stroke:#d7dade;stroke-width:4;stroke-linecap:round;fill:none;}
   .prop{fill:#d7dade;}
+  /* ---------- v27: Start here picks ---------- */
+  .starthere{margin:0 0 12px;}
+  .starthere[hidden]{display:none;}
+  .starthere .shhead{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+  .starthere .shhead h2{font-family:var(--f-display);font-weight:800;font-synthesis:none;font-size:20px;text-transform:uppercase;line-height:1.05;color:var(--ink);flex:1;}
+  .starthere .shsub{font-size:14px;color:var(--steel);margin:-2px 0 10px;line-height:1.4;}
+  .starthere .shpicks{display:grid;grid-template-columns:1fr;gap:10px;}
+  .starthere .shpick{display:flex;align-items:center;gap:12px;width:100%;min-height:64px;text-align:left;font:inherit;cursor:pointer;background:#fff;color:var(--ink);border:2px solid var(--cobalt);border-radius:14px;padding:12px 16px;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
+  .starthere .shpick strong{display:block;font-size:17px;font-weight:800;}
+  .starthere .shpick span.d{display:block;font-size:13px;color:var(--steel);margin-top:2px;}
+  .starthere .shpick .go{margin-left:auto;color:var(--cobalt);font-size:22px;font-weight:800;}
+  .starthere .shpick:hover{background:#eef3ff;}
+  .starthere .shpick:active{transform:scale(.99);}
+  .starthere .shpick:focus-visible,.starthere .shx:focus-visible{outline:3px solid var(--cobalt);outline-offset:2px;}
+  .starthere .shx{display:none;min-width:44px;min-height:44px;border:0;background:transparent;color:var(--steel);font-size:22px;font-weight:800;cursor:pointer;border-radius:10px;}
+  .starthere.small{border:1px dashed var(--line);border-radius:14px;padding:6px 10px 10px;}
+  .starthere.small .shhead h2{font-size:14px;font-family:inherit;text-transform:none;font-weight:700;}
+  .starthere.small .shsub,.starthere.small .shpick span.d,.starthere.small .shpick .go{display:none;}
+  .starthere.small .shx{display:inline-block;}
+  .starthere.small .shpicks{grid-template-columns:repeat(3,1fr);gap:6px;}
+  .starthere.small .shpick{min-height:44px;padding:8px 6px;justify-content:center;text-align:center;border-width:1px;border-radius:10px;}
+  .starthere.small .shpick strong{font-size:13px;}
   /* ---------- v22: tap Last time to fill, top-weight chart, first-workout button ---------- */
   button.lastfill{display:flex;align-items:center;gap:8px;width:100%;min-height:44px;text-align:left;background:#eef3ff;border:1px solid #c9d6fb;border-radius:10px;padding:8px 10px;cursor:pointer;font:inherit;font-size:15px;font-weight:700;color:var(--ink);}
   button.lastfill[hidden]{display:none;}
@@ -857,6 +879,15 @@ if (typeof window.storage === "undefined") {
       <button type="button" class="minibtn" id="remindDismiss">Not now</button>
     </div>
   </section>
+  <section class="starthere big" id="startHere" hidden aria-labelledby="startHereH">
+    <div class="shhead"><h2 id="startHereH">Start here</h2><button type="button" class="shx" id="startHereX" aria-label="Hide Start here">&times;</button></div>
+    <p class="shsub">New here? Pick one and the workout opens, ready to go.</p>
+    <div class="shpicks">
+      <button type="button" class="shpick" data-sh="bw-total"><span><strong>Beginner</strong><span class="d">Full Body, no equipment. 6 simple moves.</span></span><span class="go" aria-hidden="true">&rarr;</span></button>
+      <button type="button" class="shpick" data-sh="a"><span><strong>Home with dumbbells</strong><span class="d">Push Focus (A), the original dumbbell day.</span></span><span class="go" aria-hidden="true">&rarr;</span></button>
+      <button type="button" class="shpick" data-sh="g-total"><span><strong>Gym</strong><span class="d">Full Body Strength with the whole gym.</span></span><span class="go" aria-hidden="true">&rarr;</span></button>
+    </div>
+  </section>
   <button type="button" class="firstwk big" id="firstWk">
     <span><h2 id="firstWkH">Start your first workout</h2><p id="firstWkP">Full Body, no equipment: 6 simple moves like squats, push-ups and a plank. The app shows every move and logs your sets.</p></span>
     <span class="go" aria-hidden="true">→</span>
@@ -908,7 +939,7 @@ if (typeof window.storage === "undefined") {
     </div>
     <div class="datamsg" id="dataMsg" role="status" aria-live="polite"></div>
   </section>
-  <p class="buildtag">build v26 &middot; map: OpenStreetMap / Esri</p>
+  <p class="buildtag">build v27 &middot; map: OpenStreetMap / Esri</p>
 </div>
 
 <!-- ============ prebuilt ============ -->
@@ -1052,7 +1083,7 @@ if (typeof window.storage === "undefined") {
       <div class="rm-map" id="map"></div>
       <div class="rm-hint" id="hint">Tap the map to drop your first point</div>
       <div class="rm-status" id="status"></div>
-      <div class="rm-diag" id="diagLine" aria-hidden="true">v26 · opening…</div>
+      <div class="rm-diag" id="diagLine" aria-hidden="true">v27 · opening…</div>
     </div>
     <div class="rm-rail">
       <div class="rm-railhead"><span id="railLabel">Distance rail</span><span id="railTotal">0.00 mi</span></div>
@@ -1448,6 +1479,7 @@ function show(view){
   }
   if(view==="home" && window.__poRefreshReminder) window.__poRefreshReminder();
   if(view==="home" && window.__poPaintFirst) window.__poPaintFirst();   /* v22 */
+  if(view==="home" && window.__poPaintStart) window.__poPaintStart();   /* v27 */
   if(view==="hit" && window.__poHitShow) window.__poHitShow();   /* v17 */
   if(view==="run" && window.__rmResize) setTimeout(window.__rmResize, 80);
   window.scrollTo(0,0);
@@ -1891,6 +1923,26 @@ function targetFor(hit, plan, k, u){
   if(plan.kind === "max") return "";
   return plan.lo !== null ? String(plan.lo) : "";
 }
+/* v27: home "Start here" picks: big for a new user, small and dismissible after the first workout. Dismissal lives in ft:prefs (startHereOff). */
+window.__poStartPicks = { "bw-total": "Beginner", "a": "Home with dumbbells", "g-total": "Gym" };
+window.__poPaintStart = function(){
+  var el = $("startHere"); if(!el) return;
+  var none = !(HIST && HIST.sessions && HIST.sessions.length);
+  var off = !!(PREFS && PREFS.startHereOff);
+  el.hidden = !none && off;
+  el.className = "starthere " + (none ? "big" : "small");
+  $("startHereH").textContent = none ? "Start here" : "Quick start";
+  if(!el.__po){
+    el.__po = true;
+    [].forEach.call(el.querySelectorAll("[data-sh]"), function(b){
+      b.onclick = function(){ if(window.__poOpenPrebuilt) window.__poOpenPrebuilt(b.getAttribute("data-sh")); };
+    });
+    $("startHereX").onclick = function(){
+      PREFS.startHereOff = true; prefsWriteNow(); el.hidden = true;
+      var f = $("firstWk"); if(f && f.focus) f.focus();
+    };
+  }
+};
 /* v22: home "Start your first workout": big when there is no history yet, a small link after that */
 window.__poFirstId = "bw-total";
 window.__poPaintFirst = function(){
@@ -2820,7 +2872,7 @@ $("stopEdit").onclick = function(){
   function buildBackup(){
     var data = {};
     allKeys().forEach(function(k){ data[k] = lsGet(k); });
-    return { app: APP_ID, version: BACKUP_VERSION, build: "v26", exportedAt: new Date().toISOString(), data: data };
+    return { app: APP_ID, version: BACKUP_VERSION, build: "v27", exportedAt: new Date().toISOString(), data: data };
   }
   function downloadBlob(blob, name){
     var url = URL.createObjectURL(blob);
@@ -5386,7 +5438,7 @@ if("serviceWorker" in navigator && location.protocol.indexOf("http") === 0){
 }
 
 /* ============ boot ============ */
-try{ console.log("Progressive Overload build v26"); }catch(e){}
+try{ console.log("Progressive Overload build v27"); }catch(e){}
 storeGet("ft:custom", function(v){
   try{ CUSTOM = v ? JSON.parse(v) : []; }catch(e){ CUSTOM = []; }
   CUSTOM.forEach(function(x){ x.custom = true; if(idx(x.n)<0) LIB.push(x); });
@@ -5399,6 +5451,7 @@ storeGet("ft:custom", function(v){
     show("home");
     hxBoot();   /* v17: HIT list + restore a timer that was running */
     try{ window.__poPaintFirst(); }catch(e){}
+    try{ window.__poPaintStart(); }catch(e){}
   });
 });
 /* v16: a shared route link goes straight to Run (after every script has loaded) */
@@ -5525,7 +5578,7 @@ window.__poLoadLeaflet = function(){
       var lib = window.__leafletSrc || (typeof L !== "undefined" ? "ok" : "loading");
       var mEl = document.getElementById("map");
       var size = mEl ? (mEl.clientWidth + "x" + mEl.clientHeight) : "?";
-      d.textContent = "v26 · lib:" + lib + " · " + mapStyle + ":" + p.name + "/" + (lastRouter||"-") + " " + size + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (switched.length ? " · fell back from " + switched.join(",") : "") + (diagNote ? " · " + diagNote : "");
+      d.textContent = "v27 · lib:" + lib + " · " + mapStyle + ":" + p.name + "/" + (lastRouter||"-") + " " + size + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (switched.length ? " · fell back from " + switched.join(",") : "") + (diagNote ? " · " + diagNote : "");
     }
     function mountTiles(){
       if(tiles) map.removeLayer(tiles);   /* not .off(): Leaflet's attribution cleanup hangs on the layer's remove event */
@@ -6004,7 +6057,7 @@ window.__poLoadLeaflet = function(){
       tries++;
       if(tries > 120 || window.__leafletSrc === "none"){
         el.innerHTML = '<div style="padding:24px;font-family:monospace;font-size:12px;color:#7E96A8;line-height:1.7"><b style="color:#E8F0F5">The map library could not be downloaded from either CDN.</b><br>The rest of the site is unaffected. This is usually a connection issue or a content blocker on this device.<br>Try: a different network, disabling ad/content blockers for this site, then reload.</div>';
-        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v26 · lib:none (both CDNs failed)";
+        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v27 · lib:none (both CDNs failed)";
         return;
       }
       setTimeout(waitL, 150);
