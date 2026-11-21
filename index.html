@@ -44,6 +44,11 @@
   body{font-family:var(--f-body);background:var(--paper);color:var(--ink);}
   button{font-family:inherit;color:inherit;}
   :focus-visible{outline:3px solid var(--cobalt);outline-offset:2px;}
+  .sitefoot{margin-top:22px;padding-top:14px;border-top:1px solid var(--line);}
+  .sitefoot h2{font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--steel);margin-bottom:4px;}
+  .sitefoot ul{list-style:none;}
+  .sitefoot a{display:flex;align-items:center;min-height:44px;color:var(--cobalt-dk);font-weight:700;font-size:15px;text-decoration:underline;border-radius:8px;}
+  .sitefoot a:focus-visible{outline:3px solid var(--cobalt);outline-offset:2px;}
   .buildtag{text-align:center;color:#a7aeb8;font-size:11px;font-weight:700;margin-top:16px;letter-spacing:.04em;}
 
   /* ---------- top bar ---------- */
@@ -296,7 +301,7 @@
   .bnudge{display:flex;flex-wrap:wrap;align-items:center;gap:8px;background:#fff8e8;border:1px solid #f0b429;border-radius:12px;padding:8px 8px 8px 14px;margin:0 0 12px;}
   .bnudge[hidden]{display:none;}
   .bnudge p{flex:1 1 180px;font-size:14px;font-weight:700;line-height:1.4;color:var(--ink);}
-  .bnudge .bnbtns{display:flex;gap:6px;flex:0 0 auto;}
+  .bnudge .bnbtns{display:flex;flex-wrap:wrap;gap:6px;flex:0 0 auto;}
   .bnudge .minibtn{padding:8px 12px;}
   .bnudge .minibtn:focus-visible{outline:3px solid var(--cobalt);outline-offset:2px;}
   /* v29: weight step per exercise (2.5 or 5 lb) */
@@ -457,6 +462,7 @@
   .databtn{flex:1 1 180px;min-height:46px;border-radius:999px;cursor:pointer;font-family:var(--f-display);font-weight:800;font-synthesis:none;
     font-size:16px;text-transform:uppercase;letter-spacing:.02em;padding:11px 18px;border:2px solid var(--cobalt);
     background:var(--cobalt);color:#fff;touch-action:manipulation;}
+  .sharehelp{font-size:13px;line-height:1.4;color:var(--steel);margin-top:10px;}
   .databtn.ghost{background:#fff;color:var(--cobalt-dk);border-color:var(--ink);}
   .databtn.danger{background:#b42318;border-color:#b42318;color:#fff;}
   .databtn:disabled{opacity:.55;cursor:default;}
@@ -528,6 +534,8 @@
   .proghint{font-size:15px;line-height:1.4;color:var(--cobalt-dk);font-weight:800;margin:-2px 0 10px;}
   /* v28: the reason under the next-weight hint, and the one-tap Same as last time button */
   .proghint:has(+ .progwhy:not([hidden])){margin-bottom:2px;}
+  .prognear{font-size:15px;line-height:1.4;color:var(--cobalt-dk);font-weight:800;margin:-2px 0 10px;}
+  .prognear[hidden]{display:none;}
   .progwhy{font-size:13.5px;line-height:1.4;color:var(--steel);font-weight:600;margin:0 0 10px;}
   button.samelast{display:flex;align-items:center;justify-content:center;width:100%;min-height:44px;margin:0 0 10px;padding:10px 14px;background:#fff;border:2px solid var(--cobalt);border-radius:10px;color:var(--cobalt-dk);font:inherit;font-size:15px;font-weight:800;cursor:pointer;touch-action:manipulation;}
   button.samelast[hidden]{display:none;}
@@ -904,6 +912,7 @@ if (typeof window.storage === "undefined") {
     <p id="nudgeText">You've logged 10 workouts. Save a backup so they're safe.</p>
     <div class="bnbtns">
       <button type="button" class="minibtn primary" id="nudgeBackup">Back up now</button>
+      <button type="button" class="minibtn" id="nudgeShare">Share backup</button>
       <button type="button" class="minibtn" id="nudgeDismiss" aria-label="Not now. Hide the backup reminder.">Not now</button>
     </div>
   </section>
@@ -952,8 +961,10 @@ if (typeof window.storage === "undefined") {
     <p>Your weights, custom exercises and saved routes live only on this device. Save a backup file every so often so you can restore it on a new phone or after clearing Safari.</p>
     <div class="databtns">
       <button type="button" class="databtn" id="backupBtn">Back up my data</button>
+      <button type="button" class="databtn ghost" id="shareBtn" aria-describedby="shareHelp">Share backup</button>
       <button type="button" class="databtn ghost" id="restoreBtn">Restore from backup</button>
     </div>
+    <p class="sharehelp" id="shareHelp">Share backup opens your phone's share sheet so you can save the file to Files or Notes. If your browser can't share files, it downloads the file instead.</p>
     <input type="file" id="restoreFile" class="vh" accept=".json,application/json,text/plain" tabindex="-1" aria-hidden="true">
     <p class="datalast" id="lastBackup">Not backed up on this device yet.</p>
     <div class="dataconfirm" id="restoreConfirm" hidden>
@@ -967,7 +978,16 @@ if (typeof window.storage === "undefined") {
     </div>
     <div class="datamsg" id="dataMsg" role="status" aria-live="polite"></div>
   </section>
-  <p class="buildtag">build v29 &middot; map: OpenStreetMap / Esri</p>
+  <footer class="sitefoot">
+    <h2>Guides</h2>
+    <ul>
+      <li><a href="/dumbbell-only-workout/">Dumbbell-only home workout</a></li>
+      <li><a href="/double-progression/">Double progression explained</a></li>
+      <li><a href="/bodyweight-workout-no-equipment/">No-equipment push, pull and full body</a></li>
+      <li><a href="/free-gym-workout-tracker-no-account/">Gym workout tracker with no account</a></li>
+    </ul>
+  </footer>
+  <p class="buildtag">build v30 &middot; map: OpenStreetMap / Esri</p>
 </div>
 
 <!-- ============ prebuilt ============ -->
@@ -1111,7 +1131,7 @@ if (typeof window.storage === "undefined") {
       <div class="rm-map" id="map"></div>
       <div class="rm-hint" id="hint">Tap the map to drop your first point</div>
       <div class="rm-status" id="status"></div>
-      <div class="rm-diag" id="diagLine" aria-hidden="true">v29 · opening…</div>
+      <div class="rm-diag" id="diagLine" aria-hidden="true">v30 · opening…</div>
     </div>
     <div class="rm-rail">
       <div class="rm-railhead"><span id="railLabel">Distance rail</span><span id="railTotal">0.00 mi</span></div>
@@ -1814,6 +1834,30 @@ function stepFor(name){
   var cls = e === "home" ? "dumbbell" : e === "barbell" ? "barbell" : (e === "machine" || e === "cable") ? "machine" : "other";
   return (PREFS.inc && PREFS.inc[cls]) || 5;
 }
+/* v30: "one rep short" hint. Same inputs as nextWeight(). When nextWeight() says no, but every planned set is logged and
+   only one or two sets were 1 or 2 reps under the top of the range (and the rest reached it), say what would have earned the bump.
+   Returns { text, add } or null. Far-off sessions return null so the card stays quiet. */
+function nearMiss(entry, name, sess){
+  if(sess && sess.legacy) return null;
+  if(!entry || entry.legacy || entry.u !== "lbs" || !(entry.wn > 0)) return null;
+  var p = parseScheme(entry.s);
+  if(p.kind !== "reps" || p.hi === null) return null;
+  var all = entry.sets || [], done = all.filter(function(x){ return x && typeof x.r === "number"; });
+  if(done.length < p.sets || done.every(function(x){ return x.r >= p.hi; })) return null;
+  var short = [];
+  all.forEach(function(x, k){ if(x && typeof x.r === "number" && x.r < p.hi) short.push({ n: k + 1, by: p.hi - x.r }); });
+  if(short.length < 1 || short.length > 2) return null;
+  if(short.some(function(z){ return z.by > 2; })) return null;
+  if(p.sets > 1 && short.length >= done.length) return null;   /* at least one set must have reached the top */
+  var step = stepFor(name), add = Math.round(((entry.wn + step) - entry.wn) * 2) / 2;
+  var plus = "+" + fmtLb(add) + " lb";
+  var names = short.map(function(z){ return z.n; });
+  var where = (names.length === 1 ? "set " + names[0] : "sets " + names[0] + " and " + names[1]);
+  var by = short[0].by, same = short.every(function(z){ return z.by === by; });
+  var text = same ? by + " more rep" + (by === 1 ? "" : "s") + " on " + where + " earns " + plus
+                  : "Reach " + p.hi + " reps on " + where + " to earn " + plus;
+  return { text: text, add: add };
+}
 function nextWeight(entry, name, sess){
   if(sess && sess.legacy) return null;
   if(!entry || entry.legacy || entry.u !== "lbs" || !(entry.wn > 0)) return null;
@@ -1989,7 +2033,7 @@ window.__poResumeToday = function(){ /* hook for a future Home button; no UI in 
   for(var k = HIST.sessions.length - 1; k >= 0; k--){ var s = HIST.sessions[k]; if(!s.legacy && s.date === today && !s.fin) return s; }
   return null;
 };
-window.__poHist = { parseScheme: parseScheme, parseWeight: parseWeight, localDate: localDate, migrateV1toV2: migrateV1toV2, nextWeight: nextWeight, formatLastTime: formatLastTime, stepFor: stepFor, progWhy: progWhy, setStep: setStep };
+window.__poHist = { parseScheme: parseScheme, parseWeight: parseWeight, localDate: localDate, migrateV1toV2: migrateV1toV2, nextWeight: nextWeight, nearMiss: nearMiss, formatLastTime: formatLastTime, stepFor: stepFor, progWhy: progWhy, setStep: setStep };
 window.__poAfterImport = function(){
   /* runs right after a backup restore writes its keys, before the reload */
   try{
@@ -2212,6 +2256,8 @@ function paintHint(c){
   if(!line) return;
   var nw = (c.u === "lbs" && c.hit) ? nextWeight(c.hit.e, c.n, c.hit.s) : null;
   var why = c.card.querySelector(".progwhy");
+  var near = c.card.querySelector(".prognear");
+  if(near){ var nm = (nw == null && c.u === "lbs" && c.hit) ? nearMiss(c.hit.e, c.n, c.hit.s) : null; near.textContent = nm ? nm.text : ""; near.hidden = !nm; }
   if(nw == null){ line.textContent = ""; line.hidden = true; if(why){ why.textContent = ""; why.hidden = true; } return; }
   line.textContent = "Try " + fmtLb(nw) + " lb next";
   line.hidden = false;
@@ -2493,6 +2539,7 @@ function openWorkout(title, names, editable, opts){
       '<button type="button" class="lasttime lastfill" hidden aria-label="Fill in last time"><span class="lt"></span><span class="lfgo" aria-hidden="true">Use</span></button>'+
       '<p class="proghint" hidden></p>'+
       '<p class="progwhy" hidden></p>'+
+      '<p class="prognear" hidden></p>'+
       '<button type="button" class="samelast" hidden>Same as last time</button>'+
       (missing ? '<p class="missnote">You removed this exercise from your library. It still works in this workout.</p>' : '')+
       '<div class="cue">'+esc(ex.cue)+'</div>'+
@@ -2950,7 +2997,7 @@ $("stopEdit").onclick = function(){
   function buildBackup(){
     var data = {};
     allKeys().forEach(function(k){ data[k] = lsGet(k); });
-    return { app: APP_ID, version: BACKUP_VERSION, build: "v29", exportedAt: new Date().toISOString(), data: data };
+    return { app: APP_ID, version: BACKUP_VERSION, build: "v30", exportedAt: new Date().toISOString(), data: data };
   }
   function downloadBlob(blob, name){
     var url = URL.createObjectURL(blob);
@@ -2963,7 +3010,10 @@ $("stopEdit").onclick = function(){
     try{ return window.navigator.standalone === true || window.matchMedia("(display-mode: standalone)").matches; }catch(e){ return false; }
   }
 
-  function doBackup(){
+  /* v30: doBackup(true) is the Share backup button. It offers the share sheet whenever the browser can share files
+     (not only in the installed app) and falls back to the normal download. Any other call keeps the v29 behavior. */
+  function doBackup(forceShare){
+    var wantShare = forceShare === true;
     msg("");
     /* flush a weight that is still waiting on the 0.6s save timer */
     try{ histFlush(); }catch(e){}
@@ -2976,7 +3026,7 @@ $("stopEdit").onclick = function(){
     try{ file = new File([blob], name, { type: "application/json" }); }catch(e){ file = null; }
     var okText = "Backup saved as " + name + ". Keep it somewhere safe, like iCloud Drive or email it to yourself.";
 
-    if(isStandalone() && file && navigator.share && navigator.canShare && navigator.canShare({ files: [file] })){
+    if((wantShare || isStandalone()) && file && navigator.share && navigator.canShare && navigator.canShare({ files: [file] })){
       navigator.share({ files: [file], title: "Progressive Overload backup" }).then(function(){
         markBackedUp(); msg("Backup ready. Choose Save to Files (or send it to yourself) to keep it safe.", "ok");
       }).catch(function(err){
@@ -3061,7 +3111,8 @@ $("stopEdit").onclick = function(){
   }
 
   if(!$("dataCard")) return;
-  $("backupBtn").onclick = doBackup;
+  $("backupBtn").onclick = function(){ doBackup(); };
+  $("shareBtn").onclick = function(){ doBackup(true); };
   $("restoreBtn").onclick = function(){ msg(""); $("restoreFile").click(); };
   $("restoreFile").addEventListener("change", onFile);
   $("restoreYes").onclick = applyRestore;
@@ -3107,8 +3158,9 @@ $("stopEdit").onclick = function(){
   }
   window.__poRefreshReminder = refreshReminder;
   window.__poDoBackup = doBackup;
-  $("remindBackup").onclick = doBackup;
-  $("nudgeBackup").onclick = doBackup;
+  $("remindBackup").onclick = function(){ doBackup(); };
+  $("nudgeBackup").onclick = function(){ doBackup(); };
+  $("nudgeShare").onclick = function(){ doBackup(true); };
   $("nudgeDismiss").onclick = function(){
     nudgeReset();
     refreshReminder();
@@ -5544,7 +5596,7 @@ if("serviceWorker" in navigator && location.protocol.indexOf("http") === 0){
 }
 
 /* ============ boot ============ */
-try{ console.log("Progressive Overload build v29"); }catch(e){}
+try{ console.log("Progressive Overload build v30"); }catch(e){}
 storeGet("ft:custom", function(v){
   try{ CUSTOM = v ? JSON.parse(v) : []; }catch(e){ CUSTOM = []; }
   CUSTOM.forEach(function(x){ x.custom = true; if(idx(x.n)<0) LIB.push(x); });
@@ -5684,7 +5736,7 @@ window.__poLoadLeaflet = function(){
       var lib = window.__leafletSrc || (typeof L !== "undefined" ? "ok" : "loading");
       var mEl = document.getElementById("map");
       var size = mEl ? (mEl.clientWidth + "x" + mEl.clientHeight) : "?";
-      d.textContent = "v29 · lib:" + lib + " · " + mapStyle + ":" + p.name + "/" + (lastRouter||"-") + " " + size + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (switched.length ? " · fell back from " + switched.join(",") : "") + (diagNote ? " · " + diagNote : "");
+      d.textContent = "v30 · lib:" + lib + " · " + mapStyle + ":" + p.name + "/" + (lastRouter||"-") + " " + size + " req:" + tileReq + " ok:" + tileOkN + " err:" + tileErrs + (switched.length ? " · fell back from " + switched.join(",") : "") + (diagNote ? " · " + diagNote : "");
     }
     function mountTiles(){
       if(tiles) map.removeLayer(tiles);   /* not .off(): Leaflet's attribution cleanup hangs on the layer's remove event */
@@ -6163,7 +6215,7 @@ window.__poLoadLeaflet = function(){
       tries++;
       if(tries > 120 || window.__leafletSrc === "none"){
         el.innerHTML = '<div style="padding:24px;font-family:monospace;font-size:12px;color:#7E96A8;line-height:1.7"><b style="color:#E8F0F5">The map library could not be downloaded from either CDN.</b><br>The rest of the site is unaffected. This is usually a connection issue or a content blocker on this device.<br>Try: a different network, disabling ad/content blockers for this site, then reload.</div>';
-        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v29 · lib:none (both CDNs failed)";
+        var dg = document.getElementById("diagLine"); if(dg) dg.textContent = "v30 · lib:none (both CDNs failed)";
         return;
       }
       setTimeout(waitL, 150);
